@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+href="chrome://certmanager/skin/tabOverlay.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+"chrome://certmanager/locale/tabOverlay.dtd">
+
+<overlay id="certmanager-tab-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" 
+  	src="chrome://certmanager/content/tabOverlay.js" />
+
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="certmanager-string-bundle"
+      src="chrome://certmanager/locale/tabOverlay.properties" />
+  </stringbundleset>
+
+  <menubar id="menu_ToolsPopup">
+    <menu id="certmanager-hello-menu" label="&certmanager.hello.label;"
+      accesskey="&certmanager.helloMenu.accesskey;" insertbefore="devToolsEndSeparator">
+      <menupopup>
+        <menuitem id="certmanager-hello-menu-item"
+          label="&certmanager.hello.label;"
+          accesskey="&certmanager.helloItem.accesskey;"
+          oncommand="CertManager.TabOverlay.sayHello(event);" />
+      </menupopup>
+    </menu>
+  </menubar>
+
+  <vbox id="appmenuSecondaryPane">
+    <menu id="certmanager-hello-menu-2" label="&certmanager.hello.label;"
+      accesskey="&certmanager.helloMenu.accesskey;"
+      insertafter="appmenu_addons">
+      <menupopup>
+        <menuitem id="certmanager-hello-menu-item-2"
+          label="&certmanager.hello.label;"
+          accesskey="&certmanager.helloItem.accesskey;"
+          oncommand="CertManager.TabOverlay.sayHello(event);" />
+      </menupopup>
+    </menu>
+  </vbox>
+</overlay>

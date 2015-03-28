@@ -1,0 +1,3 @@
+<!ENTITY certmanager.hello.label "Hello World!">
+<!ENTITY certmanager.helloMenu.accesskey "l">
+<!ENTITY certmanager.helloItem.accesskey "H">

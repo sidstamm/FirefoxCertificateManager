@@ -1,0 +1,5 @@
+content certmanager content/
+skin certmanager classic/1.0 skin/
+locale certmanager en-US locale/en-US/
+
+overlay chrome://browser/content/browser.xul chrome://certmanager/content/tabOverlay.xul
