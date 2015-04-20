@@ -1,8 +1,20 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet href="chrome://mozapps/content/preferences/preferences.css"?>
+
+<?xml-stylesheet href="chrome://browser/skin/preferences/preferences.css"?>
+<?xml-stylesheet href="chrome://global/skin/in-content/common.css"?>
+<?xml-stylesheet
+  href="chrome://browser/skin/preferences/in-content/preferences.css"?>
+<?xml-stylesheet
+  href="chrome://browser/content/preferences/handlers.css"?>
+<?xml-stylesheet href="chrome://browser/skin/preferences/applications.css"?>
+<?xml-stylesheet href="chrome://browser/skin/preferences/in-content/search.css"?>
 <?xml-stylesheet type="text/css"
 href="chrome://certmanager/skin/tabOverlay.css" ?>
+
+<?xul-overlay href="chrome://browser/content/preferences/in-content/preferences.xul"?>
 
 <!DOCTYPE overlay SYSTEM
 "chrome://certmanager/locale/tabOverlay.dtd">
@@ -18,7 +30,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       src="chrome://certmanager/locale/tabOverlay.properties" />
   </stringbundleset>
 
-  <menubar id="menu_ToolsPopup">
+  <!-- <menubar id="menu_ToolsPopup">
     <menu id="certmanager-hello-menu" label="&certmanager.hello.label;"
       accesskey="&certmanager.helloMenu.accesskey;" insertbefore="devToolsEndSeparator">
       <menupopup>
@@ -41,5 +53,22 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
           oncommand="CertManager.TabOverlay.sayHello(event);" />
       </menupopup>
     </menu>
-  </vbox>
+  </vbox> -->
+
+  <richlistbox id="categories">
+    <xulscrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto" xbl:inherits="dir,pack">
+      <xulbox class="box-inherit scrollbox-innerbox" xbl:inherits="orient,align,pack,dir" flew="1" orient="vertical">
+        <richlistitem id="category-test"
+                          class="category"
+                          value="paneSearch"
+                          helpTopic="prefs-search"
+                          tooltiptext="test"
+                          align="center">
+              <image class="category-icon"/>
+              <label class="category-name" flex="1">test</label>
+        </richlistitem>
+      </xulbox>
+    </xulscrollbox>
+  </richlistbox>
+
 </overlay>
