@@ -14,8 +14,6 @@
 <?xml-stylesheet type="text/css"
 href="chrome://certmanager/skin/tabOverlay.css" ?>
 
-<?xul-overlay href="chrome://browser/content/preferences/in-content/preferences.xul"?>
-
 <!DOCTYPE overlay SYSTEM
 "chrome://certmanager/locale/tabOverlay.dtd">
 
@@ -30,45 +28,17 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       src="chrome://certmanager/locale/tabOverlay.properties" />
   </stringbundleset>
 
-  <!-- <menubar id="menu_ToolsPopup">
-    <menu id="certmanager-hello-menu" label="&certmanager.hello.label;"
-      accesskey="&certmanager.helloMenu.accesskey;" insertbefore="devToolsEndSeparator">
-      <menupopup>
-        <menuitem id="certmanager-hello-menu-item"
-          label="&certmanager.hello.label;"
-          accesskey="&certmanager.helloItem.accesskey;"
-          oncommand="CertManager.TabOverlay.sayHello(event);" />
-      </menupopup>
-    </menu>
-  </menubar>
-
-  <vbox id="appmenuSecondaryPane">
-    <menu id="certmanager-hello-menu-2" label="&certmanager.hello.label;"
-      accesskey="&certmanager.helloMenu.accesskey;"
-      insertafter="appmenu_addons">
-      <menupopup>
-        <menuitem id="certmanager-hello-menu-item-2"
-          label="&certmanager.hello.label;"
-          accesskey="&certmanager.helloItem.accesskey;"
-          oncommand="CertManager.TabOverlay.sayHello(event);" />
-      </menupopup>
-    </menu>
-  </vbox> -->
-
-  <richlistbox id="categories">
-    <xulscrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto" xbl:inherits="dir,pack">
-      <xulbox class="box-inherit scrollbox-innerbox" xbl:inherits="orient,align,pack,dir" flew="1" orient="vertical">
+  <richlistbox id="categories">    
         <richlistitem id="category-test"
                           class="category"
                           value="paneSearch"
                           helpTopic="prefs-search"
                           tooltiptext="test"
-                          align="center">
+                          align="center"
+                          insertafter="category-security">
               <image class="category-icon"/>
               <label class="category-name" flex="1">test</label>
         </richlistitem>
-      </xulbox>
-    </xulscrollbox>
   </richlistbox>
 
 </overlay>
