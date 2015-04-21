@@ -1,3 +1,10 @@
-<!ENTITY certmanager.hello.label "Hello World!">
-<!ENTITY certmanager.helloMenu.accesskey "l">
-<!ENTITY certmanager.helloItem.accesskey "H">
+<!ENTITY certmanager.tab.title "Certificates">
+<!ENTITY certmanager.tab.header "Certificates">
+<!ENTITY certmanager.emptysearch "Search">
+<!ENTITY certmanager.handlersView.sourceColumn "Source">
+<!ENTITY certmanager.handlersView.authorityColumn "Authority Name">
+<!ENTITY certmanager.handlersView.trustworthinessColumn "Trustworthiness">
+<!ENTITY certmanager.handlersView.trustedColumn "Trusted">
+<!ENTITY certmanager.handlersView.importButton "Import...">
+<!ENTITY certmanager.handlersView.exportButton "Export...">
+<!ENTITY certmanager.handlersView.deleteButton "Delete...">

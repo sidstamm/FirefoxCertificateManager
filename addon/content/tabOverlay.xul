@@ -37,7 +37,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
                           align="center"
                           insertafter="category-security">
               <image class="category-icon"/>
-              <label class="category-name" flex="1">Certificates</label>
+              <label class="category-name" flex="1">&certmanager.tab.title;</label>
         </richlistitem>
   </richlistbox>
 
@@ -47,7 +47,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
             hidden="true"
             data-category="paneCertManager"
             insertafter="weavePrefsDeck">
-      <label class="header-name">Certificates</label>
+      <label class="header-name">&certmanager.tab.header;</label>
     </hbox>
 
     <vbox id="certsContent"
@@ -57,9 +57,32 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       <hbox>
         <textbox id="certFilter" flex="1"
                  type="search"
-                 placeholder="Search"
+                 placeholder="&certmanager.emptysearch;"
                  aria-controls="handlersView"/>
       </hbox>
+	  <seperator class="thin"></seperator>
+	  <richlistbox id="handlersView" orient="vertical" flex="1">
+	    <listheader>
+		  <treecol id="sourceColumn" label="&certmanager.handlersView.sourceColumn;" flex="1"></treecol>
+		  <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="1"></treecol>
+		  <treecol id="trustworthinessColumn" label="&certmanager.handlersView.trustworthinessColumn;" flex="1"></treecol>
+		  <treecol id="trustedColumn" label="&certmanager.handlersView.trustedColumn;" flex="1"></treecol>
+		</listheader>
+	  </richlistbox>
+	  <grid id="buttonGrid">
+	    <columns>
+		  <column></column>
+		  <column></column>
+		  <column></column>
+		</columns>
+		<rows id="buttonRows">
+		  <row id="buttonRow">
+	        <button id="importButton" label="&certmanager.handlersView.importButton;"></button>
+	        <button id="exportButton" label="&certmanager.handlersView.exportButton;"></button>
+	        <button id="deleteButton" label="&certmanager.handlersView.deleteButton;"></button>
+	      </row>
+		</rows>
+	  </grid>
     </vbox>
   </prefpane>
 
