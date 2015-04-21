@@ -1,0 +1,3 @@
+#category-certs > .category-icon {
+    list-style-image: url("chrome://browser/skin/preferences/in-content/icons.svg#content");
+}

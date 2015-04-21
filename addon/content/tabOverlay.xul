@@ -49,6 +49,18 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
             insertafter="weavePrefsDeck">
       <label class="header-name">Certificates</label>
     </hbox>
+
+    <vbox id="certsContent"
+          data-category="paneCertManager"
+          hidden="true"
+          flex="1">
+      <hbox>
+        <textbox id="certFilter" flex="1"
+                 type="search"
+                 placeholder="Search"
+                 aria-controls="handlersView"/>
+      </hbox>
+    </vbox>
   </prefpane>
 
 </overlay>
