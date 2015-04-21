@@ -18,3 +18,15 @@ CertManager.TabOverlay = {
    	window.alert(message);
   }
 };
+
+var gCertPane = {
+  init: function ()
+  {
+    function setEventListener(aId, aEventType, aCallback)
+    {
+      document.getElementById(aId)
+              .addEventListener(aEventType, aCallback.bind(gContentPane));
+    }
+  },
+};
+register_module("paneCertManager", gCertPane);

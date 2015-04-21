@@ -29,16 +29,26 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
   </stringbundleset>
 
   <richlistbox id="categories">    
-        <richlistitem id="category-test"
+        <richlistitem id="category-certs"
                           class="category"
-                          value="paneSearch"
-                          helpTopic="prefs-search"
-                          tooltiptext="test"
+                          value="paneCertManager"
+                          helpTopic="prefs-certmanager"
+                          tooltiptext="Certificates"
                           align="center"
                           insertafter="category-security">
               <image class="category-icon"/>
-              <label class="category-name" flex="1">test</label>
+              <label class="category-name" flex="1">Certificates</label>
         </richlistitem>
   </richlistbox>
+
+  <prefpane id="mainPrefPane">
+    <hbox id="header-certmanager"
+            class="header"
+            hidden="true"
+            data-category="paneCertManager"
+            insertafter="weavePrefsDeck">
+      <label class="header-name">Certificates</label>
+    </hbox>
+  </prefpane>
 
 </overlay>
