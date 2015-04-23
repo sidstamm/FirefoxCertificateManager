@@ -1,0 +1,36 @@
+<html:div id="acdnmenu">
+    <html:ul>
+        <html:li>Categories
+            <html:ul>
+                <html:li>Sub Categories
+                    <html:ul>
+                        <html:li><html:a href="?0">Accordion Menus<html:/a><html:/li>
+                        <html:li><html:a href="accordion-menu">Web Menus<html:/a><html:/li>
+                        <html:li><html:a href="?1">Sliding Menus<html:/a><html:/li>
+                    <html:/ul>
+                <html:/li>
+                <html:li><html:a href="?2">Product 2<html:/a><html:/li>
+                <html:li><html:img src="../img/1.jpg" style="width:190px;height:87px;" /><html:/li>
+            <html:/ul>
+        <html:/li>
+        <html:li>Support
+            <html:ul style="background:transparent url(2.jpg) no-repeat 160px bottom;">
+                <html:li><html:a href="?3">Product Support<html:/a><html:/li>
+                <html:li id="li22">Locations
+                    <html:ul>
+                        <html:li><html:a href="?4">How-To Resources<html:/a><html:/li>
+                        <html:li><html:a href="?5">Product Support<html:/a><html:/li>
+                    <html:/ul>
+                <html:/li>
+                <html:li><html:a href="?6">Opening Time<html:/a><html:/li>
+            <html:/ul>
+        <html:/li>
+        <html:li id="li3">Technical Solutions
+            <html:ul>
+                <html:li><html:a href="?b">Javascript Code<html:/a><html:/li>
+                <html:li><html:a href="?c">CSS Code<html:/a><html:/li>
+                <html:li><html:img src="3.jpg" style="width:190px;height:84px;" /><html:/li>
+            <html:/ul>
+        <html:/li>
+    <html:/ul>
+<html:/div>
