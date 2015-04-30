@@ -21,7 +21,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="application/x-javascript" 
+  <script type="application/x-javascript"
   	src="chrome://certmanager/content/tabOverlay.js" />
 
   <stringbundleset id="stringbundleset">
@@ -29,7 +29,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       src="chrome://certmanager/locale/tabOverlay.properties" />
   </stringbundleset>
 
-  <richlistbox id="categories">    
+  <richlistbox id="categories">
         <richlistitem id="category-certs"
                           class="category"
                           value="paneCertManager"
@@ -42,7 +42,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
         </richlistitem>
   </richlistbox>
 
-  <prefpane id="mainPrefPane">
+  <prefpane id="mainPrefPane" >
     <hbox id="header-certmanager"
             class="header"
             hidden="true"
@@ -75,17 +75,17 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 		  <listcol flex="1" />
 		  <listcol flex="1" />
 		</listcols>
-		<listitem>
-		  <listcell align="center"> <image src="http://png-5.findicons.com/files/icons/1070/software/128/mozilla_firefox.png" width="32" height="32"/></listcell>
+		<listitem onclick="click_row('item',event)">
+		  <listcell align="center"> <div style="width:20px;" direction="right" class="arrow">&#8594;</div><image src="http://png-5.findicons.com/files/icons/1070/software/128/mozilla_firefox.png" width="32" height="32"/></listcell>
 		  <listcell><description>Sid Trust</description></listcell>
 		  <listcell> green</listcell>
-		  <listcell type="checkbox"></listcell>
+		  <listcell class="checkbox" type="checkbox" checked="true"></listcell>
 		</listitem>
-		<listitem>
-		  <listcell align="center"> <image src="http://wompmobile.com/blog/wp-content/uploads/2013/03/Icon-round-Question_mark.jpg" width="32" height="32"/></listcell>
+		<listitem onclick="click_row('item',event)">
+		  <listcell align="center"><div style="width:20px;" direction="right" class="arrow">&#8594;</div> <image src="http://wompmobile.com/blog/wp-content/uploads/2013/03/Icon-round-Question_mark.jpg" width="32" height="32"/></listcell>
 		  <listcell><description>Dax Trust</description></listcell>
 		  <listcell> red</listcell>
-		  <listcell type="checkbox"></listcell>
+		  <listcell class="checkbox" type="checkbox" checked="false"></listcell>
 		</listitem>
 	  </listbox>
 	  <grid id="buttonGrid">
