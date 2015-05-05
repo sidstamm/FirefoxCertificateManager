@@ -62,24 +62,48 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
                  aria-controls="certView"/>
       </hbox>
 	  <seperator class="thin"></seperator>
-	  <tree id="certView" flex="1" hidecolumnpicker="true"  rows="2" editable="true" seltype="single">
+	
+      <tree id="certView" flex="1" hidecolumnpicker="true"  rows="10" editable="true" seltype="single" >
 	    <treecols>
-          <treecol id="sourceColumn" label="&certmanager.handlersView.sourceColumn;" flex="1" align="center" />
+          <treecol id="sourceColumn" primary="true" label="&certmanager.handlersView.sourceColumn;" flex="1" align="center" />
           <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="1" align="center" />
           <treecol id="trustworthinessColumn" label="&certmanager.handlersView.trustworthinessColumn;" flex="1" align="center" />
           <treecol id="trustedColumn"  type="checkbox" editable="true" label="&certmanager.handlersView.trustedColumn;" flex="1" align="center" />
 		</treecols>
+		
 		<treechildren>
-		  <treeitem>
+		  <treeitem container="true" open="false">
 		    <treerow>
 			  <treecell properties="builtInCert" editable="false"/>
 			  <treecell editable="false" label="Sid Trust" />
 			  <treecell properties="greenTrust" editable="false" label="Green" />
 			  <treecell  value="true"/>
 			</treerow>
+			
+			<treechildren>
+			  <treeitem>
+			    <treerow>
+			      <treecell label="test" editable="false"/>
+			    </treerow>
+			  </treeitem>
+			  <treeitem>
+			    <treerow>
+			      <treecell  label="test" editable="false" />
+			    </treerow>
+			  </treeitem>
+			</treechildren>
+			
+		  </treeitem>
+		  <treeitem>
+		    <treerow>
+			  <treecell properties="customCert" editable="false"/>
+			  <treecell editable="false" label="Dax Trust" />
+			  <treecell properties="redTrust" editable="false" label="Red" />
+			  <treecell  value="true"/>
+			</treerow>
 		  </treeitem>
 		</treechildren>
-	  </tree>
+	  </tree>	  
 	  <grid id="buttonGrid">
 	    <columns>
 		  <column></column>

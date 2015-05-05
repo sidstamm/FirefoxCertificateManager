@@ -13,12 +13,6 @@ treechildren::-moz-tree-checkbox(checked){
   list-style-image: url("chrome://global/skin/checkbox/cbox-check.gif");
 }
 
-/* this forces the tree row to get bigger
-treechildren {
-    font-size: 200%;
-}
- */
-
 treechildren::-moz-tree-row{
 	height: 50px;
 }
@@ -27,8 +21,21 @@ treechildren::-moz-tree-cell-text(greenTrust) {
 	color: green;
 }
 
+treechildren::-moz-tree-cell-text(redTrust) {
+	color: red;
+}
+
+treechildren::-moz-tree-cell(button) {
+	border: 1px solid red;
+}
+
 treechildren::-moz-tree-image(builtInCert) {
 	list-style-image: url("http://png-5.findicons.com/files/icons/1070/software/128/mozilla_firefox.png");
+	width: 32px;
+	height: 32px;
+}
+treechildren::-moz-tree-image(customCert) {
+	list-style-image: url("http://wompmobile.com/blog/wp-content/uploads/2013/03/Icon-round-Question_mark.jpg");
 	width: 32px;
 	height: 32px;
 }
