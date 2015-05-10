@@ -66,13 +66,13 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       <tree id="certView" flex="1" hidecolumnpicker="true"  rows="10" editable="true" seltype="single" >
 	    <treecols>
           <treecol id="sourceColumn" primary="true" label="&certmanager.handlersView.sourceColumn;" flex="1" align="center" />
-          <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="1" align="center" />
-          <treecol id="trustworthinessColumn" label="&certmanager.handlersView.trustworthinessColumn;" flex="1" align="center" />
-          <treecol id="trustedColumn"  type="checkbox" editable="true" label="&certmanager.handlersView.trustedColumn;" flex="1" align="center" />
+          <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="2" align="center" />
+          <treecol id="trustworthinessColumn" label="&certmanager.handlersView.trustworthinessColumn;" flex="" align="center" />
+          <treecol id="trustedColumn"  type="checkbox" editable="true" label="&certmanager.handlersView.trustedColumn;" flex="0" align="center" />
 		</treecols>
 		
-		<treechildren>
-		  <treeitem container="true" open="false">
+		<treechildren >
+		  <treeitem container="true" open="true">
 		    <treerow>
 			  <treecell properties="builtInCert" editable="false"/>
 			  <treecell editable="false" label="Sid Trust" />
@@ -83,27 +83,27 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 			<treechildren>
 			  <treeitem>
 			    <treerow>
-			      <treecell label="test" editable="false"/>
+			      <treecell label="Last Audit: " editable="false"/>
+				  <treecell label="Never" editable="false"/>
 			    </treerow>
 			  </treeitem>
 			  <treeitem>
 			    <treerow>
-			      <treecell  label="test" editable="false" />
+			      <treecell  label="Country: " editable="false" />
+				  <treecell  label="USA " editable="false" />
+			    </treerow>
+			  </treeitem>
+			  <treeitem>
+			    <treerow>
+			      <treecell  label="other text stuff " editable="false" />
 			    </treerow>
 			  </treeitem>
 			</treechildren>
 			
 		  </treeitem>
-		  <treeitem>
-		    <treerow>
-			  <treecell properties="customCert" editable="false"/>
-			  <treecell editable="false" label="Dax Trust" />
-			  <treecell properties="redTrust" editable="false" label="Red" />
-			  <treecell  value="true"/>
-			</treerow>
-		  </treeitem>
 		</treechildren>
 	  </tree>	  
+	  
 	  <grid id="buttonGrid">
 	    <columns>
 		  <column></column>
