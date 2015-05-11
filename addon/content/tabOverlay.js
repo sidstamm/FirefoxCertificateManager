@@ -28,6 +28,7 @@ var treeView = {
 		[["builtInCert","SidTrust","Green","true"],true,false],
 		[["customCert","Dax Trust","Red","false"],true,false]
 	],
+	treeBox: null,
     get rowCount(){  return this.visibleData.length;},
     getCellText : function(row,column){
       switch(column.id){
@@ -38,7 +39,7 @@ var treeView = {
 	  case("trustworthinessColumn"): return this.visibleData[row][0][2];
 	  }
     },
-    setTree: function(treebox){ this.treebox = treebox; },
+    setTree: function(treebox){ this.treeBox = treebox; },
     isContainer: function(row){ return this.visibleData[row][1]; },
 	isContainerOpen: function(row){ return this.visibleData[row][2]; },
 	isContainerEmpty: function(row){ return false;},
