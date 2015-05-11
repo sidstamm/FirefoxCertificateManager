@@ -63,7 +63,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
       </hbox>
 	  <seperator class="thin"></seperator>
 	
-      <tree id="certView" flex="1" hidecolumnpicker="true"  rows="10" editable="true" seltype="single" >
+      <tree id="certView" flex="1" hidecolumnpicker="true"  rows="5" editable="true" seltype="single" >
 	    <treecols>
           <treecol id="sourceColumn" primary="true" label="&certmanager.handlersView.sourceColumn;" flex="1" align="center" />
           <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="2" align="center" />
@@ -71,39 +71,9 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
           <treecol id="trustedColumn"  type="checkbox" editable="true" label="&certmanager.handlersView.trustedColumn;" flex="0" align="center" />
 		</treecols>
 		
-		<treechildren >
-		  <treeitem container="true" open="true">
-		    <treerow>
-			  <treecell properties="builtInCert" editable="false"/>
-			  <treecell editable="false" label="Sid Trust" />
-			  <treecell properties="greenTrust" editable="false" label="Green" />
-			  <treecell  value="true"/>
-			</treerow>
-			
-			<treechildren>
-			  <treeitem>
-			    <treerow>
-			      <treecell label="Last Audit: " editable="false"/>
-				  <treecell label="Never" editable="false"/>
-			    </treerow>
-			  </treeitem>
-			  <treeitem>
-			    <treerow>
-			      <treecell  label="Country: " editable="false" />
-				  <treecell  label="USA " editable="false" />
-			    </treerow>
-			  </treeitem>
-			  <treeitem>
-			    <treerow>
-			      <treecell  label="other text stuff " editable="false" />
-			    </treerow>
-			  </treeitem>
-			</treechildren>
-			
-		  </treeitem>
-		</treechildren>
-	  </tree>	  
-	  
+		<treechildren />
+	  </tree>
+
 	  <grid id="buttonGrid">
 	    <columns>
 		  <column></column>
