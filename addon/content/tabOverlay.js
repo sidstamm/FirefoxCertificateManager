@@ -3,62 +3,122 @@
 // const {TextDecoder, TextEncoder, OS} = Cu.import("resource://gre/modules/osfile.jsm", {});
 
 
-function get_certs() {
-  //Returns the certs saved on the system
-  Components.utils.import("resource://gre/modules/FileUtils.jsm");
-  var file = FileUtils.File("C:\\Users\\daxx\\Documents\\Classes\\Senior\ Project\\SeniorProject\\addon\\certs.txt");
-  if(!file.exists()){
-    console.log("certs.txt doesn't exist")
-  }
+// function get_certs() {
+//   //Returns the certs saved on the system
+//   Components.utils.import("resource://gre/modules/FileUtils.jsm");
+//   var file = FileUtils.File("C:\\Users\\daxx\\Documents\\Classes\\Senior\ Project\\SeniorProject\\addon\\certs.txt");
+//   if(!file.exists()){
+//     console.log("certs.txt doesn't exist")
+//   }
 
-  var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
-  createInstance(Components.interfaces.nsIFileInputStream);
-  istream.init(file, 0x01, 0444, 0);
-  istream.QueryInterface(Components.interfaces.nsILineInputStream);
+//   var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
+//   createInstance(Components.interfaces.nsIFileInputStream);
+//   istream.init(file, 0x01, 0444, 0);
+//   istream.QueryInterface(Components.interfaces.nsILineInputStream);
 
-  var line = {},
-    lines = [],
-    hasmore;
-  do {
-    hasmore = istream.readLine(line);
-    lines.push(line.value);
-  } while (hasmore);
+//   var line = {},
+//     lines = [],
+//     hasmore;
+//   do {
+//     hasmore = istream.readLine(line);
+//     lines.push(line.value);
+//   } while (hasmore);
 
-  istream.close();
-  return lines;
-}
+//   istream.close();
+//   return lines;
+// }
+
+const nsIX509CertDB = Components.interfaces.nsIX509CertDB;
+const nsX509CertDB = "@mozilla.org/security/x509certdb;1";
+const nsIX509Cert = Components.interfaces.nsIX509Cert;
+
+
+
+// while (enumerator.hasMoreElements()) {
+//   var cert =
+//   enumerator.getNext().QueryInterface(Components.interfaces.nsIX509Cert);
+//   if (cert.certType == Components.interfaces.nsIX509Cert.CA_CERT) {
+//     // do something with cert
+//   }
+// }
+
+
+
 
 /**
  * CertManager namespace.
  */
 if ("undefined" == typeof(CertManager)) {
-  var CertManager = {};
+  var certdb = Components.classes[nsX509CertDB].getService(nsIX509CertDB);
+  var certcache = certdb.getCerts();
+  var enumerator = certcache.getEnumerator();
+  var authorities = {};
+  
+  while (enumerator.hasMoreElements()) {
+  	var cert =
+  	enumerator.getNext().QueryInterface(Components.interfaces.nsIX509Cert);
+  	if (cert.certType == nsIX509Cert.CA_CERT) {
+  	  if (!(cert.issuerOrganization in authorities)) {
+  	  	var tempVisRow = [["builtInCert", cert.issuerOrganization, "Green", "true"], true, false];
+  	  	var tempChildData = ["IDK", "IDK", "Here"];
+  	  	authorities[cert.issuerOrganization] = [tempVisRow, tempChildData];
+  	  }
+  	}
+  }
+
+  var visData = [];
+  var chData = [];
+  var keys = [];
+
+  for (var auth in authorities) {
+  	keys.push(auth);
+  }
+
+  keys.sort(function (a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+
+  for (var i = 0; i < keys.length; i++) {
+  	visData.push(authorities[keys[i]][0]);
+  	chData.push(authorities[keys[i]][1]);
+  }
+
+  var CertManager = {
+  	vData: visData,
+  	cData: chData,
+  };
 };
 
-/**
- * Controls the tab overlay for the extension.
- */
-
-function make_treeView(){
+CertManager.make_treeView = function(){
   var treeView = {
-    childData: [
-      ["Never", "USA", "stuff"],
-      ["Today", "China", "stuff2"]
-    ],
-    visibleData: [
-      //First one is text in the rows the booleans are isContainer and isContainerOpen respectively
-      [
-        ["builtInCert", "SidTrust", "Green", "true"], true, false
-      ],
-      [
-        ["customCert", "Dax Trust", "Red", "false"], true, false
-      ]
-    ],
-    rowAttr:[
-      [true, false],
-      [true, false],
-    ]
+  	/*
+    *  [[Image, Name, Trustworthiness, Trusted], HasData, Expanded] 
+    */
+    visibleData: CertManager.vData
+    // [
+    //   //First one is text in the rows the booleans are isContainer and isContainerOpen respectively    
+    //   [
+    //     ["builtInCert", "SidTrust", "Green", "true"], true, false
+    //   ],
+    //   [
+    //     ["customCert", "Dax Trust", "Red", "false"], true, false
+    //   ]
+    // ]
     ,
+    /*
+    *  [Last Audit, Country, ...]
+    */
+    childData: CertManager.cData
+    // [    
+    //   ["Never", "USA", "stuff"],
+    //   ["Today", "China", "stuff2"]
+    // ]
+    ,
+    // rowAttr:[
+    //   [true, false],
+    //   [true, false],
+    // ]
+    //,
     treeBox: null,
   //TODO Figure out why this is getrowCount
     get rowCount() {
@@ -169,20 +229,22 @@ function make_treeView(){
     },
   };
   return treeView
-}
+};
 
 
-function setView() {
-  document.getElementById('certView').view = make_treeView();
+CertManager.setView = function() {
+  document.getElementById('certView').view = CertManager.make_treeView();
 }
+
 var gCertPane = {
   init: function() {
-    console.log(get_certs())
+    //console.log(get_certs())
     function setEventListener(aId, aEventType, aCallback) {
       document.getElementById(aId)
         .addEventListener(aEventType, aCallback.bind(gContentPane));
     }
-    setView();
+
+    CertManager.setView();
   },
 };
 
