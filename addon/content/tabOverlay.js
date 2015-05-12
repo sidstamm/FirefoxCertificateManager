@@ -53,15 +53,59 @@ if ("undefined" == typeof(CertManager)) {
   var certcache = certdb.getCerts();
   var enumerator = certcache.getEnumerator();
   var authorities = {};
+
+  function isBuiltinToken(tokenName) {
+    return tokenName == "Builtin Object Token"; }
+
+  function isCertBuiltIn(cert) {
+    let tokenNames = cert.getAllTokenNames({});
+    if (!tokenNames) {
+      return false;
+    }
+    if (tokenNames.some(isBuiltinToken)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isTrusted(cert) {  	
+    var sslTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_SSL); 
+    var emailTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_EMAIL); 
+    var objTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
+    return sslTrust || emailTrust || objTrust;
+  }
+
+
   
   while (enumerator.hasMoreElements()) {
   	var cert =
   	enumerator.getNext().QueryInterface(Components.interfaces.nsIX509Cert);
   	if (cert.certType == nsIX509Cert.CA_CERT) {
   	  if (!(cert.issuerOrganization in authorities)) {
-  	  	var tempVisRow = [["builtInCert", cert.issuerOrganization, "Green", "true"], true, false];
-  	  	var tempChildData = ["IDK", "IDK", "Here"];
+
+  	  	// Trust bits
+  	  	var trusted = isTrusted(cert) ? "true" : "false";
+
+  	  	var builtIn = isCertBuiltIn(cert) ? "builtInCert" : "customCert";
+
+  	  	// Setup basic data
+  	  	var tempVisRow = [[builtIn, cert.issuerOrganization, "Green", trusted], true, false];
+
+  	  	// SalesForce
+  	  	var tempChildData = (cert.issuerOrganization in certManagerJson) ?  
+  	  	                          [certManagerJson[cert.issuerOrganization].auditDate, "UNKNOWN", certManagerJson[cert.issuerOrganization].trustBits] : 
+  	  	                          ["UNKNOWN", "UNKNOWN", "UNKNOWN"];
+
   	  	authorities[cert.issuerOrganization] = [tempVisRow, tempChildData];
+  	  } else {
+  	  	var trusted = isTrusted(cert) ? "true" : "false";
+  	  	var builtIn = isCertBuiltIn(cert) ? "builtInCert" : "customCert";
+  	  	if (authorities[cert.issuerOrganization][0][0][3] == "false" && trusted == "true") {
+  	  	  authorities[cert.issuerOrganization][0][0][3] = "true";
+  	  	}
+  	  	if (authorities[cert.issuerOrganization][0][0][0] == "customCert" && builtIn == "builtInCert") {
+  	  	  authorities[cert.issuerOrganization][0][0][0] = builtIn;
+  	  	}
   	  }
   	}
   }
