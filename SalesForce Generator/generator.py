@@ -21,10 +21,15 @@ def getPendingCerts():
 	salesforceJson = {}
 
 	for row in reader:	
-		salesforceJson[row[1]] = {}
-		salesforceJson[row[1]]['trustBits'] = row[11]
-		salesforceJson[row[1]]['geographicFocus'] = row[17]
-		salesforceJson[row[1]]['auditDate'] = row[26]
+		CA = {}
+		CA['trustBits'] = row[11]
+		CA['geographicFocus'] = row[17]
+		CA['auditDate'] = row[26]
+
+		if not salesforceJson.has_key(row[1]):
+			salesforceJson[row[1]] = [CA]
+		else:
+			salesforceJson[row[1]].append(CA)
 
 	output.write(json.dumps(salesforceJson, indent=2))
 
@@ -38,9 +43,14 @@ def getBuiltInCerts():
 	salesforceJson = {}
 
 	for row in reader:	
-		salesforceJson[row[1]] = {}
-		salesforceJson[row[1]]['trustBits'] = row[9]
-		salesforceJson[row[1]]['auditDate'] = row[24]
+		CA = {}
+		CA['trustBits'] = row[9]
+		CA['auditDate'] = row[24]
+
+		if not salesforceJson.has_key(row[1]):
+			salesforceJson[row[1]] = [CA]	
+		else:
+			salesforceJson[row[1]].append(CA)
 
 	output.write(json.dumps(salesforceJson, indent=2))
 
