@@ -87,7 +87,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 		</columns>
 		<rows id="buttonRows">
 		  <row id="buttonRow">
-          <button id="importButton" label="&certmanager.handlersView.importButton;" accesskey="G" oncommand="addCACerts();"></button>
+          <button id="importButton" label="&certmanager.handlersView.importButton;" oncommand="CertManager.addCACerts();"></button>
           <button id="exportButton" label="&certmanager.handlersView.exportButton;"></button>
           <button id="deleteButton" label="&certmanager.handlersView.deleteButton;"></button>
 	      </row>
