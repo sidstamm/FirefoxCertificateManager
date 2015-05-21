@@ -17,6 +17,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 <!DOCTYPE overlay SYSTEM
 "chrome://certmanager/locale/tabOverlay.dtd">
 
+
 <overlay id="certmanager-tab-overlay"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
@@ -31,6 +32,7 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
     <stringbundle id="certmanager-string-bundle"
       src="chrome://certmanager/locale/tabOverlay.properties" />
   </stringbundleset>
+
 
   <richlistbox id="categories">
         <richlistitem id="category-certs"
@@ -85,9 +87,9 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 		</columns>
 		<rows id="buttonRows">
 		  <row id="buttonRow">
-	        <button id="importButton" label="&certmanager.handlersView.importButton;"></button>
-	        <button id="exportButton" label="&certmanager.handlersView.exportButton;"></button>
-	        <button id="deleteButton" label="&certmanager.handlersView.deleteButton;"></button>
+          <button id="importButton" label="&certmanager.handlersView.importButton;" accesskey="G" oncommand="addCACerts();"></button>
+          <button id="exportButton" label="&certmanager.handlersView.exportButton;"></button>
+          <button id="deleteButton" label="&certmanager.handlersView.deleteButton;"></button>
 	      </row>
 		</rows>
 	  </grid>

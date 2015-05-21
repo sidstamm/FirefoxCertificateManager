@@ -32,6 +32,10 @@ const nsIX509CertDB = Components.interfaces.nsIX509CertDB;
 const nsX509CertDB = "@mozilla.org/security/x509certdb;1";
 const nsIX509Cert = Components.interfaces.nsIX509Cert;
 
+const nsIFilePicker = Components.interfaces.nsIFilePicker;
+const nsFilePicker = "@mozilla.org/filepicker;1";
+const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
+
 
 
 // while (enumerator.hasMoreElements()) {
@@ -43,7 +47,24 @@ const nsIX509Cert = Components.interfaces.nsIX509Cert;
 // }
 
 
-
+function addCACerts(){
+   console.log("Attempting to add cert")
+   var bundle = document.getElementById("pippki_string_bundle");
+   var fp = Components.classes[nsFilePicker].createInstance(nsIFilePicker);
+   console.log("Got before fp init")
+   fp.init(window,
+           "Select File containing CA certificate(s) to import",
+           nsIFilePicker.modeOpen);
+   console.log("Successful init")
+   fp.appendFilter("Certificate Files",//bundle.getString("file_browse_Certificate_spec"),
+                   gCertFileTypes);
+   fp.appendFilters(nsIFilePicker.filterAll);
+   if (fp.show() == nsIFilePicker.returnOK) {
+     certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
+     caTreeView.loadCerts(nsIX509Cert.CA_CERT);
+     caTreeView.selection.clearSelection();
+   }
+  }
 
 /**
  * CertManager namespace.
@@ -53,6 +74,10 @@ if ("undefined" == typeof(CertManager)) {
   var certcache = certdb.getCerts();
   var enumerator = certcache.getEnumerator();
   var authorities = {};
+
+
+
+
 
   function isBuiltinToken(tokenName) {
     return tokenName == "Builtin Object Token"; }
