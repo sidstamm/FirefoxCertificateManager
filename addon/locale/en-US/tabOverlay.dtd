@@ -8,3 +8,5 @@
 <!ENTITY certmanager.handlersView.importButton "Import...">
 <!ENTITY certmanager.handlersView.exportButton "Export...">
 <!ENTITY certmanager.handlersView.deleteButton "Delete...">
+<!ENTITY certmanager.handlersView.detailColumn "Details">
+<!ENTITY certmanager.handlersView.graphColumn "Graph">

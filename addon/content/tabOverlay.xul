@@ -67,8 +67,8 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
                  aria-controls="certView"/>
       </hbox>
 	  <seperator class="thin"></seperator>
-	
-      <tree id="certView" flex="1" hidecolumnpicker="true"  rows="5" editable="true" seltype="single" >
+
+	  <tree id="certView" flex="1" hidecolumnpicker="true"  rows="5" editable="true" seltype="single" >
 	    <treecols>
           <treecol id="sourceColumn" primary="true" label="&certmanager.handlersView.sourceColumn;" flex="1" align="center" />
           <treecol id="authorityColumn" label="&certmanager.handlersView.authorityColumn;" flex="2" align="center" />
@@ -79,6 +79,17 @@ href="chrome://certmanager/skin/tabOverlay.css" ?>
 		<treechildren />
 	  </tree>
 
+	
+      <tree id="detailView" flex="1" hidecolumnpicker="true"  rows="5" editable="true" seltype="single" >
+	    <treecols>
+          <treecol id="detailColumn" primary="true" label="&certmanager.handlersView.detailColumn;" flex="1" align="center" />
+          <treecol id="graphColumn" label="&certmanager.handlersView.graphColumn;" flex="2" align="center" />
+		</treecols>
+		
+		<treechildren />
+	  </tree>
+
+	  
 	  <grid id="buttonGrid">
 	    <columns>
 		  <column></column>
