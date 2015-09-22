@@ -1,0 +1,84 @@
+<head>
+	<script type="text/javascript"  src="jquery-1.11.3.js"></script>
+    <script type="text/javascript" src='mustache.js'></script>	
+	<link rel="stylesheet" type="text/css" href="main.css"/>
+
+    <!-- All of the info about the certs-->
+	<script src='salesForce.js'></script>
+
+    <script>
+
+	// Need to pull from browser
+    //Simplest table view extender I have found
+    $(function() {
+    $('tr.parent')
+        .css("cursor","pointer")
+        .attr("title","Click to expand cert")
+        .click(function(){
+            $(this).siblings('.child-'+this.id).toggle();
+        });
+
+	
+
+
+    function insert_row(num, source, name, trust, last, country, trustbits){
+        var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td colspan="2">$Name</td> <td>$Trust</td></tr>';
+        parent = parent.replace('$Source', source);
+        parent = parent.replace('$Name', name);
+        parent = parent.replace('$Trust', trust);
+        parent = parent.replace('$Num', num);
+
+        var sub1 = '<tr class="child-row$Num"><td>&nbsp;</td><td>Last Audit: </td><td>$Last</td></tr>';
+
+        sub1 = sub1.replace('$Num', num)
+        sub1 = sub1.replace('$Last', last)
+
+        var sub2 = "<tr class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td></tr>"
+        sub2 = sub2.replace('$Num', num)
+        sub2 = sub2.replace('$Country', country)
+        var sub3 = "<tr class='child-row$Num'><td>&nbsp;</td><td>TrustBits: </td><td>$TrustBits</td></tr>"
+        sub3 = sub3.replace('$Num', num)
+        sub3 = sub3.replace('$TrustBits', trustbits)
+
+        var table = $('#cert_table')[0];
+        console.log(table);
+
+        table.innerHTML += parent;
+        table.innerHTML += sub1;
+        table.innerHTML += sub2;
+        table.innerHTML += sub3;
+        
+
+        $('tr.parent')
+        .css("cursor","pointer")
+        .attr("title","Click to expand cert")
+        .click(function(){
+            $(this).siblings('.child-'+this.id).toggle();
+        });
+    }
+    var certs = ['Wells Fargo WellsSecure', 'Certificate Issuer Organization', 'Hellenic Academic and Research Institutions Cert. Authority'];
+    for(var i = 0; i<certs.length; i++){
+        insert_row(i, 'Firefox', certs[i], 100, certManagerJson[certs[i]]['auditDate'], 'USA', certManagerJson[certs[i]]['trustBits']);
+    }
+});
+
+	</script>
+</head>
+
+<table id="detail_table" class="detail">
+    <col style="width:40px;">
+    <col style="width:400px;">
+    <col style="width:150px;">
+    <col style="width:40px;">
+<thead>
+    <tr>
+        <th>Source</th>
+        <th colspan="2">Authority Name</th>
+        <th>Trustworthiness</th>
+    </tr>
+</thead>
+<tbody id='cert_table'>
+    
+</tbody>
+</table>
+</body>
