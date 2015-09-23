@@ -4,12 +4,9 @@ Rose-Hulman Senior Project with Mozilla. Created by Dax Earl, Mason Schneider, M
 
 ## Installation
 
-1. Copy certmanager@rose-hulman.edu into your AppData/Roaming/Firefox/Profiles/(your profile)/extensions
-2. Change the content of the file to be the path to the certmanager extension (look at the contents for an example)
-3. Open firefox and accept the installation of the addon
+1. Drag and drop the addon XPI onto firefox
 
 ## Running
 
 1. Open the firefox browser
-2. Type about:preferences into the URL bar
-3. Click "Certificates" on the side tabs
+2. Click the addon icon in the tools area

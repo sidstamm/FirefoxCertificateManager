@@ -1,0 +1,12 @@
+{
+  "title": "Certificate Manager",
+  "name": "certmanager",
+  "version": "0.0.1",
+  "description": "An add-on to simplify certificate management",
+  "main": "index.js",
+  "author": "Rose-Hulman Senior Project",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT"
+}
