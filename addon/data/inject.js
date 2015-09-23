@@ -1,12 +1,5 @@
 
 self.port.on("insert_row",function insert_row(num, source, name, trust, last, country, trustbits){
-		console.log("ASDSDASDSAD");
-		
-        console.log(num);
-		console.log(source);
-		console.log(name);
-		console.log(trust);
-		console.log(last);
 		var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td colspan="2">$Name</td> <td>$Trust</td></tr>';
         parent = parent.replace('$Source', source);
         parent = parent.replace('$Name', name);
