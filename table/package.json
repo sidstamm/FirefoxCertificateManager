@@ -1,0 +1,12 @@
+{
+  "title": "Certificate Manager",
+  "name": "certificatemanager",
+  "version": "0.0.1",
+  "description": "A better GUI for managing firefox certs",
+  "main": "index.js",
+  "author": "Rose-Hulman Senior Project",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT"
+}

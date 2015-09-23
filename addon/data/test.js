@@ -1,4 +1,5 @@
-let { Cc, Ci } = require('chrome');
+
+console.log("E::LO");
 
 const nsIX509CertDB = Ci.nsIX509CertDB;
 const nsX509CertDB = "@mozilla.org/security/x509certdb;1";
@@ -8,32 +9,6 @@ const nsIFilePicker = Ci.nsIFilePicker;
 const nsFilePicker = "@mozilla.org/filepicker;1";
 const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
 
-var buttons = require('sdk/ui/button/action');
-var tabs = require("sdk/tabs");
-var self = require("sdk/self")
-
-var button = buttons.ActionButton({
-  id: "cert-link",
-  label: "View Certificate Manager",
-  icon: {
-    "16": "./icon-16.png",
-    "32": "./icon-32.png",
-    "64": "./icon-64.png"
-  },
-  onClick: handleClick
-});
-
-function handleClick(state) {
-	tabs.open({
-		url: "index.html",
-		onReady: function onReady(tab){
-			var worker = tab.attach({
-				contentScriptFile: [self.data.url("./jquery-1.11.3.js"),self.data.url("inject.js")]
-			});
-			worker.port.emit("insert_row", "1", "2", "1", "1", "1", "1", "1");
-		}
-	});
-}
 
 if ("undefined" == typeof(CertManager)) {
   var CertManager = {};
@@ -43,7 +18,7 @@ if ("undefined" == typeof(CertManager)) {
   }
   
   CertManager.isCertBuiltIn = function(cert) {
-    let tokenNames = cert.getAllTokenNames({});
+    var tokenNames = cert.getAllTokenNames({});
     if (!tokenNames) {
       return false;
     }
@@ -72,7 +47,7 @@ if ("undefined" == typeof(CertManager)) {
     	var cert =
     	enumerator.getNext().QueryInterface(Ci.nsIX509Cert);
     	if (cert.certType == nsIX509Cert.CA_CERT) {
-    	  
+			console.log("cer");
     	}
     }
   }  
