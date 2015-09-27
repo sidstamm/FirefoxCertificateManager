@@ -1,3 +1,9 @@
-.parent{
+body {
+	background-color: #fbfbfb;
+	/*font: 1.25em tahoma,arial,helvetica,sans-serif;*/
+	font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}
+
+.parent {
         text-align: center;
     }

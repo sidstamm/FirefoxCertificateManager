@@ -24,7 +24,6 @@ self.port.on("insert_row",function insert_row(num, source, name, trust, last, co
         table.innerHTML += sub2;
         table.innerHTML += sub3;
         
-
         $('tr.parent')
         .css("cursor","pointer")
         .attr("title","Click to expand Certificate")
