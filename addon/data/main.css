@@ -114,5 +114,6 @@ input[type="checkbox"] + html|label {
 }
 
 .parent {
-        text-align: center;
+    text-align: center;
+    background-color: #ebebeb;
 }
