@@ -1,6 +1,16 @@
 <head>
 	<script type="text/javascript"  src="jquery-1.11.3.js"></script>
+    <link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
+    <script src="jquery.mCustomScrollbar.js"></script>
 	<link rel="stylesheet" type="text/css" href="main.css"/>
+
+    <script>
+    (function($){
+        $(window).load(function(){
+            $("#content").mCustomScrollbar();
+        });
+    })(jQuery);
+</script>
 </head>
 
 <h1>Certificates</h1>
