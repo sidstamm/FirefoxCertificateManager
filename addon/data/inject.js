@@ -30,6 +30,8 @@ self.port.on("insert_row",function insert_row(num, source, name, trust, last, co
         .click(function(){
             $(this).siblings('.child-'+this.id).toggle();
         });
+
+          $('#row$Num'.replace('$Num', num)).click();
     }
 );
 

@@ -94,6 +94,15 @@ a:hover:active, .text-link:hover:active, .inline-link:hover:active {
   	text-decoration: none;
 }
 
+#wrapper{
+  text-align: center;
+}
+
+#content{
+  display: inline-block;
+  border: solid 2px gray;
+}
+
 /* Checkboxes and radio buttons */
 
 /* Hide the actual checkbox */
