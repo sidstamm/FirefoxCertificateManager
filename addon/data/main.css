@@ -63,9 +63,22 @@ h1 {
   	margin-bottom: .5em;
 }
 
+h2 {
+  font-size: 2em;
+    font-weight: lighter;
+    line-height: 1.2;
+    color: var(--in-content-text-color);
+    margin: 0;
+    margin-bottom: .5em;
+}
+
 hr {
   	border-style: solid none none none;
   	border-color: var(--in-content-border-color);
+}
+
+#detail_table {
+  display: none;
 }
 
 /*

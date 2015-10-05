@@ -3,36 +3,75 @@
     <link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
     <script src="jquery.mCustomScrollbar.js"></script>
 	<link rel="stylesheet" type="text/css" href="main.css"/>
-
+    <title>Certificate Manager</title>
     <script>
-    (function($){
-        $(window).load(function(){
-            $("#content").mCustomScrollbar();
-        });
-    })(jQuery);
-</script>
-</head>
+        (function($){
+            $(window).load(function(){
+                $("#content").mCustomScrollbar();
+            });
+        })(jQuery);
 
-<h1>Certificates</h1>
-<hr />
-<div id='wrapper'>
-<div id='content'>
-<table id="detail_table" class="detail">
-    <col style="width:40px;">
-    <col style="width:400px;">
-    <col style="width:150px;">
-    <col style="width:40px;">
-<thead>
-    <tr>
-        <th>Source</th>
-        <th colspan="2">Authority</th>
-        <th>Trustworthiness</th>
-    </tr>
-</thead>
-<tbody id='cert_table'>
-    
-</tbody>
-</table>
-</div>
-</div>
+        function showDetails(num) {
+            var table = document.getElementById("cert_table");
+            while(table.hasChildNodes())
+            {
+               table.removeChild(table.firstChild);
+            }
+            // TODO: FILL TABLE HERE
+            $("#main_table").toggle();
+            $("#detail_table").toggle();
+            $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name"+num).text());
+            $("#authName").show();
+        }
+
+        function showAuths() {
+            $("#detail_table").toggle();
+            $("#main_table").toggle();
+            $("#authName").hide();
+        }
+    </script>
+</head>
+<body>
+    <h1 id="authTitle">Authorities</h1>
+    <h2 style="display: none;" id="authName" align="center"><a href="#" onclick="showAuths()">&lt; Back</a> Authority</h2>
+    <hr />
+    <div id='wrapper'>
+        <div id='content'>
+            <table id="main_table" class="detail">
+                <col style="width:40px;">
+                <col style="width:400px;">
+                <col style="width:150px;">
+                <col style="width:40px;">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th colspan="2">Authority</th>
+                        <th>Trustworthiness</th>
+                    </tr>
+                </thead>
+                <tbody id='auth_table'>
+                    
+                </tbody>
+            </table>
+            <table id="detail_table" class="detail">
+                <col style="width:400px;">
+                <col style="width:75px;">
+                <col style="width:75px;">
+                <col style="width:75px;">
+                <col style="width:75px;">
+                <thead>
+                    <tr>
+                        <th>Certificate</th>
+                        <th>Built-In</th>
+                        <th>Web</th>
+                        <th>Email</th>
+                        <th>Software</th>
+                    </tr>
+                </thead>
+                <tbody id='cert_table'>
+                    <tr class="parent" id="row1"><td>cert</td> <td>in</td> <td><input type="checkbox" checked></input></td> <td><input type="checkbox"></input></td> <td><input type="checkbox"></input></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
