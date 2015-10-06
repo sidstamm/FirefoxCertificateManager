@@ -77,6 +77,11 @@ hr {
   	border-color: var(--in-content-border-color);
 }
 
+.certButtons {
+  margin: 10px;
+  float: center;
+}
+
 #detail_table {
   display: none;
 }
