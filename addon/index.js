@@ -24,26 +24,38 @@ var button = buttons.ActionButton({
     "32": "./icon-32.png",
     "64": "./icon-64.png"
   },
-  onClick: handleClick
+  onClick: loadPage
 });
-function handleClick(state) {
+
+function loadPage(state) {
 	tabs.open({
 		url: "index.html",
 		onReady: function onReady(tab){
-			tab.attach({
-				contentScriptFile: self.data.url("callback.js")
-			});
 			var worker = tab.attach({
 				contentScriptFile: [self.data.url("./jquery-1.11.3.js"),self.data.url("inject.js"),self.data.url("callback.js")]
 			});
+
+      worker.port.emit("alert", "Message from the add-on");
 			
 			var rows = CertManager.genCAData();
 			for (var i = 0; i < rows.length; i++) {
 		    	worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
 		    }
-			worker.port.on("insert_cert",function(num){
+			worker.port.on("insert_cert",function(){
 				//TODO: get data and emit it via worker
-				console.log(num);
+        var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
+        var win = require("sdk/window/utils").getMostRecentBrowserWindow();
+        fp.init(win,
+                "Select File containing CA certificate(s) to import",
+                nsIFilePicker.modeOpen);
+        fp.appendFilter("Certificate Files",
+                        gCertFileTypes);
+        fp.appendFilters(nsIFilePicker.filterAll);
+        if (fp.show() == nsIFilePicker.returnOK) {
+          var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+          certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
+          CertManager.setView();
+        }
 			});
 		}
 	});
@@ -115,21 +127,6 @@ if ("undefined" == typeof(CertManager)) {
 
     return out;
   }  
-  
-  CertManager.addCACerts = function() {
-      var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
-      fp.init(window,
-              "Select File containing CA certificate(s) to import",
-              nsIFilePicker.modeOpen);
-      fp.appendFilter("Certificate Files",
-                      gCertFileTypes);
-      fp.appendFilters(nsIFilePicker.filterAll);
-      if (fp.show() == nsIFilePicker.returnOK) {
-        var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
-        certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
-        CertManager.setView();
-      }
-    }
 };
 
 
