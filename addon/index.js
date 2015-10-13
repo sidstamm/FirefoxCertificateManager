@@ -39,8 +39,8 @@ function loadPage(state) {
 			
 			var rows = CertManager.genCAData();
 			for (var i = 0; i < rows.length; i++) {
-		    	worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
-		    }
+		    worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
+		  }
 			worker.port.on("insert_cert",function(){
 				//TODO: get data and emit it via worker
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
@@ -57,6 +57,21 @@ function loadPage(state) {
           CertManager.setView();
         }
 			});
+
+      worker.port.on("export_certs", function() {
+        // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/certManager.js
+        // see exportCerts() function
+        
+        // getSelectedCerts();
+        // var numcerts = selected_certs.length;
+        // if (!numcerts)
+        //   return;
+
+        // for (var t=0; t<numcerts; t++) {
+        //   exportToFile(window, selected_certs[t]);
+        // }
+        
+      });
 		}
 	});
 }
