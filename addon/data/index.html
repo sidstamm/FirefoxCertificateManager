@@ -1,5 +1,6 @@
 <head>
 	<script type="text/javascript"  src="jquery-1.11.3.js"></script>
+	<script type="text/javascript" src="helper.js"></script>
     <link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
     <script src="jquery.mCustomScrollbar.js"></script>
 	<link rel="stylesheet" type="text/css" href="main.css"/>
@@ -10,25 +11,7 @@
                 $("#content").mCustomScrollbar();
             });
         })(jQuery);
-
-        function showDetails(num) {
-            var table = document.getElementById("cert_table");
-            while(table.hasChildNodes())
-            {
-               table.removeChild(table.firstChild);
-            }
-            // TODO: FILL TABLE HERE
-            $("#main_table").toggle();
-            $("#detail_table").toggle();
-            $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name"+num).text());
-            $("#authName").show();
-        }
-
-        function showAuths() {
-            $("#detail_table").toggle();
-            $("#main_table").toggle();
-            $("#authName").hide();
-        }
+		
     </script>
 </head>
 <body>

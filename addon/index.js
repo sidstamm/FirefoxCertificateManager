@@ -14,8 +14,8 @@ const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
 
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
-var self = require("sdk/self")
-
+var self = require("sdk/self");
+var pageWorkers = require("sdk/page-worker");
 var button = buttons.ActionButton({
   id: "cert-link",
   label: "View Certificate Manager",
@@ -26,19 +26,25 @@ var button = buttons.ActionButton({
   },
   onClick: handleClick
 });
-
 function handleClick(state) {
 	tabs.open({
 		url: "index.html",
 		onReady: function onReady(tab){
-			var worker = tab.attach({
-				contentScriptFile: [self.data.url("./jquery-1.11.3.js"),self.data.url("inject.js")]
+			tab.attach({
+				contentScriptFile: self.data.url("callback.js")
 			});
-
+			var worker = tab.attach({
+				contentScriptFile: [self.data.url("./jquery-1.11.3.js"),self.data.url("inject.js"),self.data.url("callback.js")]
+			});
+			
 			var rows = CertManager.genCAData();
 			for (var i = 0; i < rows.length; i++) {
 		    	worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
 		    }
+			worker.port.on("insert_cert",function(num){
+				//TODO: get data and emit it via worker
+				console.log(num);
+			});
 		}
 	});
 }
@@ -125,3 +131,5 @@ if ("undefined" == typeof(CertManager)) {
       }
     }
 };
+
+

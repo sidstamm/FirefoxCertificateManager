@@ -1,4 +1,4 @@
-
+//js from backend to front end
 self.port.on("insert_row",function insert_row(num, source, name, trust, last, country, trustbits){
 		var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
         parent = parent.replace('$Source', source);
