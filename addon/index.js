@@ -70,10 +70,19 @@ function loadPage(state) {
         // for (var t=0; t<numcerts; t++) {
         //   exportToFile(window, selected_certs[t]);
         // }
-        
+
       });
 		}
 	});
+}
+
+function getSelectedCerts() {
+
+}
+
+function exportToFile(parent, cert) {
+  // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/pippki.js
+  // see exportToFile(parent, cert) method
 }
 
 if ("undefined" == typeof(CertManager)) {
