@@ -1,3 +1,7 @@
+/*
+  Main file ran first
+*/
+
 let {
     Cc, Ci
 } = require('chrome');
@@ -59,19 +63,7 @@ function onReady(tab) {
 
     worker.port.on("insert_cert", CertManager.insertCert);
 
-    worker.port.on("export_button", function() {
-        // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/certManager.js
-        // see exportCerts() function
-
-        // getSelectedCerts();
-        // var numcerts = selected_certs.length;
-        // if (!numcerts)
-        //   return;
-
-        // for (var t=0; t<numcerts; t++) {
-        //   exportToFile(window, selected_certs[t]);
-        // }
-    });
+    worker.port.on("export_button", CertManager.exportCerts);
 }
 
 function getCertsForAuthorityId(id, worker) {
