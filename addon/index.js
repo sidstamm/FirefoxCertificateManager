@@ -35,45 +35,63 @@ function loadPage(state) {
 				contentScriptFile: [self.data.url("./jquery-1.11.3.js"),self.data.url("inject.js"),self.data.url("callback.js")]
 			});
 
-      worker.port.emit("alert", "Message from the add-on");
-			
-			var rows = CertManager.genCAData();
+      		authMap = CertManager.genCAData();
+			var rows = authMap;
 			for (var i = 0; i < rows.length; i++) {
-		    worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
-		  }
-			worker.port.on("insert_cert",function(){
-				//TODO: get data and emit it via worker
-        var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
-        var win = require("sdk/window/utils").getMostRecentBrowserWindow();
-        fp.init(win,
-                "Select File containing CA certificate(s) to import",
-                nsIFilePicker.modeOpen);
-        fp.appendFilter("Certificate Files",
-                        gCertFileTypes);
-        fp.appendFilters(nsIFilePicker.filterAll);
-        if (fp.show() == nsIFilePicker.returnOK) {
-          var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
-          certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
-          CertManager.setView();
-        }
+		    	worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
+		  	}
+
+			worker.port.on("listCerts", function(id) {
+				var certs = authMap[id][6];
+
+				for(var i = 0; i < certs.length; i++) {
+					var cert = certs[i];
+					var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
+					var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
+					var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
+					var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
+					worker.port.emit("insert_cert", i, cert.commonName, builtIn, sslTrust, emailTrust, objTrust);
+				}
 			});
 
-      worker.port.on("export_certs", function() {
-        // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/certManager.js
-        // see exportCerts() function
-        
-        // getSelectedCerts();
-        // var numcerts = selected_certs.length;
-        // if (!numcerts)
-        //   return;
+			worker.port.on("insert_cert", insertCert);
 
-        // for (var t=0; t<numcerts; t++) {
-        //   exportToFile(window, selected_certs[t]);
-        // }
+	    	worker.port.on("export_button", function() {
+		        // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/certManager.js
+		        // see exportCerts() function
+		        
+		        // getSelectedCerts();
+		        // var numcerts = selected_certs.length;
+		        // if (!numcerts)
+		        //   return;
 
-      });
+		        // for (var t=0; t<numcerts; t++) {
+		        //   exportToFile(window, selected_certs[t]);
+		        // }
+	      	});
 		}
 	});
+}
+
+
+function getCertsForAuthorityId(id, worker) {
+		
+}
+
+function insertCert() {
+    var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
+    var win = require("sdk/window/utils").getMostRecentBrowserWindow();
+    fp.init(win,
+            "Select File containing CA certificate(s) to import",
+            nsIFilePicker.modeOpen);
+    fp.appendFilter("Certificate Files",
+                    gCertFileTypes);
+    fp.appendFilters(nsIFilePicker.filterAll);
+    if (fp.show() == nsIFilePicker.returnOK) {
+      var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+      certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
+      // TODO: update table so new data appears
+    }			
 }
 
 function getSelectedCerts() {
@@ -110,6 +128,21 @@ if ("undefined" == typeof(CertManager)) {
     var objTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
     return sslTrust || emailTrust || objTrust;
   }
+
+  CertManager.isSSLTrust = function(cert) {
+  	var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+    return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_SSL);
+  }
+
+  CertManager.isEmailTrust = function(cert) {
+  	var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+    return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_EMAIL);
+  }
+
+  CertManager.isObjTrust = function(cert) {
+  	var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+    return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
+  }
   
   CertManager.genCAData = function() {
   
@@ -129,7 +162,34 @@ if ("undefined" == typeof(CertManager)) {
     	    	var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN"; 
     	    	var country = "UNKNOWN";
     	    	var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
-    	    	authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits];
+    	    	authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert]];
+    	    }
+    	    else
+    	    {
+    	    	var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
+    	    	var name = cert.issuerOrganization;
+    	    	var trust = CertManager.isTrusted(cert) ? "100" : "0";
+    	    	var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN"; 
+    	    	var country = "UNKNOWN";
+    	    	var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
+
+    	    	if (authorities[cert.issuerOrganization][0] === "customCert") {
+    	    		authorities[cert.issuerOrganization][0] = source;
+    	    	}
+    	    	if (authorities[cert.issuerOrganization][2] === "0") {
+    	    		authorities[cert.issuerOrganization][2] = trust;
+    	    	}
+    	    	if (authorities[cert.issuerOrganization][3] === "UNKNOWN") {
+    	    		authorities[cert.issuerOrganization][3] = last;
+    	    	}
+    	    	if (authorities[cert.issuerOrganization][4] === "UNKNOWN") {
+    	    		authorities[cert.issuerOrganization][4] = country;
+    	    	}
+    	    	if (authorities[cert.issuerOrganization][5] === "UNKNOWN") {
+    	    		authorities[cert.issuerOrganization][5] = trustbits;
+    	    	}
+
+    	    	authorities[cert.issuerOrganization][6].push(cert);
     	    }
     	}
     }
