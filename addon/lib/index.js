@@ -2,7 +2,6 @@ let {
     Cc, Ci
 } = require('chrome');
 
-
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
 var self = require("sdk/self");
@@ -32,13 +31,13 @@ function loadPage(state) {
 /*
     First thing that is run 
     Ran when the extension page is loaded sets up everything else on the page
-*/  
+*/
 function onReady(tab) {
 
     var worker = tab.attach({
         contentScriptFile: [self.data.url("./import/jquery-1.11.3.js"), self.data.url("./scripts/inject.js")]
     });
-    
+
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {

@@ -2,7 +2,7 @@ var certManagerJsonText = '{  "Wells Fargo WellsSecure": {    "auditDate": "2014
 
 var certManagerJson = JSON.parse(certManagerJsonText);
 
-function getJSON(){
+function getJSON() {
     return certManagerJson;
 }
 
