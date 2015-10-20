@@ -10,14 +10,16 @@
             $(window).load(function(){
                 $("#content").mCustomScrollbar();
             });
-        })(jQuery);
-		
+        })(jQuery);		
     </script>
 </head>
 <body>
     <h1 id="authTitle">Authorities</h1>
     <h2 style="display: none;" id="authName" align="center"><a href="#" onclick="showAuths()">&lt; Back</a> Authority</h2>
     <hr />
+
+    <input id="authsSearch" type="text" placeholder="search" onkeyup='searchMainTable($(this).val());' />
+    <input style="display:none;" id="certsSearch" type="text" placeholder="search" onkeyup='searchDetailTable($(this).val());' />
     <div id='wrapper'>
         <div id='content'>
             <!-- <div id="tfheader">
@@ -58,7 +60,6 @@
                     </tr>
                 </thead>
                 <tbody id='cert_table'>
-                    <tr class="parent" id="row1"><td>cert</td> <td>in</td> <td><input type="checkbox" checked></input></td> <td><input type="checkbox"></input></td> <td><input type="checkbox"></input></td></tr>
                 </tbody>
             </table>
         </div>
