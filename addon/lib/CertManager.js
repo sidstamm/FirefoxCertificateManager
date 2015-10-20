@@ -88,7 +88,16 @@ function getCM() {
             tabs.activeTab.reload();
         }
     }
-
+	CertManager.calculateTrust = function(cert){
+	//ASN1Structure ASN1_SEQUENCE = 16 --> SHA 256
+	//enum for type of encryption https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoTask.cpp
+	//https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoCommon.h#17
+	// https://dxr.mozilla.org/mozilla-central/source/security/manager/locales/en-US/chrome/pipnss/pipnss.properties -- reverse search the descriptions to get an actual algorithm used with the enum in WebCrypto
+		if(cert.ASN1Structure.ASN1_SEQUENCE == "16")
+			return "100";
+		else
+			return "0";
+	}
     CertManager.genCAData = function() {
 
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
@@ -103,7 +112,7 @@ function getCM() {
                 if (!(cert.issuerOrganization in authorities)) {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var trust = CertManager.isTrusted(cert) ? "100" : "0";
+                    var trust = CertManager.calculateTrust(cert);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
@@ -111,7 +120,7 @@ function getCM() {
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var trust = CertManager.isTrusted(cert) ? "100" : "0";
+                    var trust = CertManager.calculateTrust(cert);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
