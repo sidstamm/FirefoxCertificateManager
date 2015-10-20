@@ -14,6 +14,7 @@ const nsFilePicker = "@mozilla.org/filepicker;1";
 const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
 
 var SFD = require("./SalesForceData.js");
+var tabs = require('sdk/tabs');
 var certManagerJson = SFD.getJSON();
 
 function getCM() {
@@ -84,7 +85,7 @@ function getCM() {
         if (fp.show() == nsIFilePicker.returnOK) {
             var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
             certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
-            // TODO: update table so new data appears
+            tabs.activeTab.reload();
         }
     }
 
