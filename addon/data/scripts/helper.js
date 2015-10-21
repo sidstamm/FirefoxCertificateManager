@@ -26,6 +26,12 @@ function showAuths() {
     $("#authName").hide();
 }
 
+function updateCertTrust(check) {
+    var classId = check.attr('class');
+    var allChecks = $("."+classId);
+    window.editCertTrust(classId.split('-')[0], classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
+}
+
 function searchMainTable(inputVal)
 {
     $('#main_table > tbody > .parent').each(function(index, row)

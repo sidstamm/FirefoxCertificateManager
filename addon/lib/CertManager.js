@@ -88,6 +88,7 @@ function getCM() {
             tabs.activeTab.reload();
         }
     }
+
 	CertManager.calculateTrust = function(cert){
 	//ASN1Structure ASN1_SEQUENCE = 16 --> SHA 256
 	//enum for type of encryption https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoTask.cpp
@@ -98,6 +99,17 @@ function getCM() {
 		else
 			return "0";
 	}
+
+    CertManager.setCertTrusts = function(cert, ssl, email, objsign) {
+        var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+        var trustssl = (ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
+        var trustemail = (email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
+        var trustobjsign = (objsign) ? nsIX509CertDB.TRUSTED_OBJSIGN : 0;
+
+        certdb.setCertTrust(cert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
+        return true;
+    }
+
     CertManager.genCAData = function() {
 
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);

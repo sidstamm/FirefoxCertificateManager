@@ -57,8 +57,12 @@ function onReady(tab) {
             var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
             var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
             var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
-            worker.port.emit("insert_cert", i, cert.commonName, builtIn, sslTrust, emailTrust, objTrust);
+            worker.port.emit("insert_cert", id, i, cert.commonName, builtIn, sslTrust, emailTrust, objTrust);
         }
+    });
+
+    worker.port.on("editCertTrust", function(auth, certId, ssl, email, objsign) {
+        return CertManager.setCertTrusts(authMap[auth][6][certId], ssl, email, objsign);
     });
 
     worker.port.on("insert_cert", CertManager.insertCert);

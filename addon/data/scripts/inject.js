@@ -34,6 +34,14 @@ exportFunction(listCerts, unsafeWindow, {
     defineAs: "listCerts"
 });
 
+function editCertTrust(auth, cert, ssl, email, objsign) {
+    self.port.emit("editCertTrust", auth, cert, ssl, email, objsign);
+}
+
+exportFunction(editCertTrust, unsafeWindow, {
+    defineAs: "editCertTrust"
+});
+
 self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits) {
     var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
     parent = parent.replace('$Source', source);
@@ -74,8 +82,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 });
 
 // web, email, and software should be either "" or "checked"
-self.port.on("insert_cert", function insert_cert(num, name, builtin, web, email, software) {
-    var parent = '<tr class="parent" id="row$Num"><td>$Name</td> <td>$Builtin</td> <td><input type="checkbox" $Web></input></td> <td><input type="checkbox" $Email></input></td> <td><input type="checkbox" $Software></input></td></tr>';
+self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, email, software) {
+    var parent = '<tr class="parent" id="$Id-$Num"><td>$Name</td> <td>$Builtin</td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Web></input></td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Email></input></td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Software></input></td></tr>';
+    parent = parent.replace(/\$Id/g, id);
     parent = parent.replace(/\$Num/g, num);
     parent = parent.replace(/\$Name/g, name);
     parent = parent.replace(/\$Builtin/g, builtin);
