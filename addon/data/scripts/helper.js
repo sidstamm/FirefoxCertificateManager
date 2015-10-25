@@ -15,6 +15,8 @@ function showDetails(num) {
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
     $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name" + num).text());
+	$("#viewButton").show();
+	$("#exportButton").show();
     $("#authName").show();
 }
 
@@ -23,6 +25,8 @@ function showAuths() {
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
     $("#main_table").toggle();
+	$("#viewButton").hide();
+	$("#exportButton").hide();
     $("#authName").hide();
 }
 

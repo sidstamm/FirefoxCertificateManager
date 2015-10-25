@@ -9,6 +9,9 @@ const nsIX509CertDB = Ci.nsIX509CertDB;
 const nsX509CertDB = "@mozilla.org/security/x509certdb;1";
 const nsIX509Cert = Ci.nsIX509Cert;
 
+const nsICertificateDialogs = Ci.nsICertificateDialogs;
+const nsCertificateDialogs = "@mozilla.org/nsCertificateDialogs;1"
+
 const nsIFilePicker = Ci.nsIFilePicker;
 const nsFilePicker = "@mozilla.org/filepicker;1";
 const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
@@ -73,7 +76,7 @@ function getCM() {
     }
 
 
-    CertManager.insertCert = function() {
+    CertManager.importCert = function() {
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
         var win = require("sdk/window/utils").getMostRecentBrowserWindow();
         fp.init(win,
@@ -88,10 +91,14 @@ function getCM() {
             tabs.activeTab.reload();
         }
     }
+	CertManager.viewCert = function(cert) {
+		var cd = Cc[nsCertificateDialogs].getService(nsICertificateDialogs);
+		cd.viewCert(null, cert);
+	}
 
 	CertManager.calculateTrust = function(cert){
 	//ASN1Structure ASN1_SEQUENCE = 16 --> SHA 256
-	//enum for type of encryption https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoTask.cpp
+	//enum for type of encryption https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoTask.cpp ->mOidTag == encrypting algorithm
 	//https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoCommon.h#17
 	// https://dxr.mozilla.org/mozilla-central/source/security/manager/locales/en-US/chrome/pipnss/pipnss.properties -- reverse search the descriptions to get an actual algorithm used with the enum in WebCrypto
 		if(cert.ASN1Structure.ASN1_SEQUENCE == "16")

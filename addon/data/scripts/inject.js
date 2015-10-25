@@ -2,23 +2,22 @@
     js from backend to front end
 */
 
-function insert_cert() {
-    self.port.emit("insert_cert");
+function importCert() {
+    self.port.emit("importCert");
 }
 
 function export_certs() {
     self.port.emit("export_certs");
 }
 
-
 document.getElementById('import').onclick = function() {
-    insert_cert()
+    importCert()
 };
-exportFunction(insert_cert, unsafeWindow, {
-    defineAs: "insert_cert"
+exportFunction(importCert, unsafeWindow, {
+    defineAs: "importCert"
 });
 
-document.getElementById('export').onclick = function() {
+document.getElementById('exportButton').onclick = function() {
     export_certs()
 };
 exportFunction(export_certs, unsafeWindow, {
@@ -94,4 +93,11 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 
     var table = document.getElementById("cert_table");
     table.innerHTML += parent;
+	document.getElementById('viewButton').onclick = function() {
+		self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
+	};
+	$("#cert_table").find("tr").click( function(){
+		//console.log($(this).find('td:first').text());
+		$(this).addClass("selected").siblings().removeClass("selected");
+	});
 });

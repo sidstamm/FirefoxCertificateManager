@@ -64,8 +64,10 @@ function onReady(tab) {
     worker.port.on("editCertTrust", function(auth, certId, ssl, email, objsign) {
         return CertManager.setCertTrusts(authMap[auth][6][certId], ssl, email, objsign);
     });
-
-    worker.port.on("insert_cert", CertManager.insertCert);
+	worker.port.on("viewCert", function(auth,certId) {
+		CertManager.viewCert(authMap[auth][6][certId]);
+	});
+    worker.port.on("importCert", CertManager.importCert);
 
     worker.port.on("export_button", CertManager.exportCerts);
 }

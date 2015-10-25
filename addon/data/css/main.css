@@ -80,6 +80,16 @@ hr {
 .certButtons {
   margin: 10px;
   float: center;
+  display: none
+}
+
+.authorityButtons{
+  margin: 10px;
+  float: center;
+}
+
+.detail tr.selected {
+    background-color: #FFCF8B;
 }
 
 #detail_table {
