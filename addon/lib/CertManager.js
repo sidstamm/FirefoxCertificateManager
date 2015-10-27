@@ -96,15 +96,18 @@ function getCM() {
 		cd.viewCert(null, cert);
 	}
 
-	CertManager.calculateTrust = function(cert){
+	CertManager.calculateTrust = function(cert,numCerts,score){
 	//ASN1Structure ASN1_SEQUENCE = 16 --> SHA 256
 	//enum for type of encryption https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoTask.cpp ->mOidTag == encrypting algorithm
 	//https://dxr.mozilla.org/mozilla-central/source/dom/crypto/WebCryptoCommon.h#17
 	// https://dxr.mozilla.org/mozilla-central/source/security/manager/locales/en-US/chrome/pipnss/pipnss.properties -- reverse search the descriptions to get an actual algorithm used with the enum in WebCrypto
-		if(cert.ASN1Structure.ASN1_SEQUENCE == "16")
-			return "100";
-		else
-			return "0";
+		if(cert.ASN1Structure.ASN1_SEQUENCE == "16"){
+			var t = ((score+10) / numCerts);
+			return t.toFixed(1);
+		}else{
+			var t = score / numCerts;
+			return t.toFixed(1);
+		}
 	}
 
     CertManager.setCertTrusts = function(cert, ssl, email, objsign) {
@@ -131,15 +134,15 @@ function getCM() {
                 if (!(cert.issuerOrganization in authorities)) {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var trust = CertManager.calculateTrust(cert);
+                    var trust = CertManager.calculateTrust(cert,1,90);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
-                    authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert]];
+                    authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert],1];
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var trust = CertManager.calculateTrust(cert);
+                    var trust = CertManager.calculateTrust(cert,authorities[cert.issuerOrganization][7]+1,authorities[cert.issuerOrganization][2]);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
@@ -147,9 +150,7 @@ function getCM() {
                     if (authorities[cert.issuerOrganization][0] === "customCert") {
                         authorities[cert.issuerOrganization][0] = source;
                     }
-                    if (authorities[cert.issuerOrganization][2] === "0") {
-                        authorities[cert.issuerOrganization][2] = trust;
-                    }
+					authorities[cert.issuerOrganization][2] = trust;
                     if (authorities[cert.issuerOrganization][3] === "UNKNOWN") {
                         authorities[cert.issuerOrganization][3] = last;
                     }
@@ -161,6 +162,7 @@ function getCM() {
                     }
 
                     authorities[cert.issuerOrganization][6].push(cert);
+					authorities[cert.issuerOrganization][7] = authorities[cert.issuerOrganization][7];
                 }
             }
         }
