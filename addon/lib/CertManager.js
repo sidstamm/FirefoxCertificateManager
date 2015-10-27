@@ -16,6 +16,9 @@ const nsIFilePicker = Ci.nsIFilePicker;
 const nsFilePicker = "@mozilla.org/filepicker;1";
 const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
 
+const nsDialogParamBlock = "@mozilla.org/embedcomp/dialogparam;1";
+const nsIDialogParamBlock = Ci.nsIDialogParamBlock;
+
 var SFD = require("./SalesForceData.js");
 var tabs = require('sdk/tabs');
 var certManagerJson = SFD.getJSON();
@@ -91,6 +94,13 @@ function getCM() {
             tabs.activeTab.reload();
         }
     }
+
+    // MT 10/26/15: HEREEE
+    CertManager.deleteCert = function() {
+        var params = Cc[nsDialogParamBlock].createInstance(nsIDialogParamBlock);
+        //window.openDialog('chrome://pippki/content/deletecert.xul', "", 'chrome,centerscreen,modal', null);
+    }
+
 	CertManager.viewCert = function(cert) {
 		var cd = Cc[nsCertificateDialogs].getService(nsICertificateDialogs);
 		cd.viewCert(null, cert);

@@ -70,6 +70,8 @@ function onReady(tab) {
     worker.port.on("importCert", CertManager.importCert);
 
     worker.port.on("export_button", CertManager.exportCerts);
+
+    worker.port.on("deleteCert", CertManager.deleteCert);
 }
 
 function getCertsForAuthorityId(id, worker) {

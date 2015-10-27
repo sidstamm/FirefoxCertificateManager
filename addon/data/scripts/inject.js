@@ -10,9 +10,18 @@ function export_certs() {
     self.port.emit("export_certs");
 }
 
+function deleteCert() {
+    self.port.emit("deleteCert");
+}
+
 document.getElementById('import').onclick = function() {
-    importCert()
+    importCert();
 };
+
+document.getElementById('delete').onclick = function() {
+    deleteCert();
+};
+
 exportFunction(importCert, unsafeWindow, {
     defineAs: "importCert"
 });
