@@ -71,11 +71,11 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent = parent.replace('$Trust', trust);
     parent = parent.replace(/\$Num/g, num)
 
-    var sub1 = '<tr class="child-row$Num"><td>&nbsp;</td><td>Last Audit: </td><td>$Last</td></tr>';
+    var sub1 = '<tr style="display: none;" class="child-row$Num"><td>&nbsp;</td><td>Last Audit: </td><td>$Last</td></tr>';
     sub1 = sub1.replace('$Num', num)
     sub1 = sub1.replace('$Last', last)
 
-    var sub2 = "<tr class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td><td>$Button</td></tr>"
+    var sub2 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td><td>$Button</td></tr>"
     if (enabled) {
         sub2 = sub2.replace(/\$Button/g, "<button id='distrust-$Num' class='moreButton' onclick='distrust($Num);'>Distrust</button>");
     }
@@ -85,11 +85,11 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2 = sub2.replace(/\$Num/g, num)
     sub2 = sub2.replace('$Country', country)
 
-    var sub3 = "<tr class='child-row$Num'><td>&nbsp;</td><td>TrustBits: </td><td>$TrustBits</td></tr>"
+    var sub3 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>TrustBits: </td><td>$TrustBits</td></tr>"
     sub3 = sub3.replace('$Num', num)
     sub3 = sub3.replace('$TrustBits', trustbits)
 
-    var sub4 = "<tr class='child-row$Num'><td>&nbsp;</td><td>&nbsp;</td><td><button onclick='showDetails($Num);' class='moreButton'>View Certificates</button></td></tr>"
+    var sub4 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>&nbsp;</td><td><button onclick='showDetails($Num);' class='moreButton'>View Certificates</button></td></tr>"
     sub4 = sub4.replace(/\$Num/g, num)
 
     var table = document.getElementById("auth_table");
@@ -105,8 +105,6 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         .click(function() {
             $(this).siblings('.child-' + this.id).toggle();
         });
-
-    $('#row$Num'.replace('$Num', num)).click();
 });
 
 // web, email, and software should be either "" or "checked"
