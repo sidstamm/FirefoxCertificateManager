@@ -9,7 +9,6 @@ let {
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
 var self = require("sdk/self");
-var ss = require("sdk/simple-storage");
 var pageWorkers = require("sdk/page-worker");
 
 var CM = require("./CertManager.js");
@@ -75,10 +74,12 @@ function onReady(tab) {
     worker.port.on("deleteCert", CertManager.deleteCert);
 
     worker.port.on("distrustAuth", function(id) {
+        authMap[id][8] = false;
         CertManager.distrustAuth(authMap[id]);
     });
 
     worker.port.on("entrustAuth", function(id) {
+        authMap[id][8] = true;
         CertManager.entrustAuth(authMap[id]);
     });
 }

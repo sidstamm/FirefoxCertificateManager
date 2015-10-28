@@ -21,6 +21,7 @@ const nsIDialogParamBlock = Ci.nsIDialogParamBlock;
 
 var SFD = require("./SalesForceData.js");
 var tabs = require('sdk/tabs');
+var ss = require("sdk/simple-storage");
 var certManagerJson = SFD.getJSON();
 
 function getCM() {
@@ -41,11 +42,27 @@ function getCM() {
     }
 
     CertManager.distrustAuth = function(authInfo) {
-
+        if (!('savedAuths' in ss.storage)) {
+            ss.storage.savedAuths = {};
+        }
+        var authSavedTrusts = {};
+        for( var certId in authInfo[6] ) {
+            var cert = authInfo[6][certId];
+            var certTrust = {ssl: CertManager.isSSLTrust(cert), email: CertManager.isEmailTrust(cert), obj: CertManager.isObjTrust(cert) };
+            CertManager.setCertTrusts(cert, false, false, false);
+            authSavedTrusts[cert.commonName] = certTrust;
+        }
+        ss.storage.savedAuths[authInfo[0]] = authSavedTrusts;
     }
 
     CertManager.entrustAuth = function(authInfo) {
-
+        var certTrusts = ss.storage.savedAuths[authInfo[0]];
+        for( var certId in authInfo[6] ) {
+            var cert = authInfo[6][certId];
+            var trust = certTrusts[cert.commonName];
+            CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
+        }
+        delete ss.storage.savedAuths[authInfo[0]];
     }
 
     CertManager.isBuiltinToken = function(tokenName) {
@@ -155,7 +172,7 @@ function getCM() {
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
-                    var enabled = true; // TODO: add lookup
+                    var enabled = ('savedAuths' in ss.storage && cert.issuerOrganization in ss.storage.savedAuths) ? false : true;
                     authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert], 1, enabled];
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
