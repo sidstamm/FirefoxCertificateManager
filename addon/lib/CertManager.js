@@ -52,17 +52,17 @@ function getCM() {
             CertManager.setCertTrusts(cert, false, false, false);
             authSavedTrusts[cert.commonName] = certTrust;
         }
-        ss.storage.savedAuths[authInfo[0]] = authSavedTrusts;
+        ss.storage.savedAuths[authInfo[1]] = authSavedTrusts;
     }
 
     CertManager.entrustAuth = function(authInfo) {
-        var certTrusts = ss.storage.savedAuths[authInfo[0]];
+        var certTrusts = ss.storage.savedAuths[authInfo[1]];
         for( var certId in authInfo[6] ) {
             var cert = authInfo[6][certId];
             var trust = certTrusts[cert.commonName];
             CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
         }
-        delete ss.storage.savedAuths[authInfo[0]];
+        delete ss.storage.savedAuths[authInfo[1]];
     }
 
     CertManager.isBuiltinToken = function(tokenName) {
@@ -172,7 +172,7 @@ function getCM() {
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
-                    var enabled = ('savedAuths' in ss.storage && cert.issuerOrganization in ss.storage.savedAuths) ? false : true;
+                    var enabled = ('savedAuths' in ss.storage && name in ss.storage.savedAuths) ? false : true;
                     authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert], 1, enabled];
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
