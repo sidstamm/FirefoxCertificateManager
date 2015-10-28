@@ -9,6 +9,7 @@ let {
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
 var self = require("sdk/self");
+var ss = require("sdk/simple-storage");
 var pageWorkers = require("sdk/page-worker");
 
 var CM = require("./CertManager.js");
@@ -45,7 +46,7 @@ function onReady(tab) {
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {
-        worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5]);
+        worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][8]);
     }
 
     worker.port.on("listCerts", function(id) {
@@ -72,17 +73,12 @@ function onReady(tab) {
     worker.port.on("export_button", CertManager.exportCerts);
 
     worker.port.on("deleteCert", CertManager.deleteCert);
-}
 
-function getCertsForAuthorityId(id, worker) {
+    worker.port.on("distrustAuth", function(id) {
+        CertManager.distrustAuth(authMap[id]);
+    });
 
-}
-
-function getSelectedCerts() {
-
-}
-
-function exportToFile(parent, cert) {
-    // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/pippki.js
-    // see exportToFile(parent, cert) method
+    worker.port.on("entrustAuth", function(id) {
+        CertManager.entrustAuth(authMap[id]);
+    });
 }

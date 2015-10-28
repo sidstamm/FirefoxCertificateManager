@@ -40,6 +40,14 @@ function getCM() {
         //   exportToFile(window, selected_certs[t]);
     }
 
+    CertManager.distrustAuth = function(authInfo) {
+
+    }
+
+    CertManager.entrustAuth = function(authInfo) {
+
+    }
+
     CertManager.isBuiltinToken = function(tokenName) {
         return tokenName == "Builtin Object Token";
     }
@@ -95,7 +103,6 @@ function getCM() {
         }
     }
 
-    // MT 10/26/15: HEREEE
     CertManager.deleteCert = function() {
         var params = Cc[nsDialogParamBlock].createInstance(nsIDialogParamBlock);
         //window.openDialog('chrome://pippki/content/deletecert.xul', "", 'chrome,centerscreen,modal', null);
@@ -148,7 +155,8 @@ function getCM() {
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
                     var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
-                    authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert],1];
+                    var enabled = true; // TODO: add lookup
+                    authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert], 1, enabled];
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;

@@ -50,7 +50,21 @@ exportFunction(editCertTrust, unsafeWindow, {
     defineAs: "editCertTrust"
 });
 
-self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits) {
+function distrustAuth(id) {
+    self.port.emit("distrustAuth", id);
+}
+exportFunction(distrustAuth, unsafeWindow, {
+    defineAs: "distrustAuth"
+});
+
+function entrustAuth(id) {
+    self.port.emit("entrustAuth", id);
+}
+exportFunction(entrustAuth, unsafeWindow, {
+    defineAs: "entrustAuth"
+});
+
+self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled) {
     var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
     parent = parent.replace('$Source', source);
     parent = parent.replace('$Name', name);
@@ -61,8 +75,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub1 = sub1.replace('$Num', num)
     sub1 = sub1.replace('$Last', last)
 
-    var sub2 = "<tr class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td></tr>"
-    sub2 = sub2.replace('$Num', num)
+    var sub2 = "<tr class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td><td>$Button</td></tr>"
+    if (enabled) {
+        sub2 = sub2.replace(/\$Button/g, "<button id='distrust-$Num' class='moreButton' onclick='distrust($Num);'>Distrust</button>");
+    }
+    else {
+        sub2 = sub2.replace(/\$Button/g, "<button id='entrust-$Num' class='moreButton' onclick='entrust($Num);'>Trust</button>");
+    }
+    sub2 = sub2.replace(/\$Num/g, num)
     sub2 = sub2.replace('$Country', country)
 
     var sub3 = "<tr class='child-row$Num'><td>&nbsp;</td><td>TrustBits: </td><td>$TrustBits</td></tr>"

@@ -20,6 +20,22 @@ function showDetails(num) {
     $("#authName").show();
 }
 
+function distrust(num) {
+    window.distrustAuth(num);
+
+    $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); })
+    $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).attr('id', 'entrust-'+num);
+}
+
+function entrust(num) {    
+    window.entrustAuth(num);
+
+    $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); })
+    $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).attr('id', 'distrust-'+num);
+}
+
 function showAuths() {
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
