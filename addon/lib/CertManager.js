@@ -123,7 +123,6 @@ function getCM() {
     CertManager.deleteCert = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         certdb.deleteCertificate(cert);
-        tabs.activeTab.reload();
     }
 
 	CertManager.viewCert = function(cert) {

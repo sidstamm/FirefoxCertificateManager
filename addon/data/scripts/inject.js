@@ -118,6 +118,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 
     document.getElementById('delete').onclick = function() {
         self.port.emit("deleteCert", id,$("#cert_table tr.selected").index());
+        $("#cert_table tr.selected").remove();
     };
 
 	$("#cert_table").find("tr").click( function(){
