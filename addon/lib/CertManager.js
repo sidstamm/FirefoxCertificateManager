@@ -120,9 +120,10 @@ function getCM() {
         }
     }
 
-    CertManager.deleteCert = function() {
-        var params = Cc[nsDialogParamBlock].createInstance(nsIDialogParamBlock);
-        //window.openDialog('chrome://pippki/content/deletecert.xul', "", 'chrome,centerscreen,modal', null);
+    CertManager.deleteCert = function(cert) {
+        var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+        certdb.deleteCertificate(cert);
+        tabs.activeTab.reload();
     }
 
 	CertManager.viewCert = function(cert) {

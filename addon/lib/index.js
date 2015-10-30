@@ -64,14 +64,18 @@ function onReady(tab) {
     worker.port.on("editCertTrust", function(auth, certId, ssl, email, objsign) {
         return CertManager.setCertTrusts(authMap[auth][6][certId], ssl, email, objsign);
     });
-	worker.port.on("viewCert", function(auth,certId) {
+
+	worker.port.on("viewCert", function(auth, certId) {
 		CertManager.viewCert(authMap[auth][6][certId]);
 	});
+    
     worker.port.on("importCert", CertManager.importCert);
 
     worker.port.on("export_button", CertManager.exportCerts);
 
-    worker.port.on("deleteCert", CertManager.deleteCert);
+    worker.port.on("deleteCert", function(auth, certId) {
+        CertManager.deleteCert(authMap[auth][6][certId]);
+    });
 
     worker.port.on("distrustAuth", function(id) {
         authMap[id][8] = false;
