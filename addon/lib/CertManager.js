@@ -171,7 +171,17 @@ function getCM() {
                     var trust = CertManager.calculateTrust(cert,1,90);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
-                    var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
+                    var trustbits = []
+                    if (CertManager.isSSLTrust(cert)) {
+                        trustbits.push("SSL");
+                    } 
+                    if (CertManager.isEmailTrust(cert)) {
+                        trustbits.push("EMAIL");
+                    }
+                    if (CertManager.isObjTrust(cert)) {
+                        trustbits.push("SOFTWARE");
+                    }
+                    trustbits = trustbits.join(", ");
                     var enabled = ('savedAuths' in ss.storage && name in ss.storage.savedAuths) ? false : true;
                     authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert], 1, enabled];
                 } else {
@@ -180,7 +190,6 @@ function getCM() {
                     var trust = CertManager.calculateTrust(cert,authorities[cert.issuerOrganization][7]+1,authorities[cert.issuerOrganization][2]);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
-                    var trustbits = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].trustBits : "UKNOWN";
 
                     if (authorities[cert.issuerOrganization][0] === "customCert") {
                         authorities[cert.issuerOrganization][0] = source;
@@ -192,10 +201,21 @@ function getCM() {
                     if (authorities[cert.issuerOrganization][4] === "UNKNOWN") {
                         authorities[cert.issuerOrganization][4] = country;
                     }
-                    if (authorities[cert.issuerOrganization][5] === "UNKNOWN") {
-                        authorities[cert.issuerOrganization][5] = trustbits;
-                    }
 
+                    var trusts = authorities[cert.issuerOrganization][5].split(", ");
+                    console.log(trusts);
+                    var trustbits = []
+                    if (trusts.includes("SSL") || CertManager.isSSLTrust(cert)) {
+                        trustbits.push("SSL");
+                    } 
+                    if (trusts.includes("EMAIL") || CertManager.isEmailTrust(cert)) {
+                        trustbits.push("EMAIL");
+                    }
+                    if (trusts.includes("SOFTWARE") || CertManager.isObjTrust(cert)) {
+                        trustbits.push("SOFTWARE");
+                    }                    
+                    trustbits = trustbits.join(", ");
+                    authorities[cert.issuerOrganization][5] = trustbits;
                     authorities[cert.issuerOrganization][6].push(cert);
 					authorities[cert.issuerOrganization][7] = authorities[cert.issuerOrganization][7];
                 }
