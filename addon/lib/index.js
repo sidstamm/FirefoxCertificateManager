@@ -53,11 +53,12 @@ function onReady(tab) {
 
         for (var i = 0; i < certs.length; i++) {
             var cert = certs[i];
+            var name = cert.commonName.length > 0 ? cert.commonName : "Certificate for " + cert.issuerOrganization;
             var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
             var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
             var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
             var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
-            worker.port.emit("insert_cert", id, i, cert.commonName, builtIn, sslTrust, emailTrust, objTrust);
+            worker.port.emit("insert_cert", id, i, name, builtIn, sslTrust, emailTrust, objTrust);
         }
     });
 
