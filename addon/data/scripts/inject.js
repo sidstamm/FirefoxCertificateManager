@@ -124,4 +124,8 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 	$("#cert_table").find("tr").click( function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
 	});
+	
+	$("#cert_table").find("tr").dblclick( function(){
+		self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
+	});
 });
