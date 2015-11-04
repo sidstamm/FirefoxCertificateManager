@@ -45,11 +45,11 @@ function onReady(tab) {
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {
-        worker.port.emit("insert_row", i, rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][8]);
+        worker.port.emit("insert_row", i, rows[i].source, rows[i].name, rows[i].trust, rows[i].last, rows[i].country, rows[i].bits, rows[i].trusted);
     }
 
     worker.port.on("listCerts", function(id) {
-        var certs = authMap[id][6];
+        var certs = authMap[id].certs;
 
         for (var i = 0; i < certs.length; i++) {
             var cert = certs[i];
@@ -63,11 +63,11 @@ function onReady(tab) {
     });
 
     worker.port.on("editCertTrust", function(auth, certId, ssl, email, objsign) {
-        return CertManager.setCertTrusts(authMap[auth][6][certId], ssl, email, objsign);
+        return CertManager.setCertTrusts(authMap[auth].certs[certId], ssl, email, objsign);
     });
 
 	worker.port.on("viewCert", function(auth, certId) {
-		CertManager.viewCert(authMap[auth][6][certId]);
+		CertManager.viewCert(authMap[auth].certs[certId]);
 	});
     
     worker.port.on("importCert", CertManager.importCert);
@@ -75,16 +75,16 @@ function onReady(tab) {
     worker.port.on("export_button", CertManager.exportCerts);
 
     worker.port.on("deleteCert", function(auth, certId) {
-        CertManager.deleteCert(authMap[auth][6][certId]);
+        CertManager.deleteCert(authMap[auth].certs[certId]);
     });
 
     worker.port.on("distrustAuth", function(id) {
-        authMap[id][8] = false;
+        authMap[id].trusted = false;
         CertManager.distrustAuth(authMap[id]);
     });
 
     worker.port.on("entrustAuth", function(id) {
-        authMap[id][8] = true;
+        authMap[id].trusted = true;
         CertManager.entrustAuth(authMap[id]);
     });
 }

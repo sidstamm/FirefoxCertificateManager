@@ -46,23 +46,23 @@ function getCM() {
             ss.storage.savedAuths = {};
         }
         var authSavedTrusts = {};
-        for( var certId in authInfo[6] ) {
-            var cert = authInfo[6][certId];
+        for( var certId in authInfo.certs ) {
+            var cert = authInfo.certs[certId];
             var certTrust = {ssl: CertManager.isSSLTrust(cert), email: CertManager.isEmailTrust(cert), obj: CertManager.isObjTrust(cert) };
             CertManager.setCertTrusts(cert, false, false, false);
             authSavedTrusts[cert.commonName] = certTrust;
         }
-        ss.storage.savedAuths[authInfo[1]] = authSavedTrusts;
+        ss.storage.savedAuths[authInfo.name] = authSavedTrusts;
     }
 
     CertManager.entrustAuth = function(authInfo) {
-        var certTrusts = ss.storage.savedAuths[authInfo[1]];
-        for( var certId in authInfo[6] ) {
-            var cert = authInfo[6][certId];
+        var certTrusts = ss.storage.savedAuths[authInfo.name];
+        for( var certId in authInfo.certs ) {
+            var cert = authInfo.certs[certId];
             var trust = certTrusts[cert.commonName];
             CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
         }
-        delete ss.storage.savedAuths[authInfo[1]];
+        delete ss.storage.savedAuths[authInfo.name];
     }
 
     CertManager.isBuiltinToken = function(tokenName) {
@@ -183,41 +183,40 @@ function getCM() {
                     }
                     trustbits = trustbits.join(", ");
                     var enabled = ('savedAuths' in ss.storage && name in ss.storage.savedAuths) ? false : true;
-                    authorities[cert.issuerOrganization] = [source, name, trust, last, country, trustbits, [cert], 1, enabled];
+                    authorities[cert.issuerOrganization] = { source: source, name: name, trust: trust, last: last, country: country, bits: trustbits, certs: [cert], certCount: 1, trusted: enabled};
                 } else {
                     var source = CertManager.isCertBuiltIn(cert) ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var trust = CertManager.calculateTrust(cert,authorities[cert.issuerOrganization][7]+1,authorities[cert.issuerOrganization][2]);
+                    var trust = CertManager.calculateTrust(cert,authorities[cert.issuerOrganization].certCount+1,authorities[cert.issuerOrganization].trust);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
 
-                    if (authorities[cert.issuerOrganization][0] === "customCert") {
-                        authorities[cert.issuerOrganization][0] = source;
+                    if (authorities[cert.issuerOrganization].source === "customCert") {
+                        authorities[cert.issuerOrganization].source = source;
                     }
-					authorities[cert.issuerOrganization][2] = trust;
-                    if (authorities[cert.issuerOrganization][3] === "UNKNOWN") {
-                        authorities[cert.issuerOrganization][3] = last;
+					authorities[cert.issuerOrganization].trust = trust;
+                    if (authorities[cert.issuerOrganization].last === "UNKNOWN") {
+                        authorities[cert.issuerOrganization].last = last;
                     }
-                    if (authorities[cert.issuerOrganization][4] === "UNKNOWN") {
-                        authorities[cert.issuerOrganization][4] = country;
+                    if (authorities[cert.issuerOrganization].country === "UNKNOWN") {
+                        authorities[cert.issuerOrganization].country = country;
                     }
 
-                    var trusts = authorities[cert.issuerOrganization][5].split(", ");
-                    console.log(trusts);
+                    var trusts = authorities[cert.issuerOrganization].bits.split(", ");
                     var trustbits = []
-                    if (trusts.includes("SSL") || CertManager.isSSLTrust(cert)) {
+                    if (trusts.indexOf("SSL") > -1 || CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
                     } 
-                    if (trusts.includes("EMAIL") || CertManager.isEmailTrust(cert)) {
+                    if (trusts.indexOf("EMAIL") > -1 || CertManager.isEmailTrust(cert)) {
                         trustbits.push("EMAIL");
                     }
-                    if (trusts.includes("SOFTWARE") || CertManager.isObjTrust(cert)) {
+                    if (trusts.indexOf("SOFTWARE") > -1 || CertManager.isObjTrust(cert)) {
                         trustbits.push("SOFTWARE");
                     }                    
                     trustbits = trustbits.join(", ");
-                    authorities[cert.issuerOrganization][5] = trustbits;
-                    authorities[cert.issuerOrganization][6].push(cert);
-					authorities[cert.issuerOrganization][7] = authorities[cert.issuerOrganization][7];
+                    authorities[cert.issuerOrganization].bits = trustbits;
+                    authorities[cert.issuerOrganization].certs.push(cert);
+					authorities[cert.issuerOrganization].certCount = authorities[cert.issuerOrganization].certCount;
                 }
             }
         }
