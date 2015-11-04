@@ -19,6 +19,9 @@ const gCertFileTypes = "*.p7b; *.crt; *.cert; *.cer; *.pem; *.der";
 const nsDialogParamBlock = "@mozilla.org/embedcomp/dialogparam;1";
 const nsIDialogParamBlock = Ci.nsIDialogParamBlock;
 
+const nsILocalFile = Ci.nsILocalFile;
+const nsIFileOutputStream = Ci.nsIFileOutputStream;
+
 var SFD = require("./SalesForceData.js");
 var tabs = require('sdk/tabs');
 var ss = require("sdk/simple-storage");
@@ -27,19 +30,6 @@ var certManagerJson = SFD.getJSON();
 function getCM() {
 
     var CertManager = {};
-
-    CertManager.exportCerts = function() {
-        // https://dxr.mozilla.org/mozilla-central/source/security/manager/pki/resources/content/certManager.js
-        // see exportCerts() function
-
-        // getSelectedCerts();
-        // var numcerts = selected_certs.length;
-        // if (!numcerts)
-        //   return;
-
-        // for (var t=0; t<numcerts; t++) {
-        //   exportToFile(window, selected_certs[t]);
-    }
 
     CertManager.distrustAuth = function(authInfo) {
         if (!('savedAuths' in ss.storage)) {
@@ -123,6 +113,93 @@ function getCM() {
     CertManager.deleteCert = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         certdb.deleteCertificate(cert);
+    }
+
+    CertManager.exportCert = function(cert) {
+        // var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+        // certdb.deleteCertificate(cert);
+        var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
+        var win = require("sdk/window/utils").getMostRecentBrowserWindow();
+        fp.init(win, "Save Certificate To File",
+          nsIFilePicker.modeSave);
+        var filename = cert.commonName;
+        if (!filename.length)
+            filename = cert.windowTitle;
+        // remove all whitespace from the default filename
+        fp.defaultString = filename.replace(/\s*/g,'');
+        fp.defaultExtension = "crt";
+        fp.appendFilter("X.509 Certificate (PEM)", "*.crt; *.pem");
+        fp.appendFilter("X.509 Certificate with chain (PEM)", "*.crt; *.pem");
+        fp.appendFilter("X.509 Certificate (DER)", "*.der");
+        fp.appendFilter("X.509 Certificate (PKCS#7)", "*.p7c");
+        fp.appendFilter("X.509 Certificate with chain (PKCS#7)", "*.p7c");
+        fp.appendFilters(nsIFilePicker.filterAll);
+
+        var res = fp.show();
+        if (res != nsIFilePicker.returnOK && res != nsIFilePicker.returnReplace)
+            return;
+
+        var content = '';
+        switch (fp.filterIndex) {
+            case 1:
+                content = getPEMString(cert);
+                var chain = cert.getChain();
+                for (var i = 1; i < chain.length; i++)
+                    content += getPEMString(chain.queryElementAt(i, nsIX509Cert));
+                break;
+            case 2:
+                content = getDERString(cert);
+                break;
+            case 3:
+                content = getPKCS7String(cert, nsIX509Cert.CMS_CHAIN_MODE_CertOnly);
+                break;
+            case 4:
+                content = getPKCS7String(cert, nsIX509Cert.CMS_CHAIN_MODE_CertChainWithRoot);
+                break;
+            case 0:
+            default:
+                content = getPEMString(cert);
+                break;
+        }
+
+        var msg;
+        var written = 0;
+
+        try {
+            var file = Cc["@mozilla.org/file/local;1"].
+                       createInstance(nsILocalFile);
+            file.initWithPath(fp.file.path);
+            var fos = Cc["@mozilla.org/network/file-output-stream;1"].
+                      createInstance(nsIFileOutputStream);
+            // flags: PR_WRONLY | PR_CREATE_FILE | PR_TRUNCATE
+            fos.init(file, 0x02 | 0x08 | 0x20, 00644, 0);
+            written = fos.write(content, content.length);
+            fos.close();
+        } catch (e) {
+            // switch (e.result) {
+            //   case Components.results.NS_ERROR_FILE_ACCESS_DENIED:
+            //     msg = "Access denied";
+            //     break;
+            //   case Components.results.NS_ERROR_FILE_IS_LOCKED:
+            //     msg = "File is locked";
+            //     break;
+            //   case Components.results.NS_ERROR_FILE_NO_DEVICE_SPACE:
+            //   case Components.results.NS_ERROR_FILE_DISK_FULL:
+            //     msg = "No space left on device";
+            //     break;
+            //   default:
+                msg = e.message;
+            //     break;
+            // }
+        }
+
+        // if (written != content.length) {
+        //     if (!msg.length)
+        //     msg = "Unknown error";
+        //     alertPromptService("File Error",
+        //                    bundle.getFormattedString("writeFileFailed",
+        //                    [fp.file.path, msg]));
+        // }
     }
 
 	CertManager.viewCert = function(cert) {
@@ -238,6 +315,87 @@ function getCM() {
 
         return out;
     }
+
+    /* Utility Functions */
+
+    function getPEMString(cert) {
+      var derb64 = btoa(getDERString(cert));
+      // Wrap the Base64 string into lines of 64 characters, 
+      // with CRLF line breaks (as specified in RFC 1421).
+      var wrapped = derb64.replace(/(\S{64}(?!$))/g, "$1\r\n");
+      return "-----BEGIN CERTIFICATE-----\r\n"
+             + wrapped
+             + "\r\n-----END CERTIFICATE-----\r\n";        
+    }
+
+    function getDERString(cert) {
+      var length = {};
+      var derArray = cert.getRawDER(length);
+      var derString = '';
+      for (var i = 0; i < derArray.length; i++) {
+        derString += String.fromCharCode(derArray[i]);
+      }
+      return derString;
+    }
+
+    function getPKCS7String(cert, chainMode) {
+      var length = {};
+      var pkcs7Array = cert.exportAsCMS(chainMode, length);
+      var pkcs7String = '';
+      for (var i = 0; i < pkcs7Array.length; i++) {
+        pkcs7String += String.fromCharCode(pkcs7Array[i]);
+      }
+      return pkcs7String;
+    }
+
+    /**
+    * Binary-compatible Base64 encoding.
+    *
+    * Taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
+    *
+    * @param {Uint8Array} bytes The data to encode.
+    * @return {String} The base64 encoded string.
+    */
+    function btoa(bytes) {
+    var mod3 = 2;
+    var result = "";
+    var length = bytes.length;
+    var uint24 = 0;
+
+    for (var index = 0; index < length; index++) {
+      mod3 = index % 3;
+      if (index > 0 && (index * 4 / 3) % 76 === 0) {
+        result += "\r\n";
+      }
+      uint24 |= bytes[index] << (16 >>> mod3 & 24);
+      if (mod3 === 2 || length - index === 1) {
+        result += String.fromCharCode(_uint6ToB64(uint24 >>> 18 & 63),
+          _uint6ToB64(uint24 >>> 12 & 63),
+          _uint6ToB64(uint24 >>> 6 & 63),
+          _uint6ToB64(uint24 & 63));
+        uint24 = 0;
+      }
+    }
+
+    return result.substr(0, result.length - 2 + mod3) +
+      (mod3 === 2 ? "" : mod3 === 1 ? "=" : "==");
+    }
+
+      /**
+       * Utility function to encode an integer into a base64 character code.
+       *
+       * Taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
+       *
+       * @param {Number} uint6 The number to encode.
+       * @return {Number} The encoded value.
+       */
+      function _uint6ToB64(uint6) {
+        return uint6 < 26 ? uint6 + 65 :
+               uint6 < 52 ? uint6 + 71 :
+               uint6 < 62 ? uint6 - 4 :
+               uint6 === 62 ? 43 :
+               uint6 === 63 ? 47 : 65;
+      }
 
     return CertManager;
 }

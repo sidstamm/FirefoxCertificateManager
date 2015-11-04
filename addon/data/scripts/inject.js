@@ -121,6 +121,10 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         $("#cert_table tr.selected").remove();
     };
 
+    document.getElementById('exportButton').onclick = function() {
+        self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
+    };
+
 	$("#cert_table").find("tr").click( function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
 	});

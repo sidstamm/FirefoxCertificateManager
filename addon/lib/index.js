@@ -72,7 +72,9 @@ function onReady(tab) {
     
     worker.port.on("importCert", CertManager.importCert);
 
-    worker.port.on("export_button", CertManager.exportCerts);
+    worker.port.on("exportCert", function(auth, certId) {
+        CertManager.exportCert(authMap[auth].certs[certId]);
+    });
 
     worker.port.on("deleteCert", function(auth, certId) {
         CertManager.deleteCert(authMap[auth].certs[certId]);
