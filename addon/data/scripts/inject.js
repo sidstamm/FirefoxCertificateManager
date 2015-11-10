@@ -57,61 +57,266 @@ exportFunction(entrustAuth, unsafeWindow, {
 });
 
 self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled) {
-    var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
-    parent = parent.replace('$Source', source);
-    parent = parent.replace('$Name', name);
-    parent = parent.replace('$Trust', trust);
-    parent = parent.replace(/\$Num/g, num)
+    // Making the parent
+    var parent = document.createElement('tr');
+    parent.className = 'parent';
+    parent.id = 'row'+num;
 
-    var sub1 = '<tr style="display: none;" class="child-row$Num"><td>&nbsp;</td><td>Last Audit: </td><td>$Last</td></tr>';
-    sub1 = sub1.replace('$Num', num)
-    sub1 = sub1.replace('$Last', last)
+    var source_node = document.createElement('td');
+    var source_text = document.createTextNode(source);
+    source_node.appendChild(source_text);
 
-    var sub2 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>Country: </td><td>$Country</td><td>$Button</td></tr>"
+    var trust_node = document.createElement('td');
+    var trust_text = document.createTextNode(trust);
+    trust_node.appendChild(trust_text);
+
+    var name_node = document.createElement('td');
+    name_node.colSpan = '2';
+    name_node.id = 'name'+num;
+    var name_text = document.createTextNode(name);
+    name_node.appendChild(name_text);
+
+    parent.appendChild(source_node);
+    parent.appendChild(name_node);
+    parent.appendChild(trust_node);
+
+    // var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
+
+    // parent = parent.replace('$Source', source);
+    // parent = parent.replace('$Name', name);
+    // parent = parent.replace('$Trust', trust);
+    // parent = parent.replace(/\$Num/g, num)
+
+    var sub1 = document.createElement('tr');
+    sub1.style = 'display:none';
+    sub1.className = 'child-row'+num;
+
+    var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    var middle_node = document.createElement('td');
+    var middle_text = document.createTextNode('Last Audit: ');
+    middle_node.appendChild(middle_text);
+
+    var last_node = document.createElement('td');
+    var last_text = document.createTextNode(last);
+    last_node.appendChild(last_text);
+
+    sub1.appendChild(first_node);
+    sub1.appendChild(middle_node);
+    sub1.appendChild(last_node);
+
+    var sub2 = document.createElement('tr');
+    sub2.style = 'display:none';
+    sub2.className = 'child-row'+num;
+
+    var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    var middle_node = document.createElement('td');
+    var middle_text = document.createTextNode('Country: ');
+    middle_node.appendChild(middle_text);
+
+    var last_node = document.createElement('td');
+    var last_text = document.createTextNode(country);
+    last_node.appendChild(last_text);
+
+    sub2_button = document.createElement('button'); 
     if (enabled) {
-        sub2 = sub2.replace(/\$Button/g, "<button id='distrust-$Num' class='moreButton' onclick='distrust($Num);'>Distrust</button>");
+        sub2_button.id = 'distrust-'+num;
+        var button_text = document.createTextNode('Distrust');
+        sub2_button.onclick = function(){
+            distrust(num);
+        }
     }
     else {
-        sub2 = sub2.replace(/\$Button/g, "<button id='entrust-$Num' class='moreButton' onclick='entrust($Num);'>Trust</button>");
+        sub2_button.id = 'entrust-'+num;
+        var button_text = document.createTextNode('Trust');
+        sub2_button.onclick = function(){
+            entrust(num);
+        }
     }
-    sub2 = sub2.replace(/\$Num/g, num)
-    sub2 = sub2.replace('$Country', country)
+    sub2_button.appendChild(button_text);
 
-    var sub3 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>TrustBits: </td><td>$TrustBits</td></tr>"
-    sub3 = sub3.replace('$Num', num)
-    sub3 = sub3.replace('$TrustBits', trustbits)
+    sub2.appendChild(first_node);
+    sub2.appendChild(middle_node);
+    sub2.appendChild(last_node);
+    sub2.appendChild(sub2_button);
 
-    var sub4 = "<tr style='display: none;' class='child-row$Num'><td>&nbsp;</td><td>&nbsp;</td><td><button onclick='showDetails($Num);' class='moreButton'>View Certificates</button></td></tr>"
-    sub4 = sub4.replace(/\$Num/g, num)
+    var sub3 = document.createElement('tr');
+    sub3.style = 'display:none';
+    sub3.className = 'child-row'+num;
+
+    var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    var middle_node = document.createElement('td');
+    var middle_text = document.createTextNode('TrustBits: ');
+    middle_node.appendChild(middle_text);
+
+    var last_node = document.createElement('td');
+    var last_text = document.createTextNode(trustbits);
+    last_node.appendChild(last_text);
+
+    sub3.appendChild(first_node);
+    sub3.appendChild(middle_node);
+    sub3.appendChild(last_node);
+
+    var sub4 = document.createElement('tr');
+    sub4.style = 'display:none';
+    sub4.className = 'child-row'+num;
+
+    var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    var middle_node = document.createElement('td');
+    var middle_text = document.createTextNode('\t');
+    middle_node.appendChild(middle_text);
+
+    var last_node = document.createElement('td');
+    
+    sub4_button = document.createElement('button');
+
+    sub4_button.className = 'moreButton';
+    var button_text = document.createTextNode('View Certificates');
+    sub4_button.appendChild(button_text);
+    sub4_button.onclick = function(){
+        showDetails(num);
+    }
+    last_node.appendChild(sub4_button);
+
+    sub4.appendChild(first_node);
+    sub4.appendChild(middle_node);
+    sub4.appendChild(last_node);
+
 
     var table = document.getElementById("auth_table");
-    table.innerHTML += parent;
-    table.innerHTML += sub1;
-    table.innerHTML += sub2;
-    table.innerHTML += sub3;
-    table.innerHTML += sub4;
-
-    $('tr.parent')
-        .css("cursor", "pointer")
-        .attr("title", "Click to expand Certificate")
-        .click(function() {
-            $(this).siblings('.child-' + this.id).toggle();
-        });
+    table.appendChild(parent);
+    table.appendChild(sub1);
+    table.appendChild(sub2);
+    table.appendChild(sub3);
+    table.appendChild(sub4);
+    parent.onclick = function(){
+        $(this).siblings('.child-' + this.id).toggle();
+    }
 });
+
+function distrust(num) {
+    // authMap[id].trusted = false;
+    // CertManager.distrustAuth(authMap[id]);
+    self.port.emit("distrustAuth", num);
+    $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); })
+    $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).attr('id', 'entrust-'+num);
+}
+
+function entrust(num) {    
+    // authMap[id].trusted = true;
+    // CertManager.entrustAuth(authMap[id]);
+    self.port.emit("entrustAuth", num);
+    $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); })
+    $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).attr('id', 'distrust-'+num);
+}
+
+function showDetails(num) {
+    var table = document.getElementById("cert_table");
+    while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+    }
+    window.listCerts(num);
+    $("#main_table").toggle();
+    $("#detail_table").toggle();
+    $("#certsSearch").toggle();
+    $("#authsSearch").toggle();
+    $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name" + num).text());
+    $("#viewButton").show();
+    $("#exportButton").show();
+    $("#authName").show();
+}
+
+function updateCertTrust(check) {
+     //TODO: FIX ME
+    console.log(check);
+    var classId = check.attr('class');
+    console.log(classId);
+    var allChecks = $("."+classId);
+    editCertTrust(classId.split('-')[0], classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
+}
 
 // web, email, and software should be either "" or "checked"
 self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, email, software) {
-    var parent = '<tr class="parent" id="$Id-$Num"><td>$Name</td> <td>$Builtin</td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Web></input></td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Email></input></td> <td><input type="checkbox" class="$Id-$Num" onclick="updateCertTrust($(this));" $Software></input></td></tr>';
-    parent = parent.replace(/\$Id/g, id);
-    parent = parent.replace(/\$Num/g, num);
-    parent = parent.replace(/\$Name/g, name);
-    parent = parent.replace(/\$Builtin/g, builtin);
-    parent = parent.replace(/\$Web/g, web);
-    parent = parent.replace(/\$Email/g, email);
-    parent = parent.replace(/\$Software/g, software);
+    var parent = document.createElement('tr');
+    parent.className = 'parent'
+    parent.id = id + '-' + num;
+
+    var name_node = document.createElement('td');
+    var text = document.createTextNode(name);
+    name_node.appendChild(text);
+
+    var builtin_node = document.createElement('td');
+    var text = document.createTextNode(builtin);
+    builtin_node.appendChild(text);
+
+    var web_node = document.createElement('td');
+    input = document.createElement('input');
+    input.className = id + '-' + num;
+    input.type = 'checkbox';
+    input.checked = false;
+    if(web=='checked'){
+        input.checked = true;
+    }
+    web_node.onclick = function(){
+        //TODO: FIX ME
+        console.log("click");
+        updateCertTrust('web');
+    }
+    web_node.checked = web_node;
+    web_node.appendChild(input);
+
+    var email_node = document.createElement('td');
+    input = document.createElement('input');
+    input.className = id + '-' + num;
+    input.type = 'checkbox';
+    input.checked = false;
+    if(web=='checked'){
+        input.checked = true;
+    }
+    email_node.onclick = function(){
+         //TODO: FIX ME
+        updateCertTrust(email_node);
+    }
+    email_node.checked = email_node;
+    email_node.appendChild(input);
+
+    var software_node = document.createElement('td');
+    input = document.createElement('input');
+    input.className = id + '-' + num;
+    input.type = 'checkbox';
+    input.checked = false;
+    if(web=='checked'){
+        input.checked = true;
+    }
+    software_node.onclick = function(){
+         //TODO: FIX ME
+        updateCertTrust(software_node);
+    }
+    software_node.checked = software_node;
+    software_node.appendChild(input);
+
+    parent.appendChild(name_node);
+    parent.appendChild(builtin_node);
+    parent.appendChild(web_node);
+    parent.appendChild(email_node);
+    parent.appendChild(software_node);
 
     var table = document.getElementById("cert_table");
-    table.innerHTML += parent;
+    table.appendChild(parent);
+
 	document.getElementById('viewButton').onclick = function() {
 		self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
 	};
