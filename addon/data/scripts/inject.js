@@ -80,13 +80,6 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent.appendChild(name_node);
     parent.appendChild(trust_node);
 
-    // var parent = '<tr class="parent" id="row$Num"><td>$Source</td> <td id="name$Num" colspan="2">$Name</td> <td>$Trust</td></tr>';
-
-    // parent = parent.replace('$Source', source);
-    // parent = parent.replace('$Name', name);
-    // parent = parent.replace('$Trust', trust);
-    // parent = parent.replace(/\$Num/g, num)
-
     var sub1 = document.createElement('tr');
     sub1.style = 'display:none';
     sub1.className = 'child-row'+num;
@@ -240,20 +233,8 @@ function showDetails(num) {
 }
 
 function updateCertTrust(classId) {
-     //TODO: FIX ME
-    // console.log(check);
-    // var classId = check.attr('class');
-    console.log(classId);
     var allChecks = $("."+classId);
-    console.log('here');
-    console.log(allChecks)
-    console.log(classId.split('-')[0])
-    console.log(classId.split('-')[1])
-    console.log(allChecks[0].checked)
-    console.log(allChecks[1].checked)
-    console.log(allChecks[2].checked)
     editCertTrust(classId.split('-')[0], classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
-    console.log('here')
 }
 
 // web, email, and software should be either "" or "checked"
@@ -279,8 +260,6 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         input.checked = true;
     }
     web_node.onclick = function(){
-        //TODO: FIX ME
-        console.log("click");
         updateCertTrust(id + '-' + num);
     }
     web_node.checked = web_node;
@@ -291,11 +270,10 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     input.className = id + '-' + num;
     input.type = 'checkbox';
     input.checked = false;
-    if(web=='checked'){
+    if(email=='checked'){
         input.checked = true;
     }
     email_node.onclick = function(){
-         //TODO: FIX ME
         updateCertTrust(id + '-' + num);
     }
     email_node.checked = email_node;
@@ -306,11 +284,10 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     input.className = id + '-' + num;
     input.type = 'checkbox';
     input.checked = false;
-    if(web=='checked'){
+    if(software=='checked'){
         input.checked = true;
     }
     software_node.onclick = function(){
-         //TODO: FIX ME
         updateCertTrust(id + '-' + num);
     }
     software_node.checked = software_node;

@@ -221,12 +221,6 @@ function getCM() {
 	}
 
     CertManager.setCertTrusts = function(cert, ssl, email, objsign) {
-        console.log('Called setCertTrusts with:');
-        console.log(cert);
-        console.log(ssl)
-        console.log(email)
-        console.log(objsign)
-
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         var trustssl = (ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
         var trustemail = (email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
