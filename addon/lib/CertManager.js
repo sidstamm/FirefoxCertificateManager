@@ -247,7 +247,7 @@ function getCM() {
                     var name = cert.issuerOrganization;
                     var trust = CertManager.calculateTrust(cert,1,90);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
-                    var country = "UNKNOWN";
+                    var country = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].geographicFocus : "UNKNOWN";
                     var trustbits = []
                     if (CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");

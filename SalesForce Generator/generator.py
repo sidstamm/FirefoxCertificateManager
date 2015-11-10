@@ -4,7 +4,7 @@ import ast
 from datetime import datetime
 
 pendingCertsPath = 'Pending CA Certificate Requests - Sheet1.csv'
-builtInCertsPath = 'BuiltInCAs - Sheet1.csv'
+builtInCertsPath = 'BuiltInCAs2.csv'
 
 pendingCertsFile = file(pendingCertsPath, 'r')
 builtInCertsFile = file(builtInCertsPath, 'r')
@@ -44,11 +44,11 @@ def getBuiltInCerts():
 	reader = csv.reader(builtInCertsFile)
 	salesforceJson = {}
 
-	for row in reader:	
+	for row in reader:
 		cert = {}
 		cert['trustBits'] = row[9]
-		cert['auditDate'] = row[24]
-
+		cert['auditDate'] = row[25].strip()
+		cert['geographicFocus'] = row[17]
 		if not salesforceJson.has_key(row[1]):
 			salesforceJson[row[1]] = cert	
 		else:
@@ -69,6 +69,7 @@ def getMostRecentCert(cert1, cert2):
 
 	bits1 = [x.strip() for x in cert1['trustBits'].split(';')]
 	bits2 = [x.strip() for x in cert2['trustBits'].split(';')]
+	geo = cert1['geographicFocus']
 	bitsUnion = union(bits1, bits2)
 
 	if date1 == None and date2 == None:
@@ -80,6 +81,7 @@ def getMostRecentCert(cert1, cert2):
 	else:	
 		result['auditDate'] = max(date1, date2).strftime('%Y.%m.%d')
 	result['trustBits'] = '; '.join(bitsUnion)
+	result['geographicFocus'] = geo
 
 	return result
 
@@ -87,7 +89,7 @@ def union(a, b):
 	return list(set(a) | set(b))
 
 def main():
-	getPendingCerts()
+	# getPendingCerts()
 	getBuiltInCerts()
 
 if __name__ == '__main__': 
