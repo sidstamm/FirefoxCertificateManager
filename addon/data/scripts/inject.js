@@ -239,13 +239,21 @@ function showDetails(num) {
     $("#authName").show();
 }
 
-function updateCertTrust(check) {
+function updateCertTrust(classId) {
      //TODO: FIX ME
-    console.log(check);
-    var classId = check.attr('class');
+    // console.log(check);
+    // var classId = check.attr('class');
     console.log(classId);
     var allChecks = $("."+classId);
+    console.log('here');
+    console.log(allChecks)
+    console.log(classId.split('-')[0])
+    console.log(classId.split('-')[1])
+    console.log(allChecks[0].checked)
+    console.log(allChecks[1].checked)
+    console.log(allChecks[2].checked)
     editCertTrust(classId.split('-')[0], classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
+    console.log('here')
 }
 
 // web, email, and software should be either "" or "checked"
@@ -273,7 +281,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     web_node.onclick = function(){
         //TODO: FIX ME
         console.log("click");
-        updateCertTrust('web');
+        updateCertTrust(id + '-' + num);
     }
     web_node.checked = web_node;
     web_node.appendChild(input);
@@ -288,7 +296,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
     email_node.onclick = function(){
          //TODO: FIX ME
-        updateCertTrust(email_node);
+        updateCertTrust(id + '-' + num);
     }
     email_node.checked = email_node;
     email_node.appendChild(input);
@@ -303,7 +311,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
     software_node.onclick = function(){
          //TODO: FIX ME
-        updateCertTrust(software_node);
+        updateCertTrust(id + '-' + num);
     }
     software_node.checked = software_node;
     software_node.appendChild(input);

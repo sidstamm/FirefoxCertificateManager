@@ -63,6 +63,7 @@ function onReady(tab) {
     });
 
     worker.port.on("editCertTrust", function(auth, certId, ssl, email, objsign) {
+        console.log('got to edit cert trust')
         return CertManager.setCertTrusts(authMap[auth].certs[certId], ssl, email, objsign);
     });
 

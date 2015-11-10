@@ -93,7 +93,6 @@ function getCM() {
         return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
     }
 
-
     CertManager.importCert = function() {
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
         var win = require("sdk/window/utils").getMostRecentBrowserWindow();
@@ -222,6 +221,12 @@ function getCM() {
 	}
 
     CertManager.setCertTrusts = function(cert, ssl, email, objsign) {
+        console.log('Called setCertTrusts with:');
+        console.log(cert);
+        console.log(ssl)
+        console.log(email)
+        console.log(objsign)
+
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         var trustssl = (ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
         var trustemail = (email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
