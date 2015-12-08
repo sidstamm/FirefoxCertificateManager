@@ -44,6 +44,7 @@ function showAuths() {
 	$("#viewButton").hide();
 	$("#exportButton").hide();
     $("#authName").hide();
+    $("#back_button").hide();
 }
 
 function updateCertTrust(check) {

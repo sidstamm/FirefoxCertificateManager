@@ -6,6 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> -->
     <link rel="stylesheet" type="text/css" href="css/table.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.5.0/css/font-awesome.min.css"/>
     <title>Certificate Manager</title>
     <script>
         (function($){
@@ -17,12 +19,15 @@
 </head>
 <body>
     <h1 id="authTitle">Authorities</h1>
-    <h2 style="display: none;" id="authName" align="center"><a href="#" onclick="showAuths()">&lt; Back</a> Authority</h2>
+    <a id = "back_button" href="#" onclick="showAuths()">
+        <!-- <i style="display: none;" class="fa fa-chevron-left fa-2x"></i> -->
+    </a>
+    <h2 style="display: none;" id="authName" align="center">Authority</h2>
     <hr />
 
     <input id="authsSearch" type="text" placeholder="search" onkeyup='searchMainTable($(this).val());' />
     <input style="display:none;" id="certsSearch" type="text" placeholder="search" onkeyup='searchDetailTable($(this).val());' />
-    <div id='wrapper'>
+    <div id='wrapper' class="ui container">
         <div id='content'>
             <!-- <div id="tfheader">
                 <form id="tfnewsearch" method="get" action="http://www.google.com">

@@ -226,10 +226,13 @@ function showDetails(num) {
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
-    $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name" + num).text());
+    $("#authName").html($("#name" + num).text());
+    $("#back_button").html('<i class="fa fa-chevron-left fa-2x"></i>');
+    // $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name" + num).text());
     $("#viewButton").show();
     $("#exportButton").show();
     $("#authName").show();
+    $("#back_button").show();
 }
 
 function updateCertTrust(classId) {
