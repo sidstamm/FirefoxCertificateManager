@@ -119,6 +119,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button = document.createElement('button'); 
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
+        sub2_button.className = 'red ui button';
         var button_text = document.createTextNode('Distrust');
         sub2_button.onclick = function(){
             distrust(num);
@@ -174,7 +175,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     
     sub4_button = document.createElement('button');
 
-    sub4_button.className = 'moreButton';
+    sub4_button.className = 'moreButton blue ui button';
     var button_text = document.createTextNode('View Certificates');
     sub4_button.appendChild(button_text);
     sub4_button.onclick = function(){
@@ -228,7 +229,6 @@ function showDetails(num) {
     $("#authsSearch").toggle();
     $("#authName").html($("#name" + num).text());
     $("#back_button").html('<i class="fa fa-chevron-left fa-2x"></i>');
-    // $("#authName").html('<a href="#" onclick="showAuths()">&lt; Back</a> ' + $("#name" + num).text());
     $("#viewButton").show();
     $("#exportButton").show();
     $("#authName").show();
