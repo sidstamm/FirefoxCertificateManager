@@ -57,6 +57,8 @@ function searchMainTable(inputVal)
     $('#main_table > tbody > .parent').each(function(index, row)
     {
         var allCells = $(row).find('td:nth-child(2)');
+        var countryCell = $($($(row).siblings('.child-' + $(row).attr('id'))[1]).children()[2]);
+        allCells.push(countryCell);
         if(allCells.length > 0)
         {
             var found = false;
@@ -66,7 +68,7 @@ function searchMainTable(inputVal)
                 if(regExp.test($(td).text()))
                 {
                     found = true;
-                    return false;
+                    return;
                 }
             });
             if(found == true)
