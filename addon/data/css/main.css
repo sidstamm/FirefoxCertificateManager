@@ -143,35 +143,9 @@ hr {
   clear:both;
 }
 
-/*
-button {
-  	padding: 3px;
-  	/* override forms.css 
-  	font: inherit;
+.button_div {
+    margin: 10px;
 }
-
- Links 
-
-a, .text-link, .inline-link {
-  	color: var(--in-content-link-color);
-  	text-decoration: none;
-}
-
-a:hover, .text-link:hover, .inline-link:hover {
-  	color: var(--in-content-link-color-hover);
-  	text-decoration: underline;
-}
-
-a:visited {
-  	color: var(--in-content-link-color-visited);
-}
-
-a:hover:active, .text-link:hover:active, .inline-link:hover:active {
-  	color: var(--in-content-link-color-active);
-  	text-decoration: none;
-}
-*/
-
 
 /* Checkboxes and radio buttons */
 
