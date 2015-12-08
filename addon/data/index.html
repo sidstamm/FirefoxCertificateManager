@@ -16,15 +16,18 @@
     </script>
 </head>
 <body>
-    <h1 id="authTitle">Authorities</h1>
-    <a id = "back_button" href="#" onclick="showAuths()">
-        <!-- <i style="display: none;" class="fa fa-chevron-left fa-2x"></i> -->
-    </a>
-    <h2 style="display: none;" id="authName" align="center">Authority</h2>
-    <hr />
+    <div class="block_div">
+        <h1 id="authTitle" class="ui dividing header">Authorities</h2>
+        <a id = "back_button" href="#" onclick="showAuths()"></a>
+        <h2 style="display: none;" id="authName" class="ui dividing header" align="center">Authority</h2>        
+    </div>
 
-    <input id="authsSearch" type="text" placeholder="search" onkeyup='searchMainTable($(this).val());' />
-    <input style="display:none;" id="certsSearch" type="text" placeholder="search" onkeyup='searchDetailTable($(this).val());' />
+    <div class="block_div ui icon input">
+        <i class="search icon"></i>
+            <input id="authsSearch" type="text" placeholder="Search..." onkeyup='searchMainTable($(this).val());' />
+            <input id="certsSearch" style="display:none;" type="text" placeholder="Search..." onkeyup='searchDetailTable($(this).val());' />    
+    </div>
+
     <div id='wrapper' class="ui container">
         <div id='content'>
             <!-- <div id="tfheader">
@@ -68,7 +71,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="button_div">
+        <div class="block_div">
             <button id="viewButton" class="certButtons ui button">View...</button>
             <button class="certButtons ui button">Edit Trust...</button>
             <button id="import" class="authorityButtons ui button">Import...</button>
