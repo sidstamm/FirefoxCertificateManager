@@ -63,8 +63,13 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent.id = 'row'+num;
 
     var source_node = document.createElement('td');
+	var source_image = document.createElement('img');
+	source_image.setAttribute('src',(source == "customCert") ? './img/custom-512.png':'./img/firefox-512.png');
+	source_image.setAttribute('width','16');
+	source_image.setAttribute('height','16');
+	source_image.setAttribute('title',source);
     var source_text = document.createTextNode(source);
-    source_node.appendChild(source_text);
+    source_node.appendChild(source_image);
 
     var trust_node = document.createElement('td');
     var trust_text = document.createTextNode(trust);
