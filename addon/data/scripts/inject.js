@@ -68,7 +68,6 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 	source_image.setAttribute('width','16');
 	source_image.setAttribute('height','16');
 	source_image.setAttribute('title',source);
-    var source_text = document.createTextNode(source);
     source_node.appendChild(source_image);
 
     var trust_node = document.createElement('td');
