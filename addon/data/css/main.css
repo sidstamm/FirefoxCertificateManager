@@ -1,46 +1,8 @@
-/*
-*|*:root {
-  --in-content-page-color: #424e5a;
-  --in-content-page-background: #fbfbfb;
-  --in-content-text-color: #333;
-  --in-content-selected-text: #fff;
-  --in-content-header-border-color: #c8c8c8;
-  --in-content-box-background: #fff;
-  --in-content-box-background-odd: #f3f6fa;
-  --in-content-box-background-hover: #ebebeb;
-  --in-content-box-background-active: #dadada;
-  --in-content-box-border-color: #c1c1c1;
-  --in-content-item-hover: rgba(0,149,221,0.25);
-  --in-content-item-selected: #0095dd;
-  --in-content-border-highlight: #ff9500;
-  --in-content-border-focus: #0095dd;
-  --in-content-border-color: #c1c1c1;
-  --in-content-category-text: #c1c1c1;
-  --in-content-category-border-focus: 1px dotted #fff;
-  --in-content-category-text-selected: #f2f2f2;
-  --in-content-category-background: #424f5a;
-  --in-content-category-background-hover: #5e6972;
-  --in-content-category-background-active: #343f48;
-  --in-content-tab-color: #424f5a;
-  --in-content-link-color: #0095dd;
-  --in-content-link-color-hover: #178ce5;
-  --in-content-link-color-active: #ff9500;
-  --in-content-link-color-visited: #551a8b;
-  --in-content-primary-button-background: #0095dd;
-  --in-content-primary-button-background-hover: #008acb;
-  --in-content-primary-button-background-active: #006b9d;
-  --in-content-table-border-dark-color: #d1d1d1;
-  --in-content-table-header-background: #0095dd;
-  --in-content-help-button-background: #ffcb00;
-  --in-content-help-button-background-hover: #f4c200;
-  --in-content-help-button-background-active: #eaba00;
-}
-*/
-
 body {
 	font: message-box;
 	font-size: 15px;
 	font-weight: normal;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	margin: 0;
  	-moz-appearance: none;
 	background-color: var(--in-content-page-background);
@@ -92,80 +54,19 @@ hr {
     background-color: #FFCF8B;
 }
 
-#detail_table {
-  display: none;
+#authTitle {
+  font-size: 28pt;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
-#tfheader{
-  background-color:#c3dfef;
-}
-#tfnewsearch{
-  float:left;
-  padding:10px;
-}
-.tftextinput{
-  margin: 0;
-  padding: 5px 15px;
-  /*font-family: Arial, Helvetica, sans-serif;*/
-  font-size:14px;
-  border:1px solid #0076a3; border-right:0px;
-  border-top-left-radius: 5px 5px;
-  border-bottom-left-radius: 5px 5px;
-}
-.tfbutton {
-  margin: 0;
-  padding: 5px 15px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size:14px;
-  outline: none;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  color: #ffffff;
-  border: solid 1px #0076a3; border-right:0px;
-  background: #0095cd;
-  background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-  background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-  border-top-right-radius: 5px 5px;
-  border-bottom-right-radius: 5px 5px;
-}
-.tfbutton:hover {
-  text-decoration: none;
-  background: #007ead;
-  background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-  background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-}
-/* Fixes submit button height problem in Firefox */
-.tfbutton::-moz-focus-inner {
-  border: 0;
-}
-.tfclear{
-  clear:both;
+#detail_table {
+  display: none;
 }
 
 .block_div {
     margin: 10px;
 }
-
-/* Checkboxes and radio buttons */
-
-/* Hide the actual checkbox */
-/*input[type="checkbox"] {
-	opacity: 0;
-  	position: absolute;
-}
-
-/* Create a box to style as the checkbox 
-input[type="checkbox"] + html|label:before {
-  	display: inline-block;
-  	content: "";
-  	vertical-align: middle;
-}
-
-input[type="checkbox"] + html|label {
-  	line-height: 0px;
-}
-*/
 
 .parent {
     text-align: center;
@@ -182,3 +83,46 @@ input[type="checkbox"] + html|label {
   overflow:auto;
   height: 500px;
 }
+
+.searchbar {
+  margin: 10px, 10px, 10px, 0;
+}
+
+/*
+*|*:root {
+  --in-content-page-color: #424e5a;
+  --in-content-page-background: #fbfbfb;
+  --in-content-text-color: #333;
+  --in-content-selected-text: #fff;
+  --in-content-header-border-color: #c8c8c8;
+  --in-content-box-background: #fff;
+  --in-content-box-background-odd: #f3f6fa;
+  --in-content-box-background-hover: #ebebeb;
+  --in-content-box-background-active: #dadada;
+  --in-content-box-border-color: #c1c1c1;
+  --in-content-item-hover: rgba(0,149,221,0.25);
+  --in-content-item-selected: #0095dd;
+  --in-content-border-highlight: #ff9500;
+  --in-content-border-focus: #0095dd;
+  --in-content-border-color: #c1c1c1;
+  --in-content-category-text: #c1c1c1;
+  --in-content-category-border-focus: 1px dotted #fff;
+  --in-content-category-text-selected: #f2f2f2;
+  --in-content-category-background: #424f5a;
+  --in-content-category-background-hover: #5e6972;
+  --in-content-category-background-active: #343f48;
+  --in-content-tab-color: #424f5a;
+  --in-content-link-color: #0095dd;
+  --in-content-link-color-hover: #178ce5;
+  --in-content-link-color-active: #ff9500;
+  --in-content-link-color-visited: #551a8b;
+  --in-content-primary-button-background: #0095dd;
+  --in-content-primary-button-background-hover: #008acb;
+  --in-content-primary-button-background-active: #006b9d;
+  --in-content-table-border-dark-color: #d1d1d1;
+  --in-content-table-header-background: #0095dd;
+  --in-content-help-button-background: #ffcb00;
+  --in-content-help-button-background-hover: #f4c200;
+  --in-content-help-button-background-active: #eaba00;
+}
+*/
