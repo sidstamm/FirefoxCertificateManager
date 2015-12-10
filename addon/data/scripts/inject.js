@@ -87,7 +87,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var sub1 = document.createElement('tr');
     sub1.style = 'display:none';
-    sub1.className = 'child-row'+num;
+    sub1.className = 'detail_row child-row'+num;
 
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');
@@ -109,7 +109,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
-    sub2.className = 'child-row'+num;
+    sub2.className = 'detail_row child-row'+num;
 
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');
@@ -150,7 +150,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
-    sub3.className = 'child-row'+num;
+    sub3.className = 'detail_row child-row'+num;
 
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');
@@ -172,7 +172,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
-    sub4.className = 'child-row'+num;
+    sub4.className = 'detail_row child-row'+num;
 
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');

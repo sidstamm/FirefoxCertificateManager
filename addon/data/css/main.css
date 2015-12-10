@@ -64,6 +64,10 @@ hr {
   display: none;
 }
 
+.detail_row {
+  font-size: 9pt;
+}
+
 .block_div {
     margin: 10px;
 }
