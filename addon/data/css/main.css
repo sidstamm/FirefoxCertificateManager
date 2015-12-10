@@ -78,10 +78,10 @@ hr {
 }
 
 #content{
-  display: inline-block;
+/*  display: inline-block;
   border: solid 2px gray;
   overflow:auto;
-  height: 500px;
+  height: 500px;*/
 }
 
 .searchbar {
