@@ -88,6 +88,38 @@ hr {
   height: 500px;*/
 }
 
+#import {
+  background-color: #51b3e5;
+  border-color: #2d7abf;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#viewButton {
+  background-color: #51b3e5;
+  border-color: #2d7abf;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#editTrustButton {
+  background-color: #51b3e5;
+  border-color: #2d7abf;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#exportButton {
+  background-color: #51b3e5;
+  border-color: #2d7abf;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#delete {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .searchbar {
   margin: 10px, 10px, 10px, 0;
 }

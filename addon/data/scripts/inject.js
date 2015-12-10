@@ -249,6 +249,8 @@ function showDetails(num) {
     $("#exportButton").show();
     $("#authName").show();
     $("#back_button").show();
+    $("#delete").show();
+    $("#editTrustButton").show();
 }
 
 function updateCertTrust(classId) {

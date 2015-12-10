@@ -18,6 +18,7 @@ function showDetails(num) {
 	$("#viewButton").show();
 	$("#exportButton").show();
     $("#authName").show();
+    $("#delete").show();
 }
 
 function distrust(num) {
@@ -45,6 +46,8 @@ function showAuths() {
 	$("#exportButton").hide();
     $("#authName").hide();
     $("#back_button").hide();
+    $("#delete").hide();
+    $("#editTrustButton").hide();
 }
 
 function updateCertTrust(check) {
