@@ -19,7 +19,7 @@ exportFunction(importCert, unsafeWindow, {
 });
 
 document.getElementById('exportButton').onclick = function() {
-    export_certs()
+    export_certs();
 };
 exportFunction(export_certs, unsafeWindow, {
     defineAs: "export_certs"
@@ -63,6 +63,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent.id = 'row'+num;
 
     var source_node = document.createElement('td');
+
 	var source_image = document.createElement('img');
 	source_image.setAttribute('src',(source == "customCert") ? './img/custom-512.png':'./img/firefox-512.png');
 	source_image.setAttribute('width','16');
@@ -93,10 +94,12 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
+    middle_node.setAttribute('width', '10%');
     var middle_text = document.createTextNode('Last Audit: ');
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
+    last_node.setAttribute('width', '90%');
     var last_text = document.createTextNode(last);
     last_node.appendChild(last_text);
 
@@ -200,14 +203,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub4);
     parent.onclick = function(){
         $(this).siblings('.child-' + this.id).toggle();
-    }
+    };
 });
 
 function distrust(num) {
     // authMap[id].trusted = false;
     // CertManager.distrustAuth(authMap[id]);
     self.port.emit("distrustAuth", num);
-    $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); })
+    $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
     $("#distrust-"+num).text("Trust");
     $("#distrust-"+num).attr('id', 'entrust-'+num);
 }
@@ -216,7 +219,7 @@ function entrust(num) {
     // authMap[id].trusted = true;
     // CertManager.entrustAuth(authMap[id]);
     self.port.emit("entrustAuth", num);
-    $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); })
+    $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
     $("#entrust-"+num).text("Distrust");
     $("#entrust-"+num).attr('id', 'distrust-'+num);
 }
@@ -247,7 +250,7 @@ function updateCertTrust(classId) {
 // web, email, and software should be either "" or "checked"
 self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, email, software) {
     var parent = document.createElement('tr');
-    parent.className = 'parent'
+    parent.className = 'parent';
     parent.id = id + '-' + num;
 
     var name_node = document.createElement('td');
@@ -268,7 +271,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
     web_node.onclick = function(){
         updateCertTrust(id + '-' + num);
-    }
+    };
     web_node.checked = web_node;
     web_node.appendChild(input);
 
@@ -282,7 +285,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
     email_node.onclick = function(){
         updateCertTrust(id + '-' + num);
-    }
+    };
     email_node.checked = email_node;
     email_node.appendChild(input);
 
@@ -296,7 +299,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
     software_node.onclick = function(){
         updateCertTrust(id + '-' + num);
-    }
+    };
     software_node.checked = software_node;
     software_node.appendChild(input);
 
