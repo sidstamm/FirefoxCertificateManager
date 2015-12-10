@@ -116,10 +116,12 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
+    middle_node.setAttribute('width', '10%');
     var middle_text = document.createTextNode('Country: ');
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
+    last_node.setAttribute('width', '90%');
     var last_text = document.createTextNode(country);
     last_node.appendChild(last_text);
 
@@ -130,21 +132,21 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         var button_text = document.createTextNode('Distrust');
         sub2_button.onclick = function(){
             distrust(num);
-        }
+        };
     }
     else {
         sub2_button.id = 'entrust-'+num;
         var button_text = document.createTextNode('Trust');
         sub2_button.onclick = function(){
             entrust(num);
-        }
+        };
     }
     sub2_button.appendChild(button_text);
 
     sub2.appendChild(first_node);
     sub2.appendChild(middle_node);
     sub2.appendChild(last_node);
-    sub2.appendChild(sub2_button);
+    // sub2.appendChild(sub2_button);
 
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
@@ -155,10 +157,12 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
+    middle_node.setAttribute('width', '10%');
     var middle_text = document.createTextNode('TrustBits: ');
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
+    last_node.setAttribute('width', '90%');
     var last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
@@ -179,6 +183,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
+    last_node.setAttribute('text-align', 'right');
     
     sub4_button = document.createElement('button');
 
@@ -187,13 +192,17 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub4_button.appendChild(button_text);
     sub4_button.onclick = function(){
         showDetails(num);
-    }
+    };
     last_node.appendChild(sub4_button);
+
+    var distrust_button_node = document.createElement('td');
+    distrust_button_node.setAttribute('text-align', 'left');
+    distrust_button_node.appendChild(sub2_button);
 
     sub4.appendChild(first_node);
     sub4.appendChild(middle_node);
     sub4.appendChild(last_node);
-
+    sub4.appendChild(distrust_button_node);
 
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
