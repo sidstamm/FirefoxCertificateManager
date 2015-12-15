@@ -53,7 +53,18 @@ hr {
 .detail tr.selected {
     background-color: #FFCF8B;
 }
-
+.green-trustbar::-moz-progress-bar {
+  background-color: green;
+}
+.yellow-trustbar::-moz-progress-bar {
+  background-color: yellow;
+}
+.orange-trustbar::-moz-progress-bar {
+  background-color: orange;
+}
+.red-trustbar::-moz-progress-bar {
+  background-color: red;
+}
 #authTitle {
   font-size: 28pt;
   font-weight: bold;

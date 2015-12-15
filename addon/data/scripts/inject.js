@@ -72,8 +72,18 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     source_node.appendChild(source_image);
 
     var trust_node = document.createElement('td');
-    var trust_text = document.createTextNode(trust);
-    trust_node.appendChild(trust_text);
+	var trust_bar = document.createElement('progress');
+	trust_bar.setAttribute('value',trust);
+	trust_bar.setAttribute('title',trust);
+	trust_bar.setAttribute('max','100');
+	
+	if( trust > 80) trust_bar.className = trust_bar.className + " green-trustbar";
+	else if(trust > 50) trust_bar.className = trust_bar.className + " yellow-trustbar";
+	else if(trust > 20) trust_bar.className = trust_bar.className + " orange-trustbar";
+	else trust_bar.className = trust_bar.className + " red-trustbar";
+	
+	
+    trust_node.appendChild(trust_bar);
 
     var name_node = document.createElement('td');
     name_node.colSpan = '2';
