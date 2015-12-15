@@ -92,6 +92,16 @@ hr {
   text-align: center;
 }
 
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer_plain {
+
+}
+
 #content{
 /*  display: inline-block;
   border: solid 2px gray;
