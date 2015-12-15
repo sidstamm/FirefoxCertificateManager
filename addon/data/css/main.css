@@ -102,9 +102,8 @@ hr {
 
 #content{
   display: inline-block;
+  width:80%;
   /*border: solid 2px gray;*/
-  overflow:auto;
-  height: 500px;
 }
 
 #import {
