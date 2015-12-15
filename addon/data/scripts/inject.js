@@ -146,6 +146,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     else {
         sub2_button.id = 'entrust-'+num;
+        sub2_button.className = 'green ui button';
         var button_text = document.createTextNode('Trust');
         sub2_button.onclick = function(){
             entrust(num);
@@ -226,20 +227,20 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 });
 
 function distrust(num) {
-    // authMap[id].trusted = false;
-    // CertManager.distrustAuth(authMap[id]);
     self.port.emit("distrustAuth", num);
     $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
     $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).toggleClass("red");
+    $("#distrust-"+num).toggleClass('green');
     $("#distrust-"+num).attr('id', 'entrust-'+num);
 }
 
-function entrust(num) {    
-    // authMap[id].trusted = true;
-    // CertManager.entrustAuth(authMap[id]);
+function entrust(num) {
     self.port.emit("entrustAuth", num);
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
     $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).toggleClass("red");
+    $("#entrust-"+num).toggleClass('green');
     $("#entrust-"+num).attr('id', 'distrust-'+num);
 }
 

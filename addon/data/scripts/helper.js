@@ -26,6 +26,8 @@ function distrust(num) {
 
     $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); })
     $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).toggleClass("red");
+    $("#distrust-"+num).toggleClass('green');
     $("#distrust-"+num).attr('id', 'entrust-'+num);
 }
 
@@ -33,7 +35,9 @@ function entrust(num) {
     window.entrustAuth(num);
 
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); })
-    $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).text("Distrust");    
+    $("#entrust-"+num).toggleClass("red");
+    $("#entrust-"+num).toggleClass('green');
     $("#entrust-"+num).attr('id', 'distrust-'+num);
 }
 
