@@ -165,12 +165,12 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
-    middle_node.setAttribute('width', '10%');
+    // middle_node.setAttribute('width', '10%');
     var middle_text = document.createTextNode('TrustBits: ');
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
-    last_node.setAttribute('width', '90%');
+    // last_node.setAttribute('width', '90%');
     var last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
@@ -237,7 +237,7 @@ function entrust(num) {
     self.port.emit("entrustAuth", num);
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
     $("#entrust-"+num).text("Distrust");
-    $("#entrust-"+num).title("Distrust the expanded authority");
+    $("#entrust-"+num).title = "Trust the expanded authority";
     $("#entrust-"+num).toggleClass("red");
     $("#entrust-"+num).toggleClass('green');
     $("#entrust-"+num).attr('id', 'distrust-'+num);
