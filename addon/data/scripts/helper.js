@@ -52,6 +52,7 @@ function showAuths() {
     $("#back_button").hide();
     $("#delete").hide();
     $("#editTrustButton").hide();
+    $("#footer").attr("id", "footer_plain");
 }
 
 function updateCertTrust(check) {

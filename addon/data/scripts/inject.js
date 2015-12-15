@@ -262,6 +262,7 @@ function showDetails(num) {
     $("#back_button").show();
     $("#delete").show();
     $("#editTrustButton").show();
+    $("#footer_plain").attr("id", "footer");
 }
 
 function updateCertTrust(classId) {
