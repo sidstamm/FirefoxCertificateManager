@@ -54,18 +54,7 @@ hr {
 .detail tr.selected {
     background-color: #FFCF8B;
 }
-.green-trustbar::-moz-progress-bar {
-  background-color: green;
-}
-.yellow-trustbar::-moz-progress-bar {
-  background-color: yellow;
-}
-.orange-trustbar::-moz-progress-bar {
-  background-color: orange;
-}
-.red-trustbar::-moz-progress-bar {
-  background-color: red;
-}
+
 #authTitle {
   font-size: 28pt;
   font-weight: bold;
@@ -112,10 +101,10 @@ hr {
 }
 
 #content{
-/*  display: inline-block;
-  border: solid 2px gray;
+  display: inline-block;
+  /*border: solid 2px gray;*/
   overflow:auto;
-  height: 500px;*/
+  height: 500px;
 }
 
 #import {
