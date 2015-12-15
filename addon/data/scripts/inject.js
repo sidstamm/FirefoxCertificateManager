@@ -230,6 +230,7 @@ function distrust(num) {
     self.port.emit("distrustAuth", num);
     $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
     $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).title = "Trust the expanded authority";
     $("#distrust-"+num).toggleClass("red");
     $("#distrust-"+num).toggleClass('green');
     $("#distrust-"+num).attr('id', 'entrust-'+num);
@@ -239,6 +240,7 @@ function entrust(num) {
     self.port.emit("entrustAuth", num);
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
     $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).title("Distrust the expanded authority");
     $("#entrust-"+num).toggleClass("red");
     $("#entrust-"+num).toggleClass('green');
     $("#entrust-"+num).attr('id', 'distrust-'+num);
@@ -254,8 +256,9 @@ function showDetails(num) {
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
+    // TODO: REMOVE .html
     $("#authName").html($("#name" + num).text());
-    $("#back_button").html('<i class="fa fa-chevron-left fa-2x"></i>');
+    $("#back_button").html('<i class="fa fa-chevron-left fa-2x" title="Go back to certview"></i>');
     $("#viewButton").show();
     $("#exportButton").show();
     $("#authName").show();

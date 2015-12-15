@@ -46,7 +46,8 @@ hr {
 }
 
 .authorityButtons{
-  margin: 10px;
+  width:30%;
+  border-radius:0px;
   float: center;
 }
 
@@ -96,10 +97,18 @@ hr {
   position: fixed;
   bottom: 0;
   width: 100%;
+  text-align: center;
 }
 
-#footer_plain {
-
+#footer_plain{
+  padding-top: 7px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  background-color: #FFF;
+  bottom: 0px;
+  margin: 0px;
 }
 
 #content{
