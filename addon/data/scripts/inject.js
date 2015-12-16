@@ -70,6 +70,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 	source_image.setAttribute('height','16');
 	source_image.setAttribute('title',source);
     source_node.appendChild(source_image);
+    source_node.id = "icon_node";
 
     var trust_node = document.createElement('td');
 	var trust_bar = document.createElement('meter');
@@ -136,17 +137,17 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button = document.createElement('button'); 
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
-        sub2_button.className = 'trustbutton red ui button';
+        sub2_button.className = 'red ui button trustbutton';
 
-        var button_text = document.createTextNode('Distrust');
+        var button_text = document.createTextNode('DISTRUST');
         sub2_button.onclick = function(){
             distrust(num);
         };
     }
     else {
         sub2_button.id = 'entrust-'+num;
-        sub2_button.className = 'trustbutton green ui button';
-        var button_text = document.createTextNode('Trust');
+        sub2_button.className = 'green ui button trustbutton';
+        var button_text = document.createTextNode('TRUST');
         sub2_button.onclick = function(){
             entrust(num);
         };
@@ -197,8 +198,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     
     sub4_button = document.createElement('button');
 
-    sub4_button.className = 'moreButton blue ui button';
-    var button_text = document.createTextNode('View Certificates');
+    sub4_button.className = 'blue ui button moreButton';
+    var button_text = document.createTextNode('VIEW CERTIFICATES');
     sub4_button.appendChild(button_text);
     sub4_button.onclick = function(){
         showDetails(num);
@@ -209,8 +210,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var button_div = document.createElement('div');
     button_div.className = "trust_button_div"
     distrust_button_node.setAttribute('text-align', 'left');
-    button_div.appendChild(sub2_button);
     button_div.appendChild(sub4_button);
+    button_div.appendChild(sub2_button);
     distrust_button_node.appendChild(button_div);
 
     // sub4.appendChild(first_node);
@@ -227,6 +228,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub3);
     // table.appendChild(sub4);
     parent.onclick = function(){
+
+        var color = $( this ).css( "background-color");
+        if(color == "transparent"){
+            $(this).css('background-color', '#EBECED');
+        } else{
+            $( this ).css( "background-color", 'transparent');
+        }
+        
         $(this).siblings('.child-' + this.id).toggle();
     };
 });
