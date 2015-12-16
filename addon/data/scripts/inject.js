@@ -110,9 +110,10 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_text = document.createTextNode(last);
     last_node.appendChild(last_text);
 
-    sub1.appendChild(first_node);
+    // 
     sub1.appendChild(middle_node);
     sub1.appendChild(last_node);
+    sub1.appendChild(first_node);
 
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
@@ -135,7 +136,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button = document.createElement('button'); 
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
-        sub2_button.className = 'red ui button';
+        sub2_button.className = 'trustbutton red ui button';
+
         var button_text = document.createTextNode('Distrust');
         sub2_button.onclick = function(){
             distrust(num);
@@ -143,7 +145,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     else {
         sub2_button.id = 'entrust-'+num;
-        sub2_button.className = 'green ui button';
+        sub2_button.className = 'trustbutton green ui button';
         var button_text = document.createTextNode('Trust');
         sub2_button.onclick = function(){
             entrust(num);
@@ -151,18 +153,18 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     sub2_button.appendChild(button_text);
 
-    sub2.appendChild(first_node);
+    // 
     sub2.appendChild(middle_node);
     sub2.appendChild(last_node);
-    // sub2.appendChild(sub2_button);
+    sub2.appendChild(sub2_button);
 
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
-    first_node.appendChild(first_text);
+    // var first_node = document.createElement('td');
+    // var first_text = document.createTextNode('\t');
+    // first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
@@ -174,7 +176,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
-    sub3.appendChild(first_node);
+    // sub3.appendChild(first_node);
     sub3.appendChild(middle_node);
     sub3.appendChild(last_node);
 
@@ -204,20 +206,26 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_node.appendChild(sub4_button);
 
     var distrust_button_node = document.createElement('td');
+    var button_div = document.createElement('div');
+    button_div.className = "trust_button_div"
     distrust_button_node.setAttribute('text-align', 'left');
-    distrust_button_node.appendChild(sub2_button);
+    button_div.appendChild(sub2_button);
+    button_div.appendChild(sub4_button);
+    distrust_button_node.appendChild(button_div);
 
-    sub4.appendChild(first_node);
-    sub4.appendChild(middle_node);
-    sub4.appendChild(last_node);
-    sub4.appendChild(distrust_button_node);
+    // sub4.appendChild(first_node);
+    // sub4.appendChild(middle_node);
+    // sub4.appendChild(last_node);
+    // sub4.appendChild(distrust_button_node);
+    // sub2.appendChild(last_node);
+    sub3.appendChild(distrust_button_node)
 
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
     table.appendChild(sub1);
     table.appendChild(sub2);
     table.appendChild(sub3);
-    table.appendChild(sub4);
+    // table.appendChild(sub4);
     parent.onclick = function(){
         $(this).siblings('.child-' + this.id).toggle();
     };
