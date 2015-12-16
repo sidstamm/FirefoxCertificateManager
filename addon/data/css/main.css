@@ -45,6 +45,15 @@ hr {
   display: none
 }
 
+.trustbutton{
+  border-radius:0px;
+}
+
+.moreButton{
+  border-radius:0px;
+  background-color: #C22026;
+}
+
 .authorityButtons{
   width:30%;
   border-radius:0px;
@@ -53,6 +62,11 @@ hr {
 
 .detail tr.selected {
     background-color: #FFCF8B;
+}
+
+.trust_button_div{
+  margin-top: -50px;
+  margin-left:150px;
 }
 
 #authTitle {
@@ -65,8 +79,13 @@ hr {
   display: none;
 }
 
+td{
+  border:0px;
+}
+
 .detail_row {
-  font-size: 9pt;
+  font-size: 12pt;
+  border:0px;
 }
 
 .block_div {
