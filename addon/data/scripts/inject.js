@@ -341,7 +341,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 
     document.getElementById('delete').onclick = function() {
         self.port.emit("deleteCert", id,$("#cert_table tr.selected").index());
-        $("#cert_table tr.selected").remove();
+        $('#cert_table tr.selected').find('input[type=checkbox]:checked').removeAttr('checked');
     };
 
     document.getElementById('exportButton').onclick = function() {

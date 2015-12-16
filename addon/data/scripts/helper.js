@@ -35,7 +35,7 @@ function searchMainTable(inputVal)
                     return;
                 }
             });
-            if(found == true)
+            if(found === true)
                 $(row).show();
             else
             {
@@ -63,7 +63,7 @@ function searchDetailTable(inputVal)
                     return false;
                 }
             });
-            if(found == true)
+            if(found === true)
                 $(row).show();
             else
             {
