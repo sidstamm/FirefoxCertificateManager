@@ -271,6 +271,7 @@ function showDetails(num) {
     $("#delete").show();
     $("#editTrustButton").show();
     $("#footer_plain").attr("id", "footer");
+    $("#delete").addClass("disabled");
 }
 
 function updateCertTrust(classId) {
@@ -358,6 +359,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 
 	$("#cert_table").find("tr").click( function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
+        $("#delete").removeClass("disabled");   
 	});
 	
 	$("#cert_table").find("tr").dblclick( function(){
