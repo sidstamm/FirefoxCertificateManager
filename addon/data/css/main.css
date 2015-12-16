@@ -1,4 +1,5 @@
 body {
+
 	font: message-box;
 	font-size: 15px;
 	font-weight: normal;
@@ -45,13 +46,24 @@ hr {
   display: none
 }
 
-.trustbutton{
-  border-radius:0px;
+.ui.table tr td{
+  border: 0px;
 }
 
-.moreButton{
+.ui.red.button.trustbutton{
   border-radius:0px;
+  margin-left: 10px;
   background-color: #C22026;
+}
+
+.ui.green.button.trustbutton{
+  border-radius:0px;
+  margin-left: 10px;
+}
+
+.ui.blue.button.moreButton{
+  border-radius:0px;
+  background-color: #C9C8C8;
 }
 
 .authorityButtons{
@@ -92,9 +104,12 @@ td{
     margin: 10px;
 }
 
+#icon_node{
+  text-align: center;
+}
+
 .parent {
-    text-align: center;
-    background-color: #ebebeb;
+    text-align: left;
 }
 
 #wrapper{
@@ -130,6 +145,7 @@ td{
   border-color: #2d7abf;
   color: #fff;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  border-radius: 0px;
 }
 
 #viewButton {
