@@ -110,6 +110,8 @@ td{
 
 .parent {
     text-align: left;
+    cursor: pointer; 
+    cursor: hand;
 }
 
 #wrapper{

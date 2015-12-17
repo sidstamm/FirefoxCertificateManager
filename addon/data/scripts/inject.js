@@ -63,6 +63,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent.id = 'row'+num;
 
     var source_node = document.createElement('td');
+    source_node.setAttribute('style', 'border-right: 3px dotted #EBECED');
 
 	var source_image = document.createElement('img');
 	source_image.setAttribute('src',(source == "customCert") ? './img/custom-512.png':'./img/firefox-512.png');
@@ -73,7 +74,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     source_node.id = "icon_node";
 
     var trust_node = document.createElement('td');
-	var trust_bar = document.createElement('meter');
+    var trust_bar = document.createElement('meter');
 	trust_bar.setAttribute('value',trust);
 	trust_bar.setAttribute('title',trust);
 	trust_bar.setAttribute('max','100');
@@ -84,6 +85,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     trust_node.appendChild(trust_bar);
 
     var name_node = document.createElement('td');
+    name_node.setAttribute('style', 'border-right: 3px dotted #EBECED');
     name_node.colSpan = '2';
     name_node.id = 'name'+num;
     var name_text = document.createTextNode(name);
@@ -270,9 +272,12 @@ function showDetails(num) {
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
-    // TODO: REMOVE .html
-    $("#authName").html($("#name" + num).text());
-    $("#back_button").html('<i class="fa fa-chevron-left fa-2x" title="Go back to certview"></i>');
+    $("#authName").text($("#name" + num).text());
+    var image = document.createElement('i');
+    image.setAttribute("class", "fa fa-chevron-left fa-2x");
+    image.title = "Go back to Authority list";
+    $("#back_button").empty();
+    document.getElementById("back_button").appendChild(image);
     $("#viewButton").show();
     $("#exportButton").show();
     $("#authName").show();
