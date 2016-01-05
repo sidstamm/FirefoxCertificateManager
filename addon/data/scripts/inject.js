@@ -288,8 +288,8 @@ function showDetails(num) {
     $("#authName").show();
     $("#back_button").show();
     $("#delete").show();
-    $("#editTrustButton").show();
     $("#footer_plain").attr("id", "footer");
+    $("#viewButton").addClass("disabled");
     $("#delete").addClass("disabled");
 }
 
@@ -375,10 +375,11 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     document.getElementById('exportButton').onclick = function() {
         self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
     };
-
+	
 	$("#cert_table").find("tr").click( function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
-        $("#delete").removeClass("disabled");   
+        $("#delete").removeClass("disabled");
+		$("#viewButton").removeClass("disabled");
 	});
 	
 	$("#cert_table").find("tr").dblclick( function(){
