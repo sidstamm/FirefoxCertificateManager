@@ -114,9 +114,10 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_node.appendChild(last_text);
 
     // 
+
+    sub1.appendChild(first_node);
     sub1.appendChild(middle_node);
     sub1.appendChild(last_node);
-    sub1.appendChild(first_node);
 
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
@@ -157,17 +158,21 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button.appendChild(button_text);
 
     // 
+     var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+    sub2.appendChild(first_node);
     sub2.appendChild(middle_node);
     sub2.appendChild(last_node);
-    sub2.appendChild(sub2_button);
+    // sub2.appendChild(sub2_button);
 
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
 
-    // var first_node = document.createElement('td');
-    // var first_text = document.createTextNode('\t');
-    // first_node.appendChild(first_text);
+    var first_node = document.createElement('td');
+    var first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
 
     var middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
@@ -179,7 +184,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
-    // sub3.appendChild(first_node);
+    sub3.appendChild(first_node);
     sub3.appendChild(middle_node);
     sub3.appendChild(last_node);
 
