@@ -298,6 +298,8 @@ function showDetails(num) {
         table.removeChild(table.firstChild);
     }
     window.listCerts(num);
+    $("#authTitle").text("CERTIFICATES");
+    $("#infoText").text("The search bar filters items by certificate names");
     $("#main_table").toggle();
     $("#detail_table").toggle();
     $("#certsSearch").toggle();

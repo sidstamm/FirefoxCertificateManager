@@ -3,6 +3,8 @@
 */
 
 function showAuths() {
+    $("#authTitle").text("AUTHORITIES");
+    $("#infoText").text("The search bar filters items by the authority name, geographic focus, and owner.");
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
