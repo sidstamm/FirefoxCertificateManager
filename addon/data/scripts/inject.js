@@ -55,7 +55,9 @@ function entrustAuth(id) {
 exportFunction(entrustAuth, unsafeWindow, {
     defineAs: "entrustAuth"
 });
-
+self.port.on("reset_table", function reset_table(){
+	$("#auth_table tr").remove();
+});
 self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled, countryCode, owner) {
     // Making the parent
     var parent = document.createElement('tr');
@@ -416,4 +418,9 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 		rows[r].onclick = rowOnClick;
 		rows[r].ondblclick = rowOnDblClick;
 	}
+});
+
+self.port.on("select_auth", function select_auth(num){
+	var x = "#row"+num;
+	$(x).click();
 });

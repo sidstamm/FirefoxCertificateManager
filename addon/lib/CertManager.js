@@ -105,8 +105,9 @@ function getCM() {
         if (fp.show() == nsIFilePicker.returnOK) {
             var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
             certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
-            tabs.activeTab.reload();
+			return 1;
         }
+		return 0;
     }
 
     CertManager.deleteCert = function(cert) {
@@ -320,7 +321,7 @@ function getCM() {
         }
 
         keys.sort(function(a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
+            return a.localeCompare(b);
         });
 
         for (var i = 0; i < keys.length; i++) {

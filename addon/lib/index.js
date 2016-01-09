@@ -72,8 +72,40 @@ function onReady(tab) {
 	worker.port.on("viewCert", function(auth, certId) {
 		CertManager.viewCert(authMap[auth].certs[certId]);
 	});
-    
-    worker.port.on("importCert", CertManager.importCert);
+
+    worker.port.on("importCert", function(){
+		var reload = CertManager.importCert();
+		if(reload){
+			var newAuthMap = CertManager.genCAData();
+			var newRows = newAuthMap;
+			var changedIndex = -1;
+			if(newRows.length != rows.length){
+				worker.port.emit("reset_table");
+				for (var i = 0; i < newRows.length; i++) {
+					worker.port.emit("insert_row", i, newRows[i].source, 
+						newRows[i].name, newRows[i].trust, newRows[i].last, 
+						newRows[i].country, newRows[i].bits, newRows[i].trusted,
+						newRows[i].countryCode, newRows[i].owner);
+					if(changedIndex < 0 && i < rows.length){
+						if(rows[i].name != newRows[i].name){changedIndex = i;}
+					}else if (changedIndex < 0 && i >=rows.length){
+						changedIndex = i;
+					}
+				}
+			}else{
+				for(var i = 0 ; i < rows.length ; i++){
+					if(changedIndex < 0 && rows[i].certs.length != newRows[i].certs.length){
+						changedIndex = i;
+					}
+				}
+			}
+			//highlight changed index
+			worker.port.emit("select_auth",changedIndex);
+			authMap = newAuthMap;
+			rows = newRows;
+		}
+		
+	});
 
     worker.port.on("exportCert", function(auth, certId) {
         CertManager.exportCert(authMap[auth].certs[certId]);
