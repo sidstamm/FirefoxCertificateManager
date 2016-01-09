@@ -129,7 +129,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('Country: ');
+    var middle_text = document.createTextNode('Geographic Focus: ');
     middle_node.appendChild(middle_text);
 
     var last_node = document.createElement('td');
