@@ -189,33 +189,11 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub3.appendChild(last_node);
     
 
-    var countryRow = document.createElement('tr');
-    countryRow.style = 'display:none';
-    countryRow.className = 'detail_row child-row'+num;
-
-    first_node = document.createElement('td');
-    first_text = document.createTextNode('\t');
-    first_node.appendChild(first_text);
-
-    middle_node = document.createElement('td');
-    // middle_node.setAttribute('width', '10%');
-    middle_text = document.createTextNode('CA Country Code: ');
-    middle_node.appendChild(middle_text);
-
-    last_node = document.createElement('td');
-    // last_node.setAttribute('width', '90%');
-    last_text = document.createTextNode(countryCode);
-    last_node.appendChild(last_text);
-
-    countryRow.appendChild(first_node);
-    countryRow.appendChild(middle_node);
-    countryRow.appendChild(last_node);
-
-	//row4
-	var sub4 = document.createElement('tr');
+    var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
     sub4.className = 'detail_row child-row'+num;
-	first_node = document.createElement('td');
+
+    first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
@@ -228,34 +206,56 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
+
+    sub4.appendChild(first_node);
+    sub4.appendChild(middle_node);
+    sub4.appendChild(last_node);
+
+	//row4
+	var sub5 = document.createElement('tr');
+    sub5.style = 'display:none';
+    sub5.className = 'detail_row child-row'+num;
+	first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    middle_node = document.createElement('td');
+    // middle_node.setAttribute('width', '10%');
+    middle_text = document.createTextNode('CA Country Code: ');
+    middle_node.appendChild(middle_text);
+
+    last_node = document.createElement('td');
+    // last_node.setAttribute('width', '90%');
+    last_text = document.createTextNode(countryCode);
+    last_node.appendChild(last_text);
 	
-	sub4_button = document.createElement('button');
-	sub4_button.className = 'blue ui button moreButton';
+	sub5_button = document.createElement('button');
+	sub5_button.className = 'blue ui button moreButton';
 	var button_text = document.createTextNode('VIEW CERTIFICATES');
-	sub4_button.appendChild(button_text);
-	sub4_button.onclick = function(){
+	sub5_button.appendChild(button_text);
+	sub5_button.onclick = function(){
         showDetails(num);
     };
 	var distrust_button_node = document.createElement('td');
 	var button_div = document.createElement('div');
 	button_div.className = "trust_button_div";
 	distrust_button_node.setAttribute('text-align', 'left');
-	button_div.appendChild(sub4_button);
+	button_div.appendChild(sub5_button);
 	button_div.appendChild(sub2_button);
 	distrust_button_node.appendChild(button_div);
 
-	sub4.appendChild(first_node);
-    sub4.appendChild(middle_node);
-    sub4.appendChild(last_node);
-	sub4.appendChild(distrust_button_node);
+	sub5.appendChild(first_node);
+    sub5.appendChild(middle_node);
+    sub5.appendChild(last_node);
+	sub5.appendChild(distrust_button_node);
 	
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
     table.appendChild(sub1);
     table.appendChild(sub2);
-    table.appendChild(countryRow);
-    table.appendChild(sub3);
     table.appendChild(sub4);
+    table.appendChild(sub3);
+    table.appendChild(sub5);
 	
     parent.onclick = function(){
 

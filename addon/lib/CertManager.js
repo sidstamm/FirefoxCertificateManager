@@ -240,7 +240,7 @@ function getCM() {
 					var builtIn = CertManager.isCertBuiltIn(cert);
                     var source = builtIn ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
-                    var owner = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
+                    var owner = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].owner : "UNKNOWN";
                     if(cert.issuerName.indexOf("C=") >= 0) {
                         var indexOfCode = cert.issuerName.indexOf("C=")+2;
                         var endOfCode = (indexOfCode >= cert.issuerName.length-2) ? cert.issuerName.length : cert.issuerName.substr(indexOfCode).indexOf(",");

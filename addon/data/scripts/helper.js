@@ -22,7 +22,9 @@ function searchMainTable(inputVal)
     {
         var allCells = $(row).find('td:nth-child(2)');
         var countryCell = $($($(row).siblings('.child-' + $(row).attr('id'))[1]).children()[2]);
+        var ownerCell = $($($(row).siblings('.child-' + $(row).attr('id'))[2]).children()[2]);
         allCells.push(countryCell);
+        allCells.push(ownerCell);
         if(allCells.length > 0)
         {
             var found = false;
