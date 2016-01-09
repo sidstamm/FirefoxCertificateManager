@@ -240,10 +240,18 @@ function getCM() {
 					var builtIn = CertManager.isCertBuiltIn(cert);
                     var source = builtIn ? "builtInCert" : "customCert";
                     var name = cert.issuerOrganization;
+                    var owner = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
+                    if(cert.issuerName.indexOf("C=") >= 0) {
+                        var indexOfCode = cert.issuerName.indexOf("C=")+2;
+                        var endOfCode = (indexOfCode >= cert.issuerName.length-2) ? cert.issuerName.length : cert.issuerName.substr(indexOfCode).indexOf(",");
+                        var countryCode = cert.issuerName.substr(indexOfCode, endOfCode);
+                    } else {
+                        var countryCode = "Not found";
+                    }
                     var trust = CertManager.calculateTrust(cert,builtIn,100);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].geographicFocus : "UNKNOWN";
-                    var trustbits = []
+                    var trustbits = [];
                     if (CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
                     } 
@@ -256,6 +264,8 @@ function getCM() {
                     trustbits = trustbits.join(", ");
                     var enabled = ('savedAuths' in ss.storage && name in ss.storage.savedAuths) ? false : true;
                     authorities[cert.issuerOrganization] = { source: source, name: name, trust: trust, last: last, country: country, bits: trustbits, certs: [cert], certCount: 1, trusted: enabled};
+                    authorities[cert.issuerOrganization].countryCode = countryCode;
+                    authorities[cert.issuerOrganization].owner = owner;
                 } else {
 					var builtIn = CertManager.isCertBuiltIn(cert);
                     var source =builtIn ? "builtInCert" : "customCert";
@@ -263,6 +273,13 @@ function getCM() {
                     var trust = CertManager.calculateTrust(cert,builtIn,authorities[cert.issuerOrganization].trust);
                     var last = (cert.issuerOrganization in certManagerJson) ? certManagerJson[cert.issuerOrganization].auditDate : "UNKNOWN";
                     var country = "UNKNOWN";
+                    if(cert.issuerName.indexOf("C=") >= 0) {
+                        var indexOfCode = cert.issuerName.indexOf("C=")+2;
+                        var endOfCode = (indexOfCode >= cert.issuerName.length-2) ? cert.issuerName.length : cert.issuerName.substr(indexOfCode).indexOf(",");
+                        var countryCode = cert.issuerName.substr(indexOfCode, endOfCode);
+                    } else {
+                        var countryCode = "Not found";
+                    }
 
                     if (authorities[cert.issuerOrganization].source === "customCert") {
                         authorities[cert.issuerOrganization].source = source;
@@ -276,7 +293,7 @@ function getCM() {
                     }
 
                     var trusts = authorities[cert.issuerOrganization].bits.split(", ");
-                    var trustbits = []
+                    var trustbits = [];
                     if (trusts.indexOf("SSL") > -1 || CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
                     } 
@@ -290,6 +307,7 @@ function getCM() {
                     authorities[cert.issuerOrganization].bits = trustbits;
                     authorities[cert.issuerOrganization].certs.push(cert);
 					authorities[cert.issuerOrganization].certCount = authorities[cert.issuerOrganization].certCount;
+                    authorities[cert.issuerOrganization].countryCode = countryCode;
                 }
             }
         }

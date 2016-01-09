@@ -56,7 +56,7 @@ exportFunction(entrustAuth, unsafeWindow, {
     defineAs: "entrustAuth"
 });
 
-self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled) {
+self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled, countryCode, owner) {
     // Making the parent
     var parent = document.createElement('tr');
     parent.className = 'parent';
@@ -123,18 +123,18 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2.style = 'display:none';
     sub2.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
+    middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('Geographic Focus: ');
+    middle_text = document.createTextNode('Geographic Focus: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
+    last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
-    var last_text = document.createTextNode(country);
+    last_text = document.createTextNode(country);
     last_node.appendChild(last_text);
 
     sub2_button = document.createElement('button'); 
@@ -158,8 +158,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button.appendChild(button_text);
 
     // 
-     var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
     sub2.appendChild(first_node);
     sub2.appendChild(middle_node);
@@ -170,18 +170,18 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
+    middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('TrustBits: ');
+    middle_text = document.createTextNode('TrustBits: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
+    last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
-    var last_text = document.createTextNode(trustbits);
+    last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
     sub3.appendChild(first_node);
@@ -189,22 +189,44 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub3.appendChild(last_node);
     
 
+    var countryRow = document.createElement('tr');
+    countryRow.style = 'display:none';
+    countryRow.className = 'detail_row child-row'+num;
+
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    middle_node = document.createElement('td');
+    // middle_node.setAttribute('width', '10%');
+    middle_text = document.createTextNode('CA Country Code: ');
+    middle_node.appendChild(middle_text);
+
+    last_node = document.createElement('td');
+    // last_node.setAttribute('width', '90%');
+    last_text = document.createTextNode(countryCode);
+    last_node.appendChild(last_text);
+
+    countryRow.appendChild(first_node);
+    countryRow.appendChild(middle_node);
+    countryRow.appendChild(last_node);
+
 	//row4
 	var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
     sub4.className = 'detail_row child-row'+num;
-	var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+	first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
+    middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('Owner: ');
+    middle_text = document.createTextNode('Owner: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
+    last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
-    var last_text = document.createTextNode("PLACEHOLDER");
+    last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
 	
 	sub4_button = document.createElement('button');
@@ -216,7 +238,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     };
 	var distrust_button_node = document.createElement('td');
 	var button_div = document.createElement('div');
-	button_div.className = "trust_button_div"
+	button_div.className = "trust_button_div";
 	distrust_button_node.setAttribute('text-align', 'left');
 	button_div.appendChild(sub4_button);
 	button_div.appendChild(sub2_button);
@@ -231,6 +253,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(parent);
     table.appendChild(sub1);
     table.appendChild(sub2);
+    table.appendChild(countryRow);
     table.appendChild(sub3);
     table.appendChild(sub4);
 	
@@ -311,7 +334,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     name_node.appendChild(text);
 
     var builtin_node = document.createElement('td');
-    var text = document.createTextNode(builtin);
+    text = document.createTextNode(builtin);
     builtin_node.appendChild(text);
 
     var web_node = document.createElement('td');
@@ -379,7 +402,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     };
 	
 	var rowOnClick = function(){
-		$(this).addClass("selected").siblings().removeClass("selected");;
+		$(this).addClass("selected").siblings().removeClass("selected");
 		$("#delete").removeClass("disabled");
 		$("#viewButton").removeClass("disabled");
 	};

@@ -45,7 +45,10 @@ function onReady(tab) {
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {
-        worker.port.emit("insert_row", i, rows[i].source, rows[i].name, rows[i].trust, rows[i].last, rows[i].country, rows[i].bits, rows[i].trusted);
+        worker.port.emit("insert_row", i, rows[i].source, 
+            rows[i].name, rows[i].trust, rows[i].last, 
+            rows[i].country, rows[i].bits, rows[i].trusted,
+            rows[i].countryCode, rows[i].owner);
     }
 
     worker.port.on("listCerts", function(id) {
