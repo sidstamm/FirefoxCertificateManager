@@ -116,7 +116,11 @@ function getCM() {
 
     CertManager.exportCert = function(cert) {
         // var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
-        // certdb.deleteCertificate(cert);
+
+        // var win = require("sdk/window/utils").getMostRecentBrowserWindow();
+        // certdb.exportPKCS12File(null, fp.file, 1, cert);
+
+        console.log("EXPORTING!!!!!!");
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
         var win = require("sdk/window/utils").getMostRecentBrowserWindow();
         fp.init(win, "Save Certificate To File",
@@ -139,6 +143,7 @@ function getCM() {
             return;
 
         var content = '';
+        console.log(fp.filterIndex);
         switch (fp.filterIndex) {
             case 1:
                 content = getPEMString(cert);
@@ -161,6 +166,8 @@ function getCM() {
                 break;
         }
 
+        console.log("content:");
+        console.log(content);
         var msg;
         var written = 0;
 
@@ -199,12 +206,15 @@ function getCM() {
         //                    bundle.getFormattedString("writeFileFailed",
         //                    [fp.file.path, msg]));
         // }
-    }
+
+        console.log("msg:");
+        console.log(msg);
+    };
 
 	CertManager.viewCert = function(cert) {
 		var cd = Cc[nsCertificateDialogs].getService(nsICertificateDialogs);
 		cd.viewCert(null, cert);
-	}
+	};
 
 	CertManager.calculateTrust = function(cert,builtIn,score){
 		//source "builtInCert" : "customCert"
@@ -213,7 +223,7 @@ function getCM() {
 		}else{
 			return "50";
 		}
-	}
+	};
 
     CertManager.setCertTrusts = function(cert, ssl, email, objsign) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
@@ -223,7 +233,7 @@ function getCM() {
 
         certdb.setCertTrust(cert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
         return true;
-    }
+    };
 
     CertManager.genCAData = function() {
 
@@ -310,12 +320,13 @@ function getCM() {
         }
 
         return out;
-    }
+    };
 
     /* Utility Functions */
 
     function getPEMString(cert) {
       var derb64 = btoa(getDERString(cert));
+      console.log("derb64:" + derb64);
       // Wrap the Base64 string into lines of 64 characters, 
       // with CRLF line breaks (as specified in RFC 1421).
       var wrapped = derb64.replace(/(\S{64}(?!$))/g, "$1\r\n");
@@ -327,10 +338,14 @@ function getCM() {
     function getDERString(cert) {
       var length = {};
       var derArray = cert.getRawDER(length);
+      console.log("derArray:" + derArray.length);
       var derString = '';
       for (var i = 0; i < derArray.length; i++) {
         derString += String.fromCharCode(derArray[i]);
+        // console.log(derString);
       }
+      console.log("HEREEEEE");
+      console.log("derString:" + derString);
       return derString;
     }
 
