@@ -4,7 +4,7 @@ import ast
 from datetime import datetime
 
 pendingCertsPath = 'Pending CA Certificate Requests - Sheet1.csv'
-builtInCertsPath = 'BuiltInCAs2.csv'
+builtInCertsPath = 'BuiltInCAs.csv'
 
 pendingCertsFile = file(pendingCertsPath, 'r')
 builtInCertsFile = file(builtInCertsPath, 'r')
@@ -49,6 +49,7 @@ def getBuiltInCerts():
 		cert['trustBits'] = row[9]
 		cert['auditDate'] = row[25].strip()
 		cert['geographicFocus'] = row[17]
+		cert['owner'] = row[0]
 		if not salesforceJson.has_key(row[1]):
 			salesforceJson[row[1]] = cert	
 		else:
@@ -82,6 +83,7 @@ def getMostRecentCert(cert1, cert2):
 		result['auditDate'] = max(date1, date2).strftime('%Y.%m.%d')
 	result['trustBits'] = '; '.join(bitsUnion)
 	result['geographicFocus'] = geo
+	result['owner'] = cert2['owner']
 
 	return result
 

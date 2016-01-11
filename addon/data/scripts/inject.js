@@ -55,8 +55,10 @@ function entrustAuth(id) {
 exportFunction(entrustAuth, unsafeWindow, {
     defineAs: "entrustAuth"
 });
-
-self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled) {
+self.port.on("reset_table", function reset_table(){
+	$("#auth_table tr").remove();
+});
+self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled, countryCode, owner) {
     // Making the parent
     var parent = document.createElement('tr');
     parent.className = 'parent';
@@ -123,18 +125,18 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2.style = 'display:none';
     sub2.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
+    middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('Country: ');
+    middle_text = document.createTextNode('Geographic Focus: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
+    last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
-    var last_text = document.createTextNode(country);
+    last_text = document.createTextNode(country);
     last_node.appendChild(last_text);
 
     sub2_button = document.createElement('button'); 
@@ -158,8 +160,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button.appendChild(button_text);
 
     // 
-     var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
     sub2.appendChild(first_node);
     sub2.appendChild(middle_node);
@@ -170,70 +172,93 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
+    middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
-    var middle_text = document.createTextNode('TrustBits: ');
+    middle_text = document.createTextNode('TrustBits: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
+    last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
-    var last_text = document.createTextNode(trustbits);
+    last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
     sub3.appendChild(first_node);
     sub3.appendChild(middle_node);
     sub3.appendChild(last_node);
+    
 
     var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
     sub4.className = 'detail_row child-row'+num;
 
-    var first_node = document.createElement('td');
-    var first_text = document.createTextNode('\t');
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
-    var middle_node = document.createElement('td');
-    var middle_text = document.createTextNode('\t');
+    middle_node = document.createElement('td');
+    // middle_node.setAttribute('width', '10%');
+    middle_text = document.createTextNode('Owner: ');
     middle_node.appendChild(middle_text);
 
-    var last_node = document.createElement('td');
-    last_node.setAttribute('text-align', 'right');
-    
-    sub4_button = document.createElement('button');
+    last_node = document.createElement('td');
+    // last_node.setAttribute('width', '90%');
+    last_text = document.createTextNode(owner);
+    last_node.appendChild(last_text);
 
-    sub4_button.className = 'blue ui button moreButton';
-    var button_text = document.createTextNode('VIEW CERTIFICATES');
-    sub4_button.appendChild(button_text);
-    sub4_button.onclick = function(){
+    sub4.appendChild(first_node);
+    sub4.appendChild(middle_node);
+    sub4.appendChild(last_node);
+
+	//row4
+	var sub5 = document.createElement('tr');
+    sub5.style = 'display:none';
+    sub5.className = 'detail_row child-row'+num;
+	first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    middle_node = document.createElement('td');
+    // middle_node.setAttribute('width', '10%');
+    middle_text = document.createTextNode('CA Country Code: ');
+    middle_node.appendChild(middle_text);
+
+    last_node = document.createElement('td');
+    // last_node.setAttribute('width', '90%');
+    last_text = document.createTextNode(countryCode);
+    last_node.appendChild(last_text);
+	
+	sub5_button = document.createElement('button');
+	sub5_button.className = 'blue ui button moreButton';
+	var button_text = document.createTextNode('VIEW CERTIFICATES');
+	sub5_button.appendChild(button_text);
+	sub5_button.onclick = function(){
         showDetails(num);
     };
-    last_node.appendChild(sub4_button);
+	var distrust_button_node = document.createElement('td');
+	var button_div = document.createElement('div');
+	button_div.className = "trust_button_div";
+	distrust_button_node.setAttribute('text-align', 'left');
+	button_div.appendChild(sub5_button);
+	button_div.appendChild(sub2_button);
+	distrust_button_node.appendChild(button_div);
 
-    var distrust_button_node = document.createElement('td');
-    var button_div = document.createElement('div');
-    button_div.className = "trust_button_div"
-    distrust_button_node.setAttribute('text-align', 'left');
-    button_div.appendChild(sub4_button);
-    button_div.appendChild(sub2_button);
-    distrust_button_node.appendChild(button_div);
-
-    // sub4.appendChild(first_node);
-    // sub4.appendChild(middle_node);
-    // sub4.appendChild(last_node);
-    // sub4.appendChild(distrust_button_node);
-    // sub2.appendChild(last_node);
-    sub3.appendChild(distrust_button_node)
-
+	sub5.appendChild(first_node);
+    sub5.appendChild(middle_node);
+    sub5.appendChild(last_node);
+	sub5.appendChild(distrust_button_node);
+	
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
     table.appendChild(sub1);
     table.appendChild(sub2);
+    table.appendChild(sub4);
     table.appendChild(sub3);
-    // table.appendChild(sub4);
+    table.appendChild(sub5);
+	
     parent.onclick = function(){
 
         var color = $( this ).css( "background-color");
@@ -275,6 +300,8 @@ function showDetails(num) {
         table.removeChild(table.firstChild);
     }
     window.listCerts(num);
+    $("#authTitle").text("CERTIFICATES");
+    $("#infoText").text("The search bar filters items by certificate names");
     $("#main_table").toggle();
     $("#detail_table").toggle();
     $("#certsSearch").toggle();
@@ -311,7 +338,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     name_node.appendChild(text);
 
     var builtin_node = document.createElement('td');
-    var text = document.createTextNode(builtin);
+    text = document.createTextNode(builtin);
     builtin_node.appendChild(text);
 
     var web_node = document.createElement('td');
@@ -378,13 +405,22 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
     };
 	
-	$("#cert_table").find("tr").click( function(){
+	var rowOnClick = function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
-        $("#delete").removeClass("disabled");
+		$("#delete").removeClass("disabled");
 		$("#viewButton").removeClass("disabled");
-	});
-	
-	$("#cert_table").find("tr").dblclick( function(){
-		self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
-	});
+	};
+	var rowOnDblClick = function(){
+		self.port.emit("viewCert", id,$(this).index());
+	};
+	var rows = table.rows;
+	for(var r = 0 ; r < rows.length ; r++){
+		rows[r].onclick = rowOnClick;
+		rows[r].ondblclick = rowOnDblClick;
+	}
+});
+
+self.port.on("select_auth", function select_auth(num){
+	var x = "#row"+num;
+	$(x).click();
 });
