@@ -115,11 +115,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_text = document.createTextNode(last);
     last_node.appendChild(last_text);
 
-    // 
+     var last_node_for_color = document.createElement('td');
+    var last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
 
     sub1.appendChild(first_node);
     sub1.appendChild(middle_node);
     sub1.appendChild(last_node);
+    sub1.appendChild(last_node_for_color);
 
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
@@ -163,10 +166,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
+    var last_node_for_color = document.createElement('td');
+    var last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
+
     sub2.appendChild(first_node);
     sub2.appendChild(middle_node);
     sub2.appendChild(last_node);
-    // sub2.appendChild(sub2_button);
+    sub2.appendChild(last_node_for_color);
 
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
@@ -186,10 +193,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
+     var last_node_for_color = document.createElement('td');
+    var last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
+
     sub3.appendChild(first_node);
     sub3.appendChild(middle_node);
     sub3.appendChild(last_node);
-    
+    sub3.appendChild(last_node_for_color);
 
     var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
@@ -209,9 +220,14 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
 
+     var last_node_for_color = document.createElement('td');
+    var last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
+    
     sub4.appendChild(first_node);
     sub4.appendChild(middle_node);
     sub4.appendChild(last_node);
+    sub4.appendChild(last_node_for_color);
 
 	//row4
 	var sub5 = document.createElement('tr');
