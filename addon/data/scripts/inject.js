@@ -61,7 +61,7 @@ self.port.on("reset_table", function reset_table(){
 self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled, countryCode, owner) {
     // Making the parent
     var parent = document.createElement('tr');
-    parent.className = 'parent';
+    parent.className = 'parent parentClosed';
     parent.id = 'row'+num;
 
     var source_node = document.createElement('td');
@@ -276,14 +276,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub5);
 	
     parent.onclick = function(){
-
-        var color = $( this ).css( "background-color");
-        if(color == "transparent"){
-            $(this).css('background-color', '#EBECED');
-        } else{
-            $( this ).css( "background-color", 'transparent');
-        }
-        $(this).siblings('.child-' + this.id).toggle();
+        $(this).toggleClass('parentClosed');
+        $(this).toggleClass('parentOpen');
+        $(this).siblings('.child-' + this.id).fadeToggle('fast');
 		if($(this).siblings('.child-' + this.id).is(':visible')){
 			parent.scrollIntoView({behavior:"smooth"});
 		}
