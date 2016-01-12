@@ -62,6 +62,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     // Making the parent
     var parent = document.createElement('tr');
     parent.className = 'parent parentClosed';
+    if (!enabled) {
+        parent.className += ' distrustedRow';
+    }
     parent.id = 'row'+num;
 
     var source_node = document.createElement('td');
@@ -100,6 +103,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var sub1 = document.createElement('tr');
     sub1.style = 'display:none';
     sub1.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub1.className += ' distrustedRow';
+    }
 
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');
@@ -124,6 +130,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
     sub2.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub2.className += ' distrustedRow';
+    }
 
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
@@ -171,6 +180,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub3.className += ' distrustedRow';
+    }
 
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
@@ -194,6 +206,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
     sub4.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub4.className += ' distrustedRow';
+    }
 
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
@@ -217,6 +232,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 	var sub5 = document.createElement('tr');
     sub5.style = 'display:none';
     sub5.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub5.className += ' distrustedRow';
+    }
 	first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
@@ -271,6 +289,8 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
 function distrust(num) {
     self.port.emit("distrustAuth", num);
+    $(".child-row"+num).addClass('distrustedRow');
+    $("#row"+num).addClass('distrustedRow');
     $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
     $("#distrust-"+num).text("Trust");
     $("#distrust-"+num).title = "Trust the expanded authority";
@@ -281,6 +301,8 @@ function distrust(num) {
 
 function entrust(num) {
     self.port.emit("entrustAuth", num);
+    $(".child-row"+num).removeClass('distrustedRow');
+    $("#row"+num).removeClass('distrustedRow');
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
     $("#entrust-"+num).text("Distrust");
     $("#entrust-"+num).title = "Trust the expanded authority";

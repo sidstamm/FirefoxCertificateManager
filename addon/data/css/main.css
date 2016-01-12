@@ -98,6 +98,10 @@ hr {
   background-color: #FEFEFE;
 }
 
+.distrustedRow {
+  color: #d0d0d0;
+}
+
 td{
   border:0px;
 }
