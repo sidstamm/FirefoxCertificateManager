@@ -267,7 +267,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         } else{
             $( this ).css( "background-color", 'transparent');
         }
-        $(this).siblings('.child-' + this.id).toggle();
+        $(this).siblings('.child-' + this.id).fadeToggle('fast');
 		if($(this).siblings('.child-' + this.id).is(':visible')){
 			parent.scrollIntoView({behavior:"smooth"});
 		}
