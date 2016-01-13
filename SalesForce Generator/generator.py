@@ -5,40 +5,9 @@ from datetime import datetime
 
 pendingCertsPath = 'Pending CA Certificate Requests - Sheet1.csv'
 builtInCertsPath = 'BuiltInCAs.csv'
-
-pendingCertsFile = file(pendingCertsPath, 'r')
 builtInCertsFile = file(builtInCertsPath, 'r')
+builtInCertsOutput = 'SalesForceData.js'
 
-pendingCertsOutput = 'outputPending.txt'
-builtInCertsOutput = 'outputBuiltIn.txt'
-
-# Gets: 
-# - certificate issuer organization 
-# - trust bits
-# - geographic focus
-# - standard audit statement date
-def getPendingCerts():
-	output = open(pendingCertsOutput, 'w')
-	reader = csv.reader(pendingCertsFile)
-	salesforceJson = {}
-
-	for row in reader:	
-		cert = {}
-		cert['trustBits'] = row[11]
-		cert['geographicFocus'] = row[17]
-		cert['auditDate'] = row[26]
-
-		if not salesforceJson.has_key(row[1]):
-			salesforceJson[row[1]] = [cert]
-		else:
-			salesforceJson[row[1]].append(cert)
-
-	output.write(json.dumps(salesforceJson, indent=2))
-
-# Gets: 
-# - certificate issuer organization 
-# - trust bits
-# - standard audit statement date
 def getBuiltInCerts():
 	output = open(builtInCertsOutput, 'w')
 	reader = csv.reader(builtInCertsFile)
@@ -54,8 +23,16 @@ def getBuiltInCerts():
 			salesforceJson[row[1]] = cert	
 		else:
 			salesforceJson[row[1]] = getMostRecentCert(salesforceJson[row[1]], cert)
+	output.write('var certManagerJsonText = '+ json.dumps(salesforceJson, indent=2)+ '''
+var certManagerJson = certManagerJsonText;
 
-	output.write(json.dumps(salesforceJson, indent=2))
+function getJSON() {
+    return certManagerJson;
+}
+
+exports.getJSON = getJSON;
+		''')
+
 
 def getMostRecentCert(cert1, cert2):
 	result = {}
