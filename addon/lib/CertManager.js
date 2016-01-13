@@ -167,7 +167,7 @@ function getCM() {
                 break;
         }
 
-        console.log("content:");
+        console.log("content after getPEMString:");
         console.log(content);
         var msg;
         var written = 0;
@@ -196,6 +196,8 @@ function getCM() {
             //     break;
             //   default:
                 msg = e.message;
+                console.log("msg (if you see this something bad happened):");
+                console.log(msg);
             //     break;
             // }
         }
@@ -208,8 +210,7 @@ function getCM() {
         //                    [fp.file.path, msg]));
         // }
 
-        console.log("msg:");
-        console.log(msg);
+        
     };
 
 	CertManager.viewCert = function(cert) {
@@ -344,7 +345,14 @@ function getCM() {
     /* Utility Functions */
 
     function getPEMString(cert) {
-      var derb64 = btoa(getDERString(cert));
+      console.log("INSIDE getPEMString");
+      console.log("Testing utf8_to_b64:");
+      console.log(utf8_to_b64('I \u2661 Unicode!'));
+      console.log('I \u2661 Unicode!'); // MT 1/12: Okay, Git isn't good at printing unicode characters
+
+      // btoa() function creates a base-64 encoded ASCII string 
+      // from a "string" of binary data.
+      var derb64 = btoa(getDERString(cert)); // MT 1/12: There is definitely something fishy with this line, I think it's not converting to base 64 correctly.
       console.log("derb64:" + derb64);
       // Wrap the Base64 string into lines of 64 characters, 
       // with CRLF line breaks (as specified in RFC 1421).
@@ -354,17 +362,32 @@ function getCM() {
              + "\r\n-----END CERTIFICATE-----\r\n";        
     }
 
+    function utf8_to_b64(str) {
+        return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function b64EncodeUnicode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }));
+    }
+
     function getDERString(cert) {
+      console.log("INSIDE getDERString");
       var length = {};
-      var derArray = cert.getRawDER(length);
+      var derArray = cert.getRawDER(length); // MT 1/12: I think something's fishy with this
       console.log("derArray:" + derArray.length);
       var derString = '';
       for (var i = 0; i < derArray.length; i++) {
         derString += String.fromCharCode(derArray[i]);
         // console.log(derString);
       }
-      console.log("HEREEEEE");
+      // console.log("HEREEEEE");
+      console.log();
+      console.log();
       console.log("derString:" + derString);
+      console.log();
+      console.log();
       return derString;
     }
 
