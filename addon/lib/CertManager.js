@@ -346,9 +346,9 @@ function getCM() {
 
     function getPEMString(cert) {
       console.log("INSIDE getPEMString");
-      console.log("Testing utf8_to_b64:");
-      console.log(utf8_to_b64('I \u2661 Unicode!'));
-      console.log('I \u2661 Unicode!'); // MT 1/12: Okay, Git isn't good at printing unicode characters
+      // console.log("Testing utf8_to_b64:");
+      // console.log(utf8_to_b64('I \u2661 Unicode!'));
+      // console.log('I \u2661 Unicode!'); // MT 1/12: Okay, Git isn't good at printing unicode characters
 
       // btoa() function creates a base-64 encoded ASCII string 
       // from a "string" of binary data.
@@ -362,33 +362,19 @@ function getCM() {
              + "\r\n-----END CERTIFICATE-----\r\n";        
     }
 
-    function utf8_to_b64(str) {
-        return btoa(unescape(encodeURIComponent(str)));
-    }
-
-    function b64EncodeUnicode(str) {
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-            return String.fromCharCode('0x' + p1);
-        }));
-    }
-
     function getDERString(cert) {
-      console.log("INSIDE getDERString");
+      // console.log("INSIDE getDERString");
       var length = {};
-      var derArray = cert.getRawDER(length); // MT 1/12: I think something's fishy with this
-      console.log("derArray:" + derArray.length);
+      
+      var derArray = cert.getRawDER(length); // MT 1/13: This line is perfectly fine
       var derString = '';
       for (var i = 0; i < derArray.length; i++) {
+        //  String.fromCharCode() method returns a string created by 
+        //  using the specified sequence of Unicode values (#'s).
         derString += String.fromCharCode(derArray[i]);
-        // console.log(derString);
       }
-      // console.log("HEREEEEE");
-      console.log();
-      console.log();
-      console.log("derString:" + derString);
-      console.log();
-      console.log();
-      return derString;
+   
+      return derArray;
     }
 
     function getPKCS7String(cert, chainMode) {
@@ -433,6 +419,52 @@ function getCM() {
     return result.substr(0, result.length - 2 + mod3) +
       (mod3 === 2 ? "" : mod3 === 1 ? "=" : "==");
     }
+
+    function _encode( s ) {
+  
+      s = String( s );
+   
+      var i,
+        b10,
+        x = [],
+        imax = s.length - s.length % 3;
+   
+      if ( s.length === 0 ) {
+        return s;
+      }
+   
+      for ( i = 0; i < imax; i += 3 ) {
+        b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 ) | _getbyte( s, i + 2 );
+        x.push( _ALPHA.charAt( b10 >> 18 ) );
+        x.push( _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) );
+        x.push( _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) );
+        x.push( _ALPHA.charAt( b10 & 0x3f ) );
+      }
+   
+      switch ( s.length - imax ) {
+        case 1:
+          b10 = _getbyte( s, i ) << 16;
+          x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _PADCHAR + _PADCHAR );
+          break;
+   
+        case 2:
+          b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 );
+          x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) + _PADCHAR );
+          break;
+      }
+   
+      return x.join( "" );
+    }
+
+    function _getbyte64( s, i ) { 
+      var idx = _ALPHA.indexOf( s.charAt( i ) );
+   
+      if ( idx === -1 ) {
+        throw "Cannot decode base64";
+      }
+   
+      return idx;
+    }        
 
       /**
        * Utility function to encode an integer into a base64 character code.
