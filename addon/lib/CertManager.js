@@ -43,7 +43,7 @@ function getCM() {
             authSavedTrusts[cert.commonName] = certTrust;
         }
         ss.storage.savedAuths[authInfo.name] = authSavedTrusts;
-    }
+    };
 
     CertManager.entrustAuth = function(authInfo) {
         var certTrusts = ss.storage.savedAuths[authInfo.name];
@@ -53,11 +53,11 @@ function getCM() {
             CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
         }
         delete ss.storage.savedAuths[authInfo.name];
-    }
+    };
 
     CertManager.isBuiltinToken = function(tokenName) {
         return tokenName == "Builtin Object Token";
-    }
+    };
 
     CertManager.isCertBuiltIn = function(cert) {
         let tokenNames = cert.getAllTokenNames({});
@@ -68,7 +68,7 @@ function getCM() {
             return true;
         }
         return false;
-    }
+    };
 
     CertManager.isTrusted = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
@@ -76,22 +76,22 @@ function getCM() {
         var emailTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_EMAIL);
         var objTrust = certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
         return sslTrust || emailTrust || objTrust;
-    }
+    };
 
     CertManager.isSSLTrust = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_SSL);
-    }
+    };
 
     CertManager.isEmailTrust = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_EMAIL);
-    }
+    };
 
     CertManager.isObjTrust = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         return certdb.isCertTrusted(cert, Ci.nsIX509Cert.CA_CERT, Ci.nsIX509CertDB.TRUSTED_OBJSIGN);
-    }
+    };
 
     CertManager.importCert = function() {
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
@@ -108,20 +108,14 @@ function getCM() {
 			return 1;
         }
 		return 0;
-    }
+    };
 
     CertManager.deleteCert = function(cert) {
         var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
         certdb.deleteCertificate(cert);
-    }
+    };
 
     CertManager.exportCert = function(cert) {
-        // var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
-
-        // var win = require("sdk/window/utils").getMostRecentBrowserWindow();
-        // certdb.exportPKCS12File(null, fp.file, 1, cert);
-
-        console.log("EXPORTING!!!!!!");
         var fp = Cc[nsFilePicker].createInstance(nsIFilePicker);
         var win = require("sdk/window/utils").getMostRecentBrowserWindow();
         fp.init(win, "Save Certificate To File",
@@ -144,7 +138,6 @@ function getCM() {
             return;
 
         var content = '';
-        console.log(fp.filterIndex);
         switch (fp.filterIndex) {
             case 1:
                 content = getPEMString(cert);
@@ -167,8 +160,6 @@ function getCM() {
                 break;
         }
 
-        console.log("content after getPEMString:");
-        console.log(content);
         var msg;
         var written = 0;
 
@@ -183,33 +174,8 @@ function getCM() {
             written = fos.write(content, content.length);
             fos.close();
         } catch (e) {
-            // switch (e.result) {
-            //   case Components.results.NS_ERROR_FILE_ACCESS_DENIED:
-            //     msg = "Access denied";
-            //     break;
-            //   case Components.results.NS_ERROR_FILE_IS_LOCKED:
-            //     msg = "File is locked";
-            //     break;
-            //   case Components.results.NS_ERROR_FILE_NO_DEVICE_SPACE:
-            //   case Components.results.NS_ERROR_FILE_DISK_FULL:
-            //     msg = "No space left on device";
-            //     break;
-            //   default:
-                msg = e.message;
-                console.log("msg (if you see this something bad happened):");
-                console.log(msg);
-            //     break;
-            // }
+            msg = e.message;
         }
-
-        // if (written != content.length) {
-        //     if (!msg.length)
-        //     msg = "Unknown error";
-        //     alertPromptService("File Error",
-        //                    bundle.getFormattedString("writeFileFailed",
-        //                    [fp.file.path, msg]));
-        // }
-
         
     };
 
@@ -345,17 +311,7 @@ function getCM() {
     /* Utility Functions */
 
     function getPEMString(cert) {
-      console.log("INSIDE getPEMString");
-      // console.log("Testing utf8_to_b64:");
-      // console.log(utf8_to_b64('I \u2661 Unicode!'));
-      // console.log('I \u2661 Unicode!'); // MT 1/12: Okay, Git isn't good at printing unicode characters
-
-      // btoa() function creates a base-64 encoded ASCII string 
-      // from a "string" of binary data.
-      var derb64 = btoa(getDERString(cert)); // MT 1/12: There is definitely something fishy with this line, I think it's not converting to base 64 correctly.
-      console.log("derb64:" + derb64);
-      // Wrap the Base64 string into lines of 64 characters, 
-      // with CRLF line breaks (as specified in RFC 1421).
+      var derb64 = btoa(getDERString(cert)); 
       var wrapped = derb64.replace(/(\S{64}(?!$))/g, "$1\r\n");
       return "-----BEGIN CERTIFICATE-----\r\n"
              + wrapped
@@ -363,17 +319,8 @@ function getCM() {
     }
 
     function getDERString(cert) {
-      // console.log("INSIDE getDERString");
       var length = {};
-      
-      var derArray = cert.getRawDER(length); // MT 1/13: This line is perfectly fine
-      var derString = '';
-      for (var i = 0; i < derArray.length; i++) {
-        //  String.fromCharCode() method returns a string created by 
-        //  using the specified sequence of Unicode values (#'s).
-        derString += String.fromCharCode(derArray[i]);
-      }
-   
+      var derArray = cert.getRawDER(length); 
       return derArray;
     }
 
@@ -419,52 +366,6 @@ function getCM() {
     return result.substr(0, result.length - 2 + mod3) +
       (mod3 === 2 ? "" : mod3 === 1 ? "=" : "==");
     }
-
-    function _encode( s ) {
-  
-      s = String( s );
-   
-      var i,
-        b10,
-        x = [],
-        imax = s.length - s.length % 3;
-   
-      if ( s.length === 0 ) {
-        return s;
-      }
-   
-      for ( i = 0; i < imax; i += 3 ) {
-        b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 ) | _getbyte( s, i + 2 );
-        x.push( _ALPHA.charAt( b10 >> 18 ) );
-        x.push( _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) );
-        x.push( _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) );
-        x.push( _ALPHA.charAt( b10 & 0x3f ) );
-      }
-   
-      switch ( s.length - imax ) {
-        case 1:
-          b10 = _getbyte( s, i ) << 16;
-          x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _PADCHAR + _PADCHAR );
-          break;
-   
-        case 2:
-          b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 );
-          x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) + _PADCHAR );
-          break;
-      }
-   
-      return x.join( "" );
-    }
-
-    function _getbyte64( s, i ) { 
-      var idx = _ALPHA.indexOf( s.charAt( i ) );
-   
-      if ( idx === -1 ) {
-        throw "Cannot decode base64";
-      }
-   
-      return idx;
-    }        
 
       /**
        * Utility function to encode an integer into a base64 character code.
