@@ -287,6 +287,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 
     var spacer = document.createElement('tr');
     spacer.className = "spacer";
+    spacer.id = "spacer-row" + num;
 	
     var table = document.getElementById("auth_table");
     table.appendChild(parent);

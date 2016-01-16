@@ -39,12 +39,16 @@ function searchMainTable(inputVal)
                     return;
                 }
             });
-            if(found === true)
+            if(found === true) {
                 $(row).show();
-            else
-            {
-                $(row).hide();
+                $('#spacer-' + $(row).attr('id')).show();
+            }
+            else {
+                $(row).hide();                
+                $(row).addClass('parentClosed');
+                $(row).removeClass('parentOpen');
                 $(row).siblings('.child-' + $(row).attr('id')).hide();
+                $('#spacer-' + $(row).attr('id')).hide();
             }
         }
     });
