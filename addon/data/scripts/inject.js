@@ -284,6 +284,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub5.appendChild(middle_node);
     sub5.appendChild(last_node);
 	sub5.appendChild(distrust_button_node);
+
+    var spacer = document.createElement('tr');
+    spacer.className = "spacer";
 	
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
@@ -292,6 +295,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub4);
     table.appendChild(sub3);
     table.appendChild(sub5);
+    table.appendChild(spacer);
 	
     parent.onclick = function(){
         $(this).toggleClass('parentClosed');

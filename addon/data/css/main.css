@@ -46,6 +46,10 @@ hr {
   display: none
 }
 
+.spacer {
+  height: 5px;
+}
+
 .ui.table tr td{
   border: 0px;
 }
