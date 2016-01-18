@@ -31,15 +31,15 @@
 
             <div id='content'>
                 <table id="main_table" class="detail ui very basic table">
-                    <col style="width:10%;">
+                    <col style="width:11%;">
                     <col style="width:25%;">
-                    <col style="width:55%">
-                    <col style="width:10%">
+                    <col style="width:52%">
+                    <col style="width:12%">
                     <thead>
                         <tr>
-                            <th>SOURCE</th>
+                            <th title="sourcetext">SOURCE<a href="#modalSource"><i class="info icon"></i></a></th>
                             <th colspan="2">AUTHORITY</th>
-                            <th>TRUST %</th>
+                            <th title="trust calculation">TRUST %<a href="#modalTrust"><i class="info icon"></i></a></th>
                         </tr>
                     </thead>
                     <tbody id='auth_table'>
@@ -85,7 +85,27 @@
           <br>
           <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
         </div>
-
+		
+		<div class="remodal" data-remodal-id="modalSource">
+          <button data-remodal-action="close" class="remodal-close" style="left: unset; right: 0px;"></button>
+          <h1>Source Info</h1>
+          <p id="modalSourceText">
+            Source indicates if the authority comes built-in with Firefox or was added by the user.
+          </p>
+          <br>
+          <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+        </div>
+		
+		<div class="remodal" data-remodal-id="modalTrust">
+          <button data-remodal-action="close" class="remodal-close" style="left: unset; right: 0px;"></button>
+          <h1>Trust Info</h1>
+          <p id="modalTrustText">
+            Indicates the trustworthiness of the Authority, calculated from an algorithm.
+          </p>
+          <br>
+          <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+        </div>
+		
         <script src="dist/remodal.min.js"></script>
     </div>
 </body>
