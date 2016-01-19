@@ -4,7 +4,13 @@ Rose-Hulman Senior Project with Mozilla. Created by Dax Earl, Mason Schneider, M
 
 ## Installation
 
-1. Drag and drop the addon XPI onto firefox
+### Addon Store
+
+[Install the addon here](https://addons.mozilla.org/en-US/firefox/addon/certificate-manager/)
+
+### Manual
+
+Drag and drop the addon XPI onto firefox and accept the installation
 
 ## Running
 
