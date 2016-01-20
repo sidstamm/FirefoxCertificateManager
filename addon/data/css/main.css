@@ -106,6 +106,10 @@ hr {
   color: #d0d0d0;
 }
 
+.distrustedImage {
+  opacity: 0.4;
+}
+
 td{
   border:0px;
 }

@@ -318,6 +318,7 @@ function distrust(num) {
     $("#distrust-"+num).toggleClass("red");
     $("#distrust-"+num).toggleClass('green');
     $("#distrust-"+num).attr('id', 'entrust-'+num);
+    $("#row"+num + " img, #row" + num + " meter").addClass('distrustedImage');
 }
 
 function entrust(num) {
@@ -330,6 +331,7 @@ function entrust(num) {
     $("#entrust-"+num).toggleClass("red");
     $("#entrust-"+num).toggleClass('green');
     $("#entrust-"+num).attr('id', 'distrust-'+num);
+    $("#row"+num + " img, #row" + num + " meter").removeClass('distrustedImage');
 }
 
 function showDetails(num) {
