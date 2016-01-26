@@ -46,13 +46,20 @@ function getCM() {
     };
 
     CertManager.entrustAuth = function(authInfo) {
-        var certTrusts = ss.storage.savedAuths[authInfo.name];
-        for( var certId in authInfo.certs ) {
-            var cert = authInfo.certs[certId];
-            var trust = certTrusts[cert.commonName];
-            CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
+        if ('savedAuths' in ss.storage && authInfo.name in ss.storage.savedAuths) {
+            var certTrusts = ss.storage.savedAuths[authInfo.name];
+            for( var certId in authInfo.certs ) {
+                var cert = authInfo.certs[certId];
+                var trust = certTrusts[cert.commonName];
+                CertManager.setCertTrusts(cert, trust.ssl, trust.email, trust.obj);
+            }
+            delete ss.storage.savedAuths[authInfo.name];
+        } else {
+            for( var certId in authInfo.certs ) {
+                var cert = authInfo.certs[certId];
+                CertManager.setCertTrusts(cert, true, false, false);
+            }
         }
-        delete ss.storage.savedAuths[authInfo.name];
     };
 
     CertManager.isBuiltinToken = function(tokenName) {
@@ -200,6 +207,11 @@ function getCM() {
         var trustobjsign = (objsign) ? nsIX509CertDB.TRUSTED_OBJSIGN : 0;
 
         certdb.setCertTrust(cert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
+
+        if('savedAuths' in ss.storage && cert.issuerOrganization in ss.storage.savedAuths) {
+            delete ss.storage.savedAuths[cert.issuerOrganization];
+        }
+
         return true;
     };
 
@@ -240,7 +252,7 @@ function getCM() {
                         trustbits.push("SOFTWARE");
                     }
                     trustbits = trustbits.join(", ");
-                    var enabled = ('savedAuths' in ss.storage && name in ss.storage.savedAuths) ? false : true;
+                    var enabled = (('savedAuths' in ss.storage && name in ss.storage.savedAuths) || !trustbits) ? false : true;
                     authorities[cert.issuerOrganization] = { source: source, name: name, trust: trust, last: last, country: country, bits: trustbits, certs: [cert], certCount: 1, trusted: enabled};
                     authorities[cert.issuerOrganization].countryCode = countryCode;
                     authorities[cert.issuerOrganization].owner = owner;
@@ -286,6 +298,8 @@ function getCM() {
                     authorities[cert.issuerOrganization].certs.push(cert);
 					authorities[cert.issuerOrganization].certCount = authorities[cert.issuerOrganization].certCount;
                     authorities[cert.issuerOrganization].countryCode = countryCode;
+
+                    authorities[cert.issuerOrganization].trusted = authorities[cert.issuerOrganization].trusted || trustbits;
                 }
             }
         }

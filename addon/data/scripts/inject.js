@@ -205,7 +205,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
-     var last_node_for_color = document.createElement('td');
+    var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
 
@@ -235,7 +235,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
 
-     var last_node_for_color = document.createElement('td');
+    var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
     
@@ -364,7 +364,33 @@ function showDetails(num) {
 
 function updateCertTrust(classId) {
     var allChecks = $("."+classId);
-    editCertTrust(classId.split('-')[0], classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
+    var num = classId.split('-')[0];
+    editCertTrust(num, classId.split('-')[1], allChecks[0].checked, allChecks[1].checked, allChecks[2].checked);
+
+    var allChecked = $('#detail_table input[type=checkbox]:checked');
+    if (allChecked.length === 0) {
+        $(".child-row"+num).addClass('distrustedRow');
+        $("#row"+num).addClass('distrustedRow');
+        $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
+        $("#distrust-"+num).text("Trust");
+        $("#distrust-"+num).title = "Trust the expanded authority";
+        $("#distrust-"+num).toggleClass("red");
+        $("#distrust-"+num).toggleClass('green');
+        $("#distrust-"+num).attr('id', 'entrust-'+num);
+        $("#row"+num + " img, #row" + num + " meter").addClass('distrustedImage');
+    } else if (allChecked.length >= 1) {
+        if($("#entrust-"+num).length) {
+            $(".child-row"+num).removeClass('distrustedRow');
+            $("#row"+num).removeClass('distrustedRow');
+            $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
+            $("#entrust-"+num).text("Distrust");
+            $("#entrust-"+num).title = "Trust the expanded authority";
+            $("#entrust-"+num).addClass("red");
+            $("#entrust-"+num).removeClass('green');
+            $("#entrust-"+num).attr('id', 'distrust-'+num);
+            $("#row"+num + " img, #row" + num + " meter").removeClass('distrustedImage');
+        }
+    }
 }
 
 // web, email, and software should be either "" or "checked"
@@ -439,6 +465,31 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     document.getElementById('delete').onclick = function() {
         self.port.emit("deleteCert", id,$("#cert_table tr.selected").index());
         $('#cert_table tr.selected').find('input[type=checkbox]:checked').removeAttr('checked');
+
+        var allChecked = $('#detail_table input[type=checkbox]:checked');
+        if (allChecked.length === 0) {
+            $(".child-row"+id).addClass('distrustedRow');
+            $("#row"+id).addClass('distrustedRow');
+            $("#distrust-"+id).attr('onclick', '').unbind().click(function() { entrust(id); });
+            $("#distrust-"+id).text("Trust");
+            $("#distrust-"+id).title = "Trust the expanded authority";
+            $("#distrust-"+id).toggleClass("red");
+            $("#distrust-"+id).toggleClass('green');
+            $("#distrust-"+id).attr('id', 'entrust-'+id);
+            $("#row"+id + " img, #row" + id + " meter").addClass('distrustedImage');
+        } else if (allChecked.length >= 1) {
+            if($("#entrust-"+id).length) {
+                $(".child-row"+id).removeClass('distrustedRow');
+                $("#row"+id).removeClass('distrustedRow');
+                $("#entrust-"+id).attr('onclick', '').unbind().click(function() { distrust(id); });
+                $("#entrust-"+id).text("Distrust");
+                $("#entrust-"+id).title = "Trust the expanded authority";
+                $("#entrust-"+id).addClass("red");
+                $("#entrust-"+id).removeClass('green');
+                $("#entrust-"+id).attr('id', 'distrust-'+id);
+                $("#row"+id + " img, #row" + id + " meter").removeClass('distrustedImage');
+            }
+        }
     };
 
     document.getElementById('exportButton').onclick = function() {
