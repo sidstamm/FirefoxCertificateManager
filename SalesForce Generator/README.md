@@ -1,11 +1,13 @@
 ___Generator Script___
 
+### Generates a JSON file from the csv for the extension.
+
 ## Windows
-1. Navigate to the current folder and run generate.sh by double clicking 
-2. Move overwrite the SalesForceData.js generated in this folder in the ../addon/lib folder
+1. Install python 2.7 https://www.python.org/downloads/release/python-2710/
+2. Navigate to the current folder and run generate.sh by double clicking 
+3. Move overwrite the SalesForceData.js generated in this folder in the ../addon/lib folder
 
 ## Anywhere Else
-### Generates a JSON file from the csv for the extension.
 1. Install python 2.7 https://www.python.org/downloads/release/python-2710/
 2. Move the new csv with cert information into this folder and name it "BuiltInCAs.csv"
 3. Open a command prompt and navigate to the folder using ls to view files/folders in the current folder and cd <foldername> to go into a folder.
