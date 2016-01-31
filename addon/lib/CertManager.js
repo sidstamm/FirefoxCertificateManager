@@ -321,7 +321,45 @@ function getCM() {
 
         return out;
     };
-
+	CertManager.genInitialCAData = function(){
+		var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+		var certcache = certdb.getCerts();
+		var enumerator = certcache.getEnumerator();
+		var initialCAData = [];
+		while (enumerator.hasMoreElements()) {
+			var cert =
+				enumerator.getNext().QueryInterface(Ci.nsIX509Cert);
+			if (cert.certType == nsIX509Cert.CA_CERT) {
+				var trustbits = {ssl:CertManager.isSSLTrust(cert), email:CertManager.isEmailTrust(cert), obj:CertManager.isObjTrust(cert)};
+				initialCAData.push({cert: cert, trustbits: trustbits});
+			}
+		}
+		return initialCAData;
+	}
+	CertManager.main = function(options,callback){
+		if(options.loadReason == 'install'){
+			if(!('initialAuths' in ss.storage)){
+				ss.storage.initialAuths = this.genInitialCAData();
+			}
+		}
+	};
+	CertManager.onUnload = function(reason){
+		if((reason == 'disable' || reason == 'uninstall' )&& 'initialAuths' in ss.storage){
+			var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+			var initialAuths = ss.storage.initialAuths;
+			var rows = initialAuths;
+			for (var i = 0; i < rows.length; i++) {
+				var cert = rows[i].cert;
+				var trustbits = rows[i].trustbits;
+				if (cert.certType == nsIX509Cert.CA_CERT) {
+					var trustssl = (trustbits.ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
+					var trustemail = (trustbits.email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
+					var trustobjsign = (trustbits.obj) ? nsIX509CertDB.TRUSTED_OBJSIGN : 0;
+					certdb.setCertTrust(cert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
+				}
+			}
+		}
+	};
     /* Utility Functions */
 
     function getPEMString(cert) {
@@ -400,4 +438,5 @@ function getCM() {
     return CertManager;
 }
 
-exports.getCM = getCM
+exports.getCM = getCM;
+

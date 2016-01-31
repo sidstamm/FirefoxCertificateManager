@@ -31,7 +31,12 @@ function loadPage(state) {
         onReady: onReady
     });
 }
-
+exports.main = function(options,callback){
+	CertManager.main(options,callback);
+};
+exports.onUnload = function(reason){
+	CertManager.onUnload(reason);
+};
 /*
     First thing that is run 
     Ran when the extension page is loaded sets up everything else on the page
