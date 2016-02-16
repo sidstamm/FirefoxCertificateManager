@@ -13,48 +13,26 @@ function export_certs() {
 document.getElementById('import').onclick = function() {
     importCert();
 };
-
-exportFunction(importCert, unsafeWindow, {
-    defineAs: "importCert"
-});
-
 document.getElementById('exportButton').onclick = function() {
     export_certs();
 };
-exportFunction(export_certs, unsafeWindow, {
-    defineAs: "export_certs"
-});
-
 
 function listCerts(id) {
     self.port.emit("listCerts", id);
 }
 
-exportFunction(listCerts, unsafeWindow, {
-    defineAs: "listCerts"
-});
-
 function editCertTrust(auth, cert, ssl, email, objsign) {
     self.port.emit("editCertTrust", auth, cert, ssl, email, objsign);
 }
 
-exportFunction(editCertTrust, unsafeWindow, {
-    defineAs: "editCertTrust"
-});
-
 function distrustAuth(id) {
     self.port.emit("distrustAuth", id);
 }
-exportFunction(distrustAuth, unsafeWindow, {
-    defineAs: "distrustAuth"
-});
 
 function entrustAuth(id) {
     self.port.emit("entrustAuth", id);
 }
-exportFunction(entrustAuth, unsafeWindow, {
-    defineAs: "entrustAuth"
-});
+
 self.port.on("reset_table", function reset_table(){
 	$("#auth_table tr").remove();
 });
