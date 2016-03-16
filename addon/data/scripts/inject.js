@@ -38,7 +38,7 @@ self.port.on("reset_table", function reset_table(){
 });
 
 /*
-   inserts a new certificate into the table.
+   inserts a new authority into the display table.
 
    the display for each certificate is shown through multiple rows ('tr').
    each row is seperated into different nodes ('td') createing a grid of sorts.
@@ -80,7 +80,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   trust_bar.setAttribute('optimum','90');
   trust_node.appendChild(trust_bar);
 
-  // name of certificate group
+  // name of authority
   var name_node = document.createElement('td');
   name_node.setAttribute('style', 'border-right: 3px dotted #EBECED');
   name_node.colSpan = '2';
@@ -111,7 +111,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   var middle_text = document.createTextNode('Last Audit: ');
   middle_node.appendChild(middle_text);
 
-  // display date of last audit for certs
+  // display date of last audit
   var last_node = document.createElement('td');
   // last_node.setAttribute('width', '90%');
   var last_text = document.createTextNode(last);
@@ -140,7 +140,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   first_text = document.createTextNode('\t');
   first_node.appendChild(first_text);
 
-  // display country of focus for certs
+  // display country of focus
   middle_node = document.createElement('td');
   // middle_node.setAttribute('width', '10%');
   middle_text = document.createTextNode('Geographic Focus: ');
@@ -152,7 +152,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   last_text = document.createTextNode(country);
   last_node.appendChild(last_text);
 
-  // button for distrusting certificates group
+  // button for distrusting authority
   sub2_button = document.createElement('button'); 
   if (enabled) {
     sub2_button.id = 'distrust-'+num;
@@ -205,7 +205,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   middle_text = document.createTextNode('TrustBits: ');
   middle_node.appendChild(middle_text);
 
-  // display TrustBits (what cert is used for)
+  // display TrustBits (what authority is used for)
   last_node = document.createElement('td');
   // last_node.setAttribute('width', '90%');
   last_text = document.createTextNode(trustbits);
@@ -240,7 +240,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   middle_text = document.createTextNode('Owner: ');
   middle_node.appendChild(middle_text);
 
-  // display the owner of the cert
+  // display the owner
   last_node = document.createElement('td');
   // last_node.setAttribute('width', '90%');
   last_text = document.createTextNode(owner);
@@ -302,7 +302,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
   sub5.appendChild(last_node);
   sub5.appendChild(distrust_button_node);
 
-  //blank row
+  // blank row
   var spacer = document.createElement('tr');
   spacer.className = "spacer";
   spacer.id = "spacer-row" + num;
@@ -426,20 +426,35 @@ function updateCertTrust(classId) {
   }
 }
 
-// web, email, and software should be either "" or "checked"
+/*
+ * inserts a new row into the certificate table.
+ *
+ * each certificate takes up a single row. you can check or uncheck the allowed
+ * permissions for each row. certificates can also be viewed in the old managers
+ * detail view, imported, or exported using buttons on bottom.
+ *
+ * the entire authority can also be distrusted using button on bottom.
+ *
+ * web, email, and software should be either "" or "checked"
+ *
+ */
 self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, email, software) {
+  // creates row for cert
   var parent = document.createElement('tr');
   parent.className = 'parent';
   parent.id = id + '-' + num;
 
+  // node for holding name of cert
   var name_node = document.createElement('td');
   var text = document.createTextNode(name);
   name_node.appendChild(text);
 
+  // node for built-in status or not
   var builtin_node = document.createElement('td');
   text = document.createTextNode(builtin);
   builtin_node.appendChild(text);
 
+  // web checkbox
   var web_node = document.createElement('td');
   input = document.createElement('input');
   input.className = id + '-' + num;
@@ -454,6 +469,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
   web_node.checked = web_node;
   web_node.appendChild(input);
 
+  // email checkbox
   var email_node = document.createElement('td');
   input = document.createElement('input');
   input.className = id + '-' + num;
@@ -468,6 +484,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
   email_node.checked = email_node;
   email_node.appendChild(input);
 
+  // software checkbox
   var software_node = document.createElement('td');
   input = document.createElement('input');
   input.className = id + '-' + num;
@@ -491,10 +508,14 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
   var table = document.getElementById("cert_table");
   table.appendChild(parent);
 
+  // functionality of view button at bottom of page.
+  // opens up cert in the old cert manager
   document.getElementById('viewButton').onclick = function() {
     self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
   };
 
+  // functionality of distrust button at bottom of page
+  // unchecks every aspect of all certificates
   document.getElementById('delete').onclick = function() {
     self.port.emit("deleteCert", id,$("#cert_table tr.selected").index());
     $('#cert_table tr.selected').find('input[type=checkbox]:checked').removeAttr('checked');
@@ -525,15 +546,19 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     }
   };
 
+  // export button
+  // exports the cert using same method as old cert manager
   document.getElementById('exportButton').onclick = function() {
     self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
   };
 
+  // function for handeling selection of a cert
   var rowOnClick = function(){
     $(this).addClass("selected").siblings().removeClass("selected");
     $("#delete").removeClass("disabled");
     $("#viewButton").removeClass("disabled");
   };
+  // handels double click. calls the viewcert function to open in old manager
   var rowOnDblClick = function(){
     self.port.emit("viewCert", id,$(this).index());
   };
