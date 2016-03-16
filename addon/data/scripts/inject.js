@@ -35,6 +35,7 @@ function entrustAuth(id) {
 
 //Updates the cert_table element by wiping all of the previous rows and then readding them using listCerts
 self.port.on("update_certs", function update_certs(changedIndex){
+	$("#authName").text($("#name" + changedIndex).text());
 	var table = document.getElementById("cert_table");
 	while (table.hasChildNodes()) {
 		table.removeChild(table.firstChild);
