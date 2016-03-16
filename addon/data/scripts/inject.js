@@ -33,6 +33,15 @@ function entrustAuth(id) {
     self.port.emit("entrustAuth", id);
 }
 
+//Updates the cert_table element by wiping all of the previous rows and then readding them using listCerts
+self.port.on("update_certs", function update_certs(changedIndex){
+	var table = document.getElementById("cert_table");
+	while (table.hasChildNodes()) {
+		table.removeChild(table.firstChild);
+	}
+	self.port.emit("listCerts", changedIndex);
+});
+
 self.port.on("reset_table", function reset_table(){
 	$("#auth_table tr").remove();
 });

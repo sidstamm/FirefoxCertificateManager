@@ -108,6 +108,8 @@ function onReady(tab) {
 			worker.port.emit("select_auth",changedIndex);
 			authMap = newAuthMap;
 			rows = newRows;
+			//update cert table
+			worker.port.emit("update_certs", changedIndex);
 		}
 		
 	});
