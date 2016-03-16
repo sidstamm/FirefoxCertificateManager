@@ -10,11 +10,18 @@ function export_certs() {
     self.port.emit("export_certs");
 }
 
+function viewAllCerts() {
+    self.port.emit("viewAllCerts");
+}
+
 document.getElementById('import').onclick = function() {
     importCert();
 };
 document.getElementById('exportButton').onclick = function() {
     export_certs();
+};
+document.getElementById('viewAllButton').onclick = function() {
+    viewAllCerts();
 };
 
 function listCerts(id) {
@@ -99,7 +106,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_text = document.createTextNode(last);
     last_node.appendChild(last_text);
 
-     var last_node_for_color = document.createElement('td');
+    var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
 
@@ -129,7 +136,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(country);
     last_node.appendChild(last_text);
 
-    sub2_button = document.createElement('button'); 
+    sub2_button = document.createElement('button');
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
         sub2_button.className = 'red ui button trustbutton';
@@ -149,7 +156,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     sub2_button.appendChild(button_text);
 
-    // 
+    //
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
@@ -216,7 +223,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
-    
+
     sub4.appendChild(first_node);
     sub4.appendChild(middle_node);
     sub4.appendChild(last_node);
@@ -242,7 +249,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(countryCode);
     last_node.appendChild(last_text);
-	
+
 	sub5_button = document.createElement('button');
 	sub5_button.className = 'blue ui button moreButton';
 	var button_text = document.createTextNode('VIEW CERTIFICATES');
@@ -266,7 +273,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var spacer = document.createElement('tr');
     spacer.className = "spacer";
     spacer.id = "spacer-row" + num;
-	
+
     var table = document.getElementById("auth_table");
     table.appendChild(parent);
     table.appendChild(sub1);
@@ -275,7 +282,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub3);
     table.appendChild(sub5);
     table.appendChild(spacer);
-	
+
     parent.onclick = function(){
         $(this).toggleClass('parentClosed');
         $(this).toggleClass('parentOpen');
@@ -473,7 +480,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     document.getElementById('exportButton').onclick = function() {
         self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
     };
-	
+
 	var rowOnClick = function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
 		$("#delete").removeClass("disabled");

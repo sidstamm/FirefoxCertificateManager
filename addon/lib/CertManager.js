@@ -183,11 +183,12 @@ function getCM() {
         } catch (e) {
             msg = e.message;
         }
-        
+
     };
 
 	CertManager.viewCert = function(cert) {
 		var cd = Cc[nsCertificateDialogs].getService(nsICertificateDialogs);
+        console.log(cd);
 		cd.viewCert(null, cert);
 	};
 
@@ -244,7 +245,7 @@ function getCM() {
                     var trustbits = [];
                     if (CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
-                    } 
+                    }
                     if (CertManager.isEmailTrust(cert)) {
                         trustbits.push("EMAIL");
                     }
@@ -286,13 +287,13 @@ function getCM() {
                     var trustbits = [];
                     if (trusts.indexOf("SSL") > -1 || CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
-                    } 
+                    }
                     if (trusts.indexOf("EMAIL") > -1 || CertManager.isEmailTrust(cert)) {
                         trustbits.push("EMAIL");
                     }
                     if (trusts.indexOf("SOFTWARE") > -1 || CertManager.isObjTrust(cert)) {
                         trustbits.push("SOFTWARE");
-                    }                    
+                    }
                     trustbits = trustbits.join(", ");
                     authorities[cert.issuerOrganization].bits = trustbits;
                     authorities[cert.issuerOrganization].certs.push(cert);
@@ -370,22 +371,22 @@ function getCM() {
 					certdb.setCertTrust(initialCert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
 				}
 			}
-			
+
 		}
 	};
     /* Utility Functions */
 
     function getPEMString(cert) {
-      var derb64 = btoa(getDERString(cert)); 
+      var derb64 = btoa(getDERString(cert));
       var wrapped = derb64.replace(/(\S{64}(?!$))/g, "$1\r\n");
       return "-----BEGIN CERTIFICATE-----\r\n"
              + wrapped
-             + "\r\n-----END CERTIFICATE-----\r\n";        
+             + "\r\n-----END CERTIFICATE-----\r\n";
     }
 
     function getDERString(cert) {
       var length = {};
-      var derArray = cert.getRawDER(length); 
+      var derArray = cert.getRawDER(length);
       return derArray;
     }
 

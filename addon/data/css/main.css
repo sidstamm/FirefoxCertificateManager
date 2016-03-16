@@ -130,7 +130,7 @@ td{
 
 .parent {
     text-align: left;
-    cursor: pointer; 
+    cursor: pointer;
     cursor: hand;
 }
 
@@ -167,10 +167,16 @@ td{
   border-color: #2d7abf;
   color: #fff;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  border-radius: 0px;
 }
 
 #viewButton {
+  background-color: #51b3e5;
+  border-color: #2d7abf;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#viewAllButton {
   background-color: #51b3e5;
   border-color: #2d7abf;
   color: #fff;

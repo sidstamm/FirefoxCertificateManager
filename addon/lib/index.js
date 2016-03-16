@@ -38,7 +38,7 @@ exports.onUnload = function(reason){
 	CertManager.onUnload(reason);
 };
 /*
-    First thing that is run 
+    First thing that is run
     Ran when the extension page is loaded sets up everything else on the page
 */
 function onReady(tab) {
@@ -50,8 +50,8 @@ function onReady(tab) {
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {
-        worker.port.emit("insert_row", i, rows[i].source, 
-            rows[i].name, rows[i].trust, rows[i].last, 
+        worker.port.emit("insert_row", i, rows[i].source,
+            rows[i].name, rows[i].trust, rows[i].last,
             rows[i].country, rows[i].bits, rows[i].trusted,
             rows[i].countryCode, rows[i].owner);
     }
@@ -78,6 +78,22 @@ function onReady(tab) {
 		CertManager.viewCert(authMap[auth].certs[certId]);
 	});
 
+    worker.port.on("viewAllCerts", function() {
+        var arr = [];
+
+        // push all of the certificates for each authority onto the array
+        authMap.forEach(function(authority) {
+            authority.certs.forEach(function(cert) {
+                arr.push(cert);
+            });
+        });
+
+        // alphabetically sort the array
+        arr.sort(function(cert1, cert2) {
+            return cert1.commonName.toLowerCase() > cert2.commonName.toLowerCase();
+        });
+    });
+
     worker.port.on("importCert", function(){
 		var reload = CertManager.importCert();
 		if(reload){
@@ -87,8 +103,8 @@ function onReady(tab) {
 			if(newRows.length != rows.length){
 				worker.port.emit("reset_table");
 				for (var i = 0; i < newRows.length; i++) {
-					worker.port.emit("insert_row", i, newRows[i].source, 
-						newRows[i].name, newRows[i].trust, newRows[i].last, 
+					worker.port.emit("insert_row", i, newRows[i].source,
+						newRows[i].name, newRows[i].trust, newRows[i].last,
 						newRows[i].country, newRows[i].bits, newRows[i].trusted,
 						newRows[i].countryCode, newRows[i].owner);
 					if(changedIndex < 0 && i < rows.length){
@@ -109,7 +125,7 @@ function onReady(tab) {
 			authMap = newAuthMap;
 			rows = newRows;
 		}
-		
+
 	});
 
     worker.port.on("exportCert", function(auth, certId) {
