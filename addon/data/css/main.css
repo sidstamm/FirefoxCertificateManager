@@ -205,3 +205,7 @@ td{
   margin: 10px, 10px, 10px, 0;
 }
 
+#back_button i {
+  width: 60%;
+  padding: 10px;
+}

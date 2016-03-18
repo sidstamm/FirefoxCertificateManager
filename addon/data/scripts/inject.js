@@ -28,6 +28,10 @@ function listCerts(id) {
     self.port.emit("listCerts", id);
 }
 
+function listAllCerts() {
+    self.port.emit("listAllCerts");
+}
+
 function editCertTrust(auth, cert, ssl, email, objsign) {
     self.port.emit("editCertTrust", auth, cert, ssl, email, objsign);
 }
@@ -250,6 +254,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(countryCode);
     last_node.appendChild(last_text);
 
+    // "View Certificates" button
 	sub5_button = document.createElement('button');
 	sub5_button.className = 'blue ui button moreButton';
 	var button_text = document.createTextNode('VIEW CERTIFICATES');
@@ -319,6 +324,7 @@ function entrust(num) {
     $("#row"+num + " img, #row" + num + " meter").removeClass('distrustedImage');
 }
 
+// called when clicking "View Certificates"
 function showDetails(num) {
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
@@ -346,6 +352,32 @@ function showDetails(num) {
     $("#viewButton").addClass("disabled");
     $("#delete").addClass("disabled");
 }
+
+self.port.on("showAllCerts", function showAllCerts() {
+    var table = document.getElementById("cert_table");
+    while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+    }
+    window.listAllCerts();
+    $("#authTitle").text("CERTIFICATES");
+    $("#infoText").text("The search bar filters items by certificate names");
+    $("#main_table").toggle();
+    $("#detail_table").toggle();
+    $("#certsSearch").toggle();
+    $("#authsSearch").toggle();
+    var image = document.createElement('i');
+    image.setAttribute("class", "fa fa-chevron-left fa-2x");
+    image.title = "Go back to Authority list";
+    $("#back_button").empty();
+    document.getElementById("back_button").appendChild(image);
+    $("#viewButton").show();
+    $("#exportButton").show();
+    $("#back_button").show();
+    $("#delete").show();
+    $("#footer_plain").attr("id", "footer");
+    $("#viewButton").addClass("disabled");
+    $("#delete").addClass("disabled");
+});
 
 function updateCertTrust(classId) {
     var allChecks = $("."+classId);
@@ -444,7 +476,12 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     table.appendChild(parent);
 
 	document.getElementById('viewButton').onclick = function() {
-		self.port.emit("viewCert", id,$("#cert_table tr.selected").index());
+        // the id attribute contains the id and num for each cert so pass that back to viewCert
+        var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
+        var idAndNum = selectedRowIdAndNum.split("-");
+        var selectedId = idAndNum[0];
+        var selectedNum = idAndNum[1];
+        self.port.emit("viewCert", selectedId, selectedNum);
 	};
 
     document.getElementById('delete').onclick = function() {

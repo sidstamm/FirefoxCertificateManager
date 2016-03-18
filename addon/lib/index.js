@@ -61,12 +61,66 @@ function onReady(tab) {
 
         for (var i = 0; i < certs.length; i++) {
             var cert = certs[i];
-            var name = cert.commonName.length > 0 ? cert.commonName : "Certificate for " + cert.issuerOrganization;
+            // if no common name, then display the friendly name
+            var name = cert.commonName.length > 0 ? cert.commonName : cert.nickname.split(":")[1];
             var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
             var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
             var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
             var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
             worker.port.emit("insert_cert", id, i, name, builtIn, sslTrust, emailTrust, objTrust);
+        }
+    });
+
+    worker.port.on("listAllCerts", function() {
+        var certs = [];
+        var authIds = [];
+        var certIndexes = [];
+
+        // put all of the certificates in an array while also tracking its authority's index
+        // and its relative index within the authority list of certificates
+        for (var i = 0; i < authMap.length; i++) {
+            var authority = authMap[i];
+            var authCerts = authority.certs;
+            for (var j = 0; j < authCerts.length; j++) {
+                var cert = authCerts[j];
+                authIds.push(i);
+                certIndexes.push(j);
+                certs.push(cert);
+            }
+        }
+
+        // alphabetically sort the array
+        for (var i = 0; i < certs.length; i++) {
+            for (var j = 0; j < certs.length; j++) {
+                var cert1 = certs[i];
+                var cert2 = certs[j];
+                var name1 = cert1.commonName.length > 0 ? cert1.commonName : cert1.nickname.split(":")[1];
+                var name2 = cert2.commonName.length > 0 ? cert2.commonName : cert2.nickname.split(":")[1];
+                if (name1.toLowerCase() >= name2.toLowerCase()) {
+                    continue;
+                }
+                certs[j] = cert1;
+                certs[i] = cert2;
+                // rearrange the corresponding elements in the index tracking arrays so the data stays consistent
+                var temp = authIds[j];
+                authIds[j] = authIds[i];
+                authIds[i] = temp;
+                temp = certIndexes[j];
+                certIndexes[j] = certIndexes[i];
+                certIndexes[i] = temp;
+            }
+        }
+
+        for (var i = 0; i < certs.length; i++) {
+            var cert = certs[i];
+            // if no common name, then display the friendly name
+            var name = cert.commonName.length > 0 ? cert.commonName : cert.nickname.split(":")[1];
+            var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
+            var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
+            var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
+            var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
+            worker.port.emit("insert_cert", authIds[i], certIndexes[i], name, builtIn, sslTrust, emailTrust, objTrust);
+        // });
         }
     });
 
@@ -79,19 +133,7 @@ function onReady(tab) {
 	});
 
     worker.port.on("viewAllCerts", function() {
-        var arr = [];
-
-        // push all of the certificates for each authority onto the array
-        authMap.forEach(function(authority) {
-            authority.certs.forEach(function(cert) {
-                arr.push(cert);
-            });
-        });
-
-        // alphabetically sort the array
-        arr.sort(function(cert1, cert2) {
-            return cert1.commonName.toLowerCase() > cert2.commonName.toLowerCase();
-        });
+        worker.port.emit("showAllCerts");
     });
 
     worker.port.on("importCert", function(){
