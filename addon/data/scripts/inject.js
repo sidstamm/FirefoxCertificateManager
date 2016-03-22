@@ -371,10 +371,18 @@ self.port.on("showAllCerts", function showAllCerts() {
     window.listAllCerts();
     $("#authTitle").text("CERTIFICATES");
     $("#infoText").text("The search bar filters items by certificate names");
-    $("#main_table").toggle();
-    $("#detail_table").toggle();
-    $("#certsSearch").toggle();
-    $("#authsSearch").toggle();
+    if ($("#main_table").css('display') !== 'none') {
+        $("#main_table").toggle();
+    }
+    if ($("#detail_table").css('display') == 'none') {
+        $("#detail_table").toggle();
+    }
+    if ($("#certsSearch").css('display') == 'none') {
+        $("#certsSearch").toggle();
+    }
+    if ($("#authsSearch").css('display') !== 'none') {
+        $("#authsSearch").toggle();
+    }
     var image = document.createElement('i');
     image.setAttribute("class", "fa fa-chevron-left fa-2x");
     image.title = "Go back to Authority list";
@@ -382,6 +390,9 @@ self.port.on("showAllCerts", function showAllCerts() {
     document.getElementById("back_button").appendChild(image);
     $("#viewButton").show();
     $("#exportButton").show();
+    if ($("#authName").css('display') !== 'none') {
+        $("#authName").toggle();
+    }
     $("#back_button").show();
     $("#delete").show();
     $("#footer_plain").attr("id", "footer");
@@ -495,37 +506,49 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 	};
 
     document.getElementById('delete').onclick = function() {
-        self.port.emit("deleteCert", id,$("#cert_table tr.selected").index());
+        var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
+        var idAndNum = selectedRowIdAndNum.split("-");
+        var selectedId = idAndNum[0];
+        var selectedNum = idAndNum[1];
+        self.port.emit("deleteCert", selectedId, selectedNum);
         $('#cert_table tr.selected').find('input[type=checkbox]:checked').removeAttr('checked');
 
+        // fix this for view all certs so it only checks allChecked against the auth id
         var allChecked = $('#detail_table input[type=checkbox]:checked');
+        console.log("delete selectedId: " + selectedId + ", selectedNum: " + selectedNum);
+        console.log(allChecked);
         if (allChecked.length === 0) {
-            $(".child-row"+id).addClass('distrustedRow');
-            $("#row"+id).addClass('distrustedRow');
-            $("#distrust-"+id).attr('onclick', '').unbind().click(function() { entrust(id); });
-            $("#distrust-"+id).text("Trust");
-            $("#distrust-"+id).title = "Trust the expanded authority";
-            $("#distrust-"+id).toggleClass("red");
-            $("#distrust-"+id).toggleClass('green');
-            $("#distrust-"+id).attr('id', 'entrust-'+id);
-            $("#row"+id + " img, #row" + id + " meter").addClass('distrustedImage');
+            $(".child-row"+selectedId).addClass('distrustedRow');
+            $("#row"+selectedId).addClass('distrustedRow');
+            $("#distrust-"+selectedId).attr('onclick', '').unbind().click(function() { entrust(selectedId); });
+            $("#distrust-"+selectedId).text("Trust");
+            $("#distrust-"+selectedId).title = "Trust the expanded authority";
+            $("#distrust-"+selectedId).toggleClass("red");
+            $("#distrust-"+selectedId).toggleClass('green');
+            $("#distrust-"+selectedId).attr('id', 'entrust-'+selectedId);
+            $("#row"+selectedId + " img, #row" + selectedId + " meter").addClass('distrustedImage');
         } else if (allChecked.length >= 1) {
-            if($("#entrust-"+id).length) {
-                $(".child-row"+id).removeClass('distrustedRow');
-                $("#row"+id).removeClass('distrustedRow');
-                $("#entrust-"+id).attr('onclick', '').unbind().click(function() { distrust(id); });
-                $("#entrust-"+id).text("Distrust");
-                $("#entrust-"+id).title = "Trust the expanded authority";
-                $("#entrust-"+id).addClass("red");
-                $("#entrust-"+id).removeClass('green');
-                $("#entrust-"+id).attr('id', 'distrust-'+id);
-                $("#row"+id + " img, #row" + id + " meter").removeClass('distrustedImage');
+            if($("#entrust-"+selectedId).length) {
+                $(".child-row"+selectedId).removeClass('distrustedRow');
+                $("#row"+selectedId).removeClass('distrustedRow');
+                $("#entrust-"+selectedId).attr('onclick', '').unbind().click(function() { distrust(selectedId); });
+                $("#entrust-"+selectedId).text("Distrust");
+                $("#entrust-"+selectedId).title = "Trust the expanded authority";
+                $("#entrust-"+selectedId).addClass("red");
+                $("#entrust-"+selectedId).removeClass('green');
+                $("#entrust-"+selectedId).attr('id', 'distrust-'+selectedId);
+                $("#row"+selectedId + " img, #row" + selectedId + " meter").removeClass('distrustedImage');
             }
         }
     };
 
     document.getElementById('exportButton').onclick = function() {
-        self.port.emit("exportCert", id,$("#cert_table tr.selected").index());
+        // the id attribute contains the id and num for each cert so pass that back to exportCert
+        var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
+        var idAndNum = selectedRowIdAndNum.split("-");
+        var selectedId = idAndNum[0];
+        var selectedNum = idAndNum[1];
+        self.port.emit("exportCert", selectedId, selectedNum);
     };
 
 	var rowOnClick = function(){
@@ -534,7 +557,12 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 		$("#viewButton").removeClass("disabled");
 	};
 	var rowOnDblClick = function(){
-		self.port.emit("viewCert", id,$(this).index());
+        // the id attribute contains the id and num for each cert so pass that back to viewCert
+        var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
+        var idAndNum = selectedRowIdAndNum.split("-");
+        var selectedId = idAndNum[0];
+        var selectedNum = idAndNum[1];
+        self.port.emit("viewCert", selectedId, selectedNum);
 	};
 	var rows = table.rows;
 	for(var r = 0 ; r < rows.length ; r++){

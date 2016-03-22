@@ -67,11 +67,7 @@ function getCM() {
     };
 
     CertManager.isCertBuiltIn = function(cert) {
-        // console.log(JSON.stringify("------------NEW ENTRY-----------", null, '\t'));
-        // console.log(JSON.stringify(cert, null, '\t'));
         let tokenNames = cert.getAllTokenNames({});
-        // console.log(JSON.stringify(cert, null, '\t'));
-        // console.log(JSON.stringify(tokenNames, null, '\t'));
         if (!tokenNames) {
             return false;
         }

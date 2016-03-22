@@ -8,5 +8,8 @@
   "engines": {
     "firefox": ">=38.0a1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jpm": "^1.0.6"
+  }
 }
