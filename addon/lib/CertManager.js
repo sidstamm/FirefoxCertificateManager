@@ -67,7 +67,11 @@ function getCM() {
     };
 
     CertManager.isCertBuiltIn = function(cert) {
+        // console.log(JSON.stringify("------------NEW ENTRY-----------", null, '\t'));
+        // console.log(JSON.stringify(cert, null, '\t'));
         let tokenNames = cert.getAllTokenNames({});
+        // console.log(JSON.stringify(cert, null, '\t'));
+        // console.log(JSON.stringify(tokenNames, null, '\t'));
         if (!tokenNames) {
             return false;
         }
@@ -183,7 +187,7 @@ function getCM() {
         } catch (e) {
             msg = e.message;
         }
-        
+
     };
 
 	CertManager.viewCert = function(cert) {
@@ -244,7 +248,7 @@ function getCM() {
                     var trustbits = [];
                     if (CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
-                    } 
+                    }
                     if (CertManager.isEmailTrust(cert)) {
                         trustbits.push("EMAIL");
                     }
@@ -286,13 +290,13 @@ function getCM() {
                     var trustbits = [];
                     if (trusts.indexOf("SSL") > -1 || CertManager.isSSLTrust(cert)) {
                         trustbits.push("SSL");
-                    } 
+                    }
                     if (trusts.indexOf("EMAIL") > -1 || CertManager.isEmailTrust(cert)) {
                         trustbits.push("EMAIL");
                     }
                     if (trusts.indexOf("SOFTWARE") > -1 || CertManager.isObjTrust(cert)) {
                         trustbits.push("SOFTWARE");
-                    }                    
+                    }
                     trustbits = trustbits.join(", ");
                     authorities[cert.issuerOrganization].bits = trustbits;
                     authorities[cert.issuerOrganization].certs.push(cert);
@@ -370,22 +374,22 @@ function getCM() {
 					certdb.setCertTrust(initialCert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
 				}
 			}
-			
+
 		}
 	};
     /* Utility Functions */
 
     function getPEMString(cert) {
-      var derb64 = btoa(getDERString(cert)); 
+      var derb64 = btoa(getDERString(cert));
       var wrapped = derb64.replace(/(\S{64}(?!$))/g, "$1\r\n");
       return "-----BEGIN CERTIFICATE-----\r\n"
              + wrapped
-             + "\r\n-----END CERTIFICATE-----\r\n";        
+             + "\r\n-----END CERTIFICATE-----\r\n";
     }
 
     function getDERString(cert) {
       var length = {};
-      var derArray = cert.getRawDER(length); 
+      var derArray = cert.getRawDER(length);
       return derArray;
     }
 

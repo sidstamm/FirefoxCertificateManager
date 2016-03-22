@@ -38,7 +38,7 @@ exports.onUnload = function(reason){
 	CertManager.onUnload(reason);
 };
 /*
-    First thing that is run 
+    First thing that is run
     Ran when the extension page is loaded sets up everything else on the page
 */
 function onReady(tab) {
@@ -50,8 +50,8 @@ function onReady(tab) {
     authMap = CertManager.genCAData();
     var rows = authMap;
     for (var i = 0; i < rows.length; i++) {
-        worker.port.emit("insert_row", i, rows[i].source, 
-            rows[i].name, rows[i].trust, rows[i].last, 
+        worker.port.emit("insert_row", i, rows[i].source,
+            rows[i].name, rows[i].trust, rows[i].last,
             rows[i].country, rows[i].bits, rows[i].trusted,
             rows[i].countryCode, rows[i].owner);
     }
@@ -61,12 +61,66 @@ function onReady(tab) {
 
         for (var i = 0; i < certs.length; i++) {
             var cert = certs[i];
-            var name = cert.commonName.length > 0 ? cert.commonName : "Certificate for " + cert.issuerOrganization;
+            // if no common name, then display the friendly name
+            var name = cert.commonName.length > 0 ? cert.commonName : cert.nickname.split(":")[1];
             var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
             var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
             var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
             var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
             worker.port.emit("insert_cert", id, i, name, builtIn, sslTrust, emailTrust, objTrust);
+        }
+    });
+
+    worker.port.on("listAllCerts", function() {
+        var certs = [];
+        var authIds = [];
+        var certIndexes = [];
+
+        // put all of the certificates in an array while also tracking its authority's index
+        // and its relative index within the authority list of certificates
+        for (var i = 0; i < authMap.length; i++) {
+            var authority = authMap[i];
+            var authCerts = authority.certs;
+            for (var j = 0; j < authCerts.length; j++) {
+                var cert = authCerts[j];
+                authIds.push(i);
+                certIndexes.push(j);
+                certs.push(cert);
+            }
+        }
+
+        // alphabetically sort the array
+        for (var i = 0; i < certs.length; i++) {
+            for (var j = 0; j < certs.length; j++) {
+                var cert1 = certs[i];
+                var cert2 = certs[j];
+                var name1 = cert1.commonName.length > 0 ? cert1.commonName : cert1.nickname.split(":")[1];
+                var name2 = cert2.commonName.length > 0 ? cert2.commonName : cert2.nickname.split(":")[1];
+                if (name1.toLowerCase() >= name2.toLowerCase()) {
+                    continue;
+                }
+                certs[j] = cert1;
+                certs[i] = cert2;
+                // rearrange the corresponding elements in the index tracking arrays so the data stays consistent
+                var temp = authIds[j];
+                authIds[j] = authIds[i];
+                authIds[i] = temp;
+                temp = certIndexes[j];
+                certIndexes[j] = certIndexes[i];
+                certIndexes[i] = temp;
+            }
+        }
+
+        for (var i = 0; i < certs.length; i++) {
+            var cert = certs[i];
+            // if no common name, then display the friendly name
+            var name = cert.commonName.length > 0 ? cert.commonName : cert.nickname.split(":")[1];
+            var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
+            var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
+            var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
+            var objTrust = CertManager.isObjTrust(cert) ? "checked" : "";
+            worker.port.emit("insert_cert", authIds[i], certIndexes[i], name, builtIn, sslTrust, emailTrust, objTrust);
+        // });
         }
     });
 
@@ -78,6 +132,10 @@ function onReady(tab) {
 		CertManager.viewCert(authMap[auth].certs[certId]);
 	});
 
+    worker.port.on("viewAllCerts", function() {
+        worker.port.emit("showAllCerts");
+    });
+
     worker.port.on("importCert", function(){
 		var reload = CertManager.importCert();
 		if(reload){
@@ -87,8 +145,8 @@ function onReady(tab) {
 			if(newRows.length != rows.length){
 				worker.port.emit("reset_table");
 				for (var i = 0; i < newRows.length; i++) {
-					worker.port.emit("insert_row", i, newRows[i].source, 
-						newRows[i].name, newRows[i].trust, newRows[i].last, 
+					worker.port.emit("insert_row", i, newRows[i].source,
+						newRows[i].name, newRows[i].trust, newRows[i].last,
 						newRows[i].country, newRows[i].bits, newRows[i].trusted,
 						newRows[i].countryCode, newRows[i].owner);
 					if(changedIndex < 0 && i < rows.length){
@@ -108,8 +166,10 @@ function onReady(tab) {
 			worker.port.emit("select_auth",changedIndex);
 			authMap = newAuthMap;
 			rows = newRows;
+			//update cert table
+			worker.port.emit("update_certs", changedIndex);
 		}
-		
+
 	});
 
     worker.port.on("exportCert", function(auth, certId) {

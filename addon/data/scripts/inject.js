@@ -10,15 +10,26 @@ function export_certs() {
   self.port.emit("export_certs");
 }
 
+function viewAllCerts() {
+    self.port.emit("viewAllCerts");
+}
+
 document.getElementById('import').onclick = function() {
   importCert();
 };
 document.getElementById('exportButton').onclick = function() {
   export_certs();
 };
+document.getElementById('viewAllButton').onclick = function() {
+    viewAllCerts();
+};
 
 function listCerts(id) {
   self.port.emit("listCerts", id);
+}
+
+function listAllCerts() {
+    self.port.emit("listAllCerts");
 }
 
 function editCertTrust(auth, cert, ssl, email, objsign) {
@@ -32,6 +43,16 @@ function distrustAuth(id) {
 function entrustAuth(id) {
   self.port.emit("entrustAuth", id);
 }
+
+//Updates the cert_table element by wiping all of the previous rows and then readding them using listCerts
+self.port.on("update_certs", function update_certs(changedIndex){
+	$("#authName").text($("#name" + changedIndex).text());
+	var table = document.getElementById("cert_table");
+	while (table.hasChildNodes()) {
+		table.removeChild(table.firstChild);
+	}
+	self.port.emit("listCerts", changedIndex);
+});
 
 self.port.on("reset_table", function reset_table(){
   $("#auth_table tr").remove();
