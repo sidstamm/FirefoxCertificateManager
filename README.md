@@ -19,5 +19,5 @@ Drag and drop the addon XPI onto firefox and accept the installation
 
 ## Running
 
-1. Open the firefox browser
-2. Click the addon icon in the tools area
+1. Open the Firefox browser.
+2. Click the addon icon in the tools area in the top right corner.
