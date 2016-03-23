@@ -111,7 +111,11 @@ function getCM() {
         fp.appendFilters(nsIFilePicker.filterAll);
         if (fp.show() == nsIFilePicker.returnOK) {
             var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
-            certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
+			try {
+				certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
+			} catch(err) {
+				certdb.importCertsFromFile(fp.file, nsIX509Cert.CA_CERT);
+			}
 			return 1;
         }
 		return 0;
