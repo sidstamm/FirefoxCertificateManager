@@ -111,6 +111,10 @@ function getCM() {
         fp.appendFilters(nsIFilePicker.filterAll);
         if (fp.show() == nsIFilePicker.returnOK) {
             var certdb = Cc[nsX509CertDB].getService(nsIX509CertDB);
+			// This try catch is necessary due to a  change to the Firefox code in 
+			// changeset 62d300c9c733 as seen at http://hg.mozilla.org/mozilla-central/rev/62d300c9c733
+			// that removed a parameter from the importCertsFromFile method. The try-catch allows
+			// the addon to work on new and old versions of the browser.
 			try {
 				certdb.importCertsFromFile(null, fp.file, nsIX509Cert.CA_CERT);
 			} catch(err) {
