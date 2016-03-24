@@ -513,10 +513,8 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         self.port.emit("deleteCert", selectedId, selectedNum);
         $('#cert_table tr.selected').find('input[type=checkbox]:checked').removeAttr('checked');
 
-        // fix this for view all certs so it only checks allChecked against the auth id
-        var allChecked = $('#detail_table input[type=checkbox]:checked');
-        console.log("delete selectedId: " + selectedId + ", selectedNum: " + selectedNum);
-        console.log(allChecked);
+        // checks all certificates for the given auth id
+        var allChecked = $("#detail_table input[type=checkbox][class|=" + selectedId + "]:checked");
         if (allChecked.length === 0) {
             $(".child-row"+selectedId).addClass('distrustedRow');
             $("#row"+selectedId).addClass('distrustedRow');
