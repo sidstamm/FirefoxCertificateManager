@@ -44,7 +44,7 @@ exports.onUnload = function(reason){
 function onReady(tab) {
 
     var worker = tab.attach({
-        contentScriptFile: [self.data.url("./import/jquery-1.12.0.min.js"), self.data.url("./scripts/inject.js")]
+        contentScriptFile: [self.data.url("../node_modules/jquery/dist/jquery.min.js"), self.data.url("./scripts/inject.js")]
     });
 
     authMap = CertManager.genCAData();
