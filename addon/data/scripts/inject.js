@@ -57,6 +57,14 @@ self.port.on("update_certs", function update_certs(changedIndex){
 self.port.on("reset_table", function reset_table(){
 	$("#auth_table tr").remove();
 });
+
+/*
+ * inserts a new authority into the display table.
+ * the display for each certificate is shown through multiple rows ('tr').
+ * each row is seperated into different nodes ('td') createing a grid of sorts.
+ * the each row of the grid has a topic, such as last audit, owner, etc.
+ * all the rows are only viewed if the user selects the cert, expanding it into detail view.
+ */
 self.port.on("insert_row", function insert_row(num, source, name, trust, last, country, trustbits, enabled, countryCode, owner) {
     // Making the parent
     var parent = document.createElement('tr');
@@ -69,6 +77,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     var source_node = document.createElement('td');
     source_node.setAttribute('style', 'border-right: 3px dotted #EBECED');
 
+    // node displays icon indicates where the authority comes from. (user added or not)
 	var source_image = document.createElement('img');
 	source_image.setAttribute('src',(source == "customCert") ? './img/custom-512.png':'./img/firefox-512.png');
 	source_image.setAttribute('width','16');
@@ -77,6 +86,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     source_node.appendChild(source_image);
     source_node.id = "icon_node";
 
+    // blank node
     var trust_node = document.createElement('td');
     var trust_bar = document.createElement('meter');
 	trust_bar.setAttribute('value',trust);
@@ -88,6 +98,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
 	trust_bar.setAttribute('optimum','90');
     trust_node.appendChild(trust_bar);
 
+    // name of authority
     var name_node = document.createElement('td');
     name_node.setAttribute('style', 'border-right: 3px dotted #EBECED');
     name_node.colSpan = '2';
@@ -99,6 +110,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     parent.appendChild(name_node);
     parent.appendChild(trust_node);
 
+    // row (1) for last audit
     var sub1 = document.createElement('tr');
     sub1.style = 'display:none';
     sub1.className = 'detail_row child-row'+num;
@@ -106,20 +118,24 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         sub1.className += ' distrustedRow';
     }
 
+    // blank node
     var first_node = document.createElement('td');
     var first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
+    // Last Audit text node
     var middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
     var middle_text = document.createTextNode('Last Audit: ');
     middle_node.appendChild(middle_text);
 
+    // display date of last audit
     var last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
     var last_text = document.createTextNode(last);
     last_node.appendChild(last_text);
 
+    // node for blank end column
     var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
@@ -129,6 +145,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub1.appendChild(last_node);
     sub1.appendChild(last_node_for_color);
 
+    // row (2) for Geographic focus
     var sub2 = document.createElement('tr');
     sub2.style = 'display:none';
     sub2.className = 'detail_row child-row'+num;
@@ -136,20 +153,24 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         sub2.className += ' distrustedRow';
     }
 
+    // blank node
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
+    // display country of focus
     middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
     middle_text = document.createTextNode('Geographic Focus: ');
     middle_node.appendChild(middle_text);
 
+    // blank node
     last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(country);
     last_node.appendChild(last_text);
 
+    // button for distrusting authority
     sub2_button = document.createElement('button');
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
@@ -170,7 +191,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     sub2_button.appendChild(button_text);
 
-    //
+    // blank node
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
@@ -183,6 +204,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2.appendChild(last_node);
     sub2.appendChild(last_node_for_color);
 
+    // row (4) for TrustBits
     var sub3 = document.createElement('tr');
     sub3.style = 'display:none';
     sub3.className = 'detail_row child-row'+num;
@@ -190,20 +212,24 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         sub3.className += ' distrustedRow';
     }
 
+    // blank node
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
+    // TrustBits text node
     middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
     middle_text = document.createTextNode('TrustBits: ');
     middle_node.appendChild(middle_text);
 
+    // display TrustBits (what authority is used for)
     last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
+    // blank node
     var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
@@ -213,6 +239,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub3.appendChild(last_node);
     sub3.appendChild(last_node_for_color);
 
+    // row (3) for owner
     var sub4 = document.createElement('tr');
     sub4.style = 'display:none';
     sub4.className = 'detail_row child-row'+num;
@@ -220,20 +247,24 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
         sub4.className += ' distrustedRow';
     }
 
+    // blank node
     first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
+    // owner text node
     middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
     middle_text = document.createTextNode('Owner: ');
     middle_node.appendChild(middle_text);
 
+    // display the owner
     last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
 
+    // blank node
     var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
@@ -243,22 +274,26 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub4.appendChild(last_node);
     sub4.appendChild(last_node_for_color);
 
-	//row4
+	// row (5) for country code
 	var sub5 = document.createElement('tr');
     sub5.style = 'display:none';
     sub5.className = 'detail_row child-row'+num;
     if (!enabled) {
         sub5.className += ' distrustedRow';
     }
+
+    // blank node
 	first_node = document.createElement('td');
     first_text = document.createTextNode('\t');
     first_node.appendChild(first_text);
 
+    // country code text
     middle_node = document.createElement('td');
     // middle_node.setAttribute('width', '10%');
     middle_text = document.createTextNode('CA Country Code: ');
     middle_node.appendChild(middle_text);
 
+    // display country code
     last_node = document.createElement('td');
     // last_node.setAttribute('width', '90%');
     last_text = document.createTextNode(countryCode);
@@ -285,6 +320,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub5.appendChild(last_node);
 	sub5.appendChild(distrust_button_node);
 
+  // blank row
     var spacer = document.createElement('tr');
     spacer.className = "spacer";
     spacer.id = "spacer-row" + num;
@@ -298,6 +334,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub5);
     table.appendChild(spacer);
 
+    // clicking function of clicking on cert group title row.
     parent.onclick = function(){
         $(this).toggleClass('parentClosed');
         $(this).toggleClass('parentOpen');
@@ -308,6 +345,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     };
 });
 
+/*
+ * handles clicking the distrust button
+ */
 function distrust(num) {
     self.port.emit("distrustAuth", num);
     $(".child-row"+num).addClass('distrustedRow');
@@ -321,6 +361,9 @@ function distrust(num) {
     $("#row"+num + " img, #row" + num + " meter").addClass('distrustedImage');
 }
 
+/*
+ * handles clicking the trust button
+ */
 function entrust(num) {
     self.port.emit("entrustAuth", num);
     $(".child-row"+num).removeClass('distrustedRow');
@@ -335,6 +378,9 @@ function entrust(num) {
 }
 
 // called when clicking "View Certificates"
+/*
+ * handles clicking the show details button
+ */
 function showDetails(num) {
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
@@ -363,6 +409,9 @@ function showDetails(num) {
     $("#delete").addClass("disabled");
 }
 
+/*
+ * displays all certificates no matter the authority
+ */
 self.port.on("showAllCerts", function showAllCerts() {
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
@@ -400,6 +449,11 @@ self.port.on("showAllCerts", function showAllCerts() {
     $("#delete").addClass("disabled");
 });
 
+/*
+ * handles clicking the trust or distrust button when viewing the certificates in cert group
+ *
+ * this button unchecks all the boxes for the specific certificate selected
+ */
 function updateCertTrust(classId) {
     var allChecks = $("."+classId);
     var num = classId.split('-')[0];
@@ -431,20 +485,35 @@ function updateCertTrust(classId) {
     }
 }
 
-// web, email, and software should be either "" or "checked"
+/*
+ * inserts a new row into the certificate table.
+ *
+ * each certificate takes up a single row. you can check or uncheck the allowed
+ * permissions for each row. certificates can also be viewed in the old managers
+ * detail view, imported, or exported using buttons on bottom.
+ *
+ * the entire authority can also be distrusted using button on bottom.
+ *
+ * web, email, and software should be either "" or "checked"
+ *
+ */
 self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, email, software) {
+  // creates row for cert
     var parent = document.createElement('tr');
     parent.className = 'parent';
     parent.id = id + '-' + num;
 
+    // node for holding name of cert
     var name_node = document.createElement('td');
     var text = document.createTextNode(name);
     name_node.appendChild(text);
 
+    // node for built-in status or not
     var builtin_node = document.createElement('td');
     text = document.createTextNode(builtin);
     builtin_node.appendChild(text);
 
+    // web checkbox
     var web_node = document.createElement('td');
     input = document.createElement('input');
     input.className = id + '-' + num;
@@ -459,6 +528,7 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     web_node.checked = web_node;
     web_node.appendChild(input);
 
+    // email checkbox
     var email_node = document.createElement('td');
     input = document.createElement('input');
     input.className = id + '-' + num;
@@ -496,6 +566,8 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     var table = document.getElementById("cert_table");
     table.appendChild(parent);
 
+    // functionality of view button at bottom of page.
+    // opens up cert in the old cert manager
 	document.getElementById('viewButton').onclick = function() {
         // the id attribute contains the id and num for each cert so pass that back to viewCert
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
@@ -505,6 +577,8 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         self.port.emit("viewCert", selectedId, selectedNum);
 	};
 
+  // functionality of distrust button at bottom of page
+  // unchecks every aspect of all certificates
     document.getElementById('delete').onclick = function() {
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
         var idAndNum = selectedRowIdAndNum.split("-");
@@ -540,6 +614,8 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         }
     };
 
+    // export button
+    // exports the cert using same method as old cert manager
     document.getElementById('exportButton').onclick = function() {
         // the id attribute contains the id and num for each cert so pass that back to exportCert
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
@@ -549,11 +625,14 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
         self.port.emit("exportCert", selectedId, selectedNum);
     };
 
+    // function for handeling selection of a cert
 	var rowOnClick = function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
 		$("#delete").removeClass("disabled");
 		$("#viewButton").removeClass("disabled");
 	};
+
+  // handels double click. calls the viewcert function to open in old manager
 	var rowOnDblClick = function(){
         // the id attribute contains the id and num for each cert so pass that back to viewCert
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
