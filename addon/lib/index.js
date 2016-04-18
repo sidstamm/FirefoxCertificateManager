@@ -163,14 +163,23 @@ function onReady(tab) {
 				}
 			}
 			//highlight changed index
-			worker.port.emit("select_auth",changedIndex);
 			authMap = newAuthMap;
 			rows = newRows;
-			//update cert table
-			worker.port.emit("update_certs", changedIndex);
+            // update according to which view is active
+            worker.port.emit("checkView", changedIndex);
 		}
 
 	});
+
+    worker.port.on("refreshDetailTable", function() {
+        worker.port.emit("showAllCerts");
+    });
+
+    // update auth table and expand the newly imported cert authority's row
+    worker.port.on("refreshMainTable", function(changedIndex) {
+        worker.port.emit("update_certs", changedIndex);
+        worker.port.emit("select_auth", changedIndex);
+    });
 
     worker.port.on("exportCert", function(auth, certId) {
         CertManager.exportCert(authMap[auth].certs[certId]);

@@ -450,6 +450,18 @@ self.port.on("showAllCerts", function showAllCerts() {
 });
 
 /*
+ * refreshes the detail table on an import if the detail table is currently shown
+ * expands the newly imported authority if main table is currently shown
+ */
+self.port.on("checkView", function checkView(changedIndex) {
+    if ($("#detail_table").css('display') !== 'none') {
+        self.port.emit("refreshDetailTable");
+    } else {
+        self.port.emit("refreshMainTable", changedIndex);
+    }
+});
+
+/*
  * handles clicking the trust or distrust button when viewing the certificates in cert group
  *
  * this button unchecks all the boxes for the specific certificate selected
