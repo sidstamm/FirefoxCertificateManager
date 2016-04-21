@@ -12,6 +12,8 @@ window.onpopstate = function(event) {
 		viewAllCerts();
 	} else if(prev == "index.html"){
 		showAuths();
+	} else if(prev == "showDetails.html"){
+		showDetails(window.history.state.id);
 	}
 	historySave = true;
 };
@@ -411,6 +413,9 @@ function entrust(num) {
  * handles clicking the show details button
  */
 function showDetails(num) {
+	if(historySave === true){
+		history.pushState({to: 'showDetails.html', id: num}, "showDetails", "showDetails.html");
+    }
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
         table.removeChild(table.firstChild);
