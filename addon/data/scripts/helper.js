@@ -3,25 +3,6 @@
 */
 
 /**
- * Sets up the 'Authorities' Page
- */
-function showAuths() {
-    $("#authTitle").text("AUTHORITIES");
-    $("#infoText").text("The search bar filters items by the authority name, geographic focus, and owner.");
-    $("#detail_table").toggle();
-    $("#certsSearch").toggle();
-    $("#authsSearch").toggle();
-    $("#main_table").toggle();
-	$("#viewButton").hide();
-	$("#exportButton").hide();
-    $("#authName").hide();
-    $("#back_button").hide();
-    $("#delete").hide();
-    $("#editTrustButton").hide();
-    $("#footer").attr("id", "footer_plain");
-}
-
-/**
  * Searches the table of authorities on the 'Authorities' page for
  * the given input and hides rows that do not contain that value.
  * Currently allows searching for general name, country of origin, or the owner of the cert
