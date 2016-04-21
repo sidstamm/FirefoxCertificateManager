@@ -8,11 +8,11 @@ var historySave = true;
 window.onpopstate = function(event) {
 	var prev = window.history.state.to;
 	historySave = false;
-	if(prev == "listAll.html"){
+	if(prev == "index.html?showAll"){
 		viewAllCerts();
 	} else if(prev == "index.html"){
 		showAuths();
-	} else if(prev == "showDetails.html"){
+	} else if(prev == "index.html?showDetails"){
 		showDetails(window.history.state.id);
 	}
 	historySave = true;
@@ -414,7 +414,7 @@ function entrust(num) {
  */
 function showDetails(num) {
 	if(historySave === true){
-		history.pushState({to: 'showDetails.html', id: num}, "showDetails", "showDetails.html");
+		history.pushState({to: 'index.html?showDetails', id: num}, "showDetails", "index.html?showDetails");
     }
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
@@ -448,7 +448,7 @@ function showDetails(num) {
  */
 function viewAllCerts() {
 	if(historySave === true){
-		history.pushState({to: 'listAll.html'}, "listAll", "listAll.html");
+		history.pushState({to: 'index.html?showAll'}, "showAll", "index.html?showAll");
     }
 	var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
