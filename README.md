@@ -1,8 +1,8 @@
 # Rose-Hulman Certificate Manager Senior Project
 
-Rose-Hulman Senior Project for Mozilla. 
-Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright.
-Maintained by Payden Beyer, Trevor Burch, Nathan Cheung, and Charles Horton
+Rose-Hulman Senior Project for Mozilla. <br>
+Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright. <br>
+Maintained by Payden Beyer, Trevor Burch, Nathan Cheung, and Charles Horton <br>
 Advised by Stephen Chenoweth and Delvin Defoe
 
 ## Description
@@ -30,3 +30,6 @@ This certificate manager provides a nicer UI and more intuitive experience for t
 
 1. Open the Firefox browser.
 2. Click the addon icon in the tools area in the top right corner.
+
+## Project Information
+For more information on the project you may visit the project's [Wiki](https://github.com/sidstamm/FirefoxCertificateManager/wiki)
