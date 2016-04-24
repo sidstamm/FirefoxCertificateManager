@@ -1,8 +1,8 @@
 # Rose-Hulman Certificate Manager Senior Project
 
-Rose-Hulman Senior Project for Mozilla. 
-Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright.
-Maintained by Payden Beyer, Trevor Burch, Nathan Cheung, and Charles Horton
+Rose-Hulman Senior Project for Mozilla. <br>
+Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright. <br>
+Maintained by Payden Beyer, Trevor Burch, Nathan Cheung, and Charles Horton <br>
 Advised by Stephen Chenoweth and Delvin Defoe
 
 ## Description
