@@ -205,7 +205,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     sub2_button = document.createElement('button');
     if (enabled) {
         sub2_button.id = 'distrust-'+num;
-        sub2_button.className = 'red ui button trustbutton';
+        sub2_button.className = 'red ui button left floated trustbutton';
 
         var button_text = document.createTextNode('DISTRUST');
         sub2_button.onclick = function(){
@@ -214,7 +214,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     }
     else {
         sub2_button.id = 'entrust-'+num;
-        sub2_button.className = 'green ui button trustbutton';
+        sub2_button.className = 'green ui button left floated trustbutton';
         var button_text = document.createTextNode('TRUST');
         sub2_button.onclick = function(){
             entrust(num);
@@ -356,7 +356,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     // view certificates button
     middle_node = document.createElement('td');
     sub6_button = document.createElement('button');
-    sub6_button.className = 'blue ui button moreButton';
+    sub6_button.className = 'blue ui button right floated moreButton';
     var button_text = document.createTextNode('VIEW CERTIFICATES');
     sub6_button.appendChild(button_text);
     sub6_button.onclick = function(){
