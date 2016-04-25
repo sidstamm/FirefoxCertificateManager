@@ -346,9 +346,9 @@ function getCM() {
 	}
 	CertManager.main = function(options,callback){
 		if(options.loadReason == 'install' || options.loadReason == 'enable'){
-			if(!('initialAuths' in ss.storage)){
+			//if(!('initialAuths' in ss.storage)){
 				ss.storage.initialAuths = this.genInitialCAData();
-			}
+			//}
 		}
 	};
 	CertManager.onUnload = function(reason){
@@ -369,16 +369,15 @@ function getCM() {
 			var initialAuths = ss.storage.initialAuths;
 			var rows = initialAuths;
 			for (var i = 0; i < rows.length; i++) {
-				var initialCert = rows[i].cert;
-				var trustbits = rows[i].trustbits;
-				if (initialCert.certType == nsIX509Cert.CA_CERT) {
-					var trustssl = (trustbits.ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
-					var trustemail = (trustbits.email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
-					var trustobjsign = (trustbits.obj) ? nsIX509CertDB.TRUSTED_OBJSIGN : 0;
-					certdb.setCertTrust(initialCert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
-				}
-			}
-
+        var initialCert = rows[i].cert;
+        var trustbits = rows[i].trustbits;
+        if (initialCert.certType == nsIX509Cert.CA_CERT) {
+          var trustssl = (trustbits.ssl) ? nsIX509CertDB.TRUSTED_SSL : 0;
+          var trustemail = (trustbits.email) ? nsIX509CertDB.TRUSTED_EMAIL : 0;
+          var trustobjsign = (trustbits.obj) ? nsIX509CertDB.TRUSTED_OBJSIGN : 0;
+          certdb.setCertTrust(initialCert, nsIX509Cert.CA_CERT, trustssl | trustemail | trustobjsign);
+        }
+      }
 		}
 	};
     /* Utility Functions */
