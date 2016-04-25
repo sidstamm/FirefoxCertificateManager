@@ -260,7 +260,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(trustbits);
     last_node.appendChild(last_text);
 
-    // blank node
+    // blank node for color in trust % area
     var last_node_for_color = document.createElement('td');
     var last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
@@ -295,9 +295,9 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(owner);
     last_node.appendChild(last_text);
 
-    // blank node
-    var last_node_for_color = document.createElement('td');
-    var last_node_for_color_text = document.createTextNode('\t');
+    // blank node for color in trust % area
+    last_node_for_color = document.createElement('td');
+    last_node_for_color_text = document.createTextNode('\t');
     last_node_for_color.appendChild(last_node_for_color_text);
 
     sub4.appendChild(first_node);
@@ -330,26 +330,55 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     last_text = document.createTextNode(countryCode);
     last_node.appendChild(last_text);
 
-    // "View Certificates" button
-	sub5_button = document.createElement('button');
-	sub5_button.className = 'blue ui button moreButton';
-	var button_text = document.createTextNode('VIEW CERTIFICATES');
-	sub5_button.appendChild(button_text);
-	sub5_button.onclick = function(){
-        showDetails(num);
-    };
-	var distrust_button_node = document.createElement('td');
-	var button_div = document.createElement('div');
-	button_div.className = "trust_button_div";
-	distrust_button_node.setAttribute('text-align', 'left');
-	button_div.appendChild(sub5_button);
-	button_div.appendChild(sub2_button);
-	distrust_button_node.appendChild(button_div);
+    // blank node for color in trust % area
+    last_node_for_color = document.createElement('td');
+    last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
 
-	sub5.appendChild(first_node);
+    sub5.appendChild(first_node);
     sub5.appendChild(middle_node);
     sub5.appendChild(last_node);
-	sub5.appendChild(distrust_button_node);
+    sub5.appendChild(last_node_for_color);
+
+    // row (6) for buttons
+    var sub6 = document.createElement('tr');
+    sub6.style = 'display:none';
+    sub6.className = 'detail_row child-row'+num;
+    if (!enabled) {
+        sub6.className += ' distrustedRow';
+    }
+
+    // blank node
+    first_node = document.createElement('td');
+    first_text = document.createTextNode('\t');
+    first_node.appendChild(first_text);
+
+    // view certificates button
+    middle_node = document.createElement('td');
+    sub6_button = document.createElement('button');
+    sub6_button.className = 'blue ui button moreButton';
+    var button_text = document.createTextNode('VIEW CERTIFICATES');
+    sub6_button.appendChild(button_text);
+    sub6_button.onclick = function(){
+        showDetails(num);
+    };
+    middle_node.appendChild(sub6_button);
+    middle_text = document.createTextNode('\t');
+    middle_node.appendChild(middle_text);
+
+    // trust / distrust button
+    last_node = document.createElement('td');
+    last_node.appendChild(sub2_button);
+
+    // blank node for color in trust % area
+    last_node_for_color = document.createElement('td');
+    last_node_for_color_text = document.createTextNode('\t');
+    last_node_for_color.appendChild(last_node_for_color_text);
+
+    sub6.appendChild(first_node);
+    sub6.appendChild(middle_node);
+    sub6.appendChild(last_node);
+	sub6.appendChild(last_node_for_color);
 
   // blank row
     var spacer = document.createElement('tr');
@@ -363,6 +392,7 @@ self.port.on("insert_row", function insert_row(num, source, name, trust, last, c
     table.appendChild(sub4);
     table.appendChild(sub3);
     table.appendChild(sub5);
+    table.appendChild(sub6);
     table.appendChild(spacer);
 
     // clicking function of clicking on cert group title row.
@@ -384,7 +414,7 @@ function distrust(num) {
     $(".child-row"+num).addClass('distrustedRow');
     $("#row"+num).addClass('distrustedRow');
     $("#distrust-"+num).attr('onclick', '').unbind().click(function() { entrust(num); });
-    $("#distrust-"+num).text("Trust");
+    $("#distrust-"+num).text("TRUST");
     $("#distrust-"+num).title = "Trust the expanded authority";
     $("#distrust-"+num).toggleClass("red");
     $("#distrust-"+num).toggleClass('green');
@@ -400,7 +430,7 @@ function entrust(num) {
     $(".child-row"+num).removeClass('distrustedRow');
     $("#row"+num).removeClass('distrustedRow');
     $("#entrust-"+num).attr('onclick', '').unbind().click(function() { distrust(num); });
-    $("#entrust-"+num).text("Distrust");
+    $("#entrust-"+num).text("DISTRUST");
     $("#entrust-"+num).title = "Trust the expanded authority";
     $("#entrust-"+num).toggleClass("red");
     $("#entrust-"+num).toggleClass('green');

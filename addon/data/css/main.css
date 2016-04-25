@@ -143,6 +143,7 @@ td{
   bottom: 0;
   width: 100%;
   text-align: center;
+  right: 0px;
 }
 
 #footer_plain{
@@ -154,6 +155,7 @@ td{
   background-color: #FFF;
   bottom: 0px;
   margin: 0px;
+  right: 0px;
 }
 
 #content{
