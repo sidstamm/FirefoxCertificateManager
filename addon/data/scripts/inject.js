@@ -2,16 +2,28 @@
     js from backend to front end
 */
 
+history.replaceState({to: "index.html"}, "index", "index.html");
+var historySave = true;
+
+window.onpopstate = function(event) {
+	var prev = window.history.state.to;
+	historySave = false;
+	if(prev == "index.html?showAll"){
+		viewAllCerts();
+	} else if(prev == "index.html"){
+		showAuths();
+	} else if(prev == "index.html?showDetails"){
+		showDetails(window.history.state.id);
+	}
+	historySave = true;
+};
+
 function importCert() {
     self.port.emit("importCert");
 }
 
 function export_certs() {
     self.port.emit("export_certs");
-}
-
-function viewAllCerts() {
-    self.port.emit("viewAllCerts");
 }
 
 document.getElementById('import').onclick = function() {
@@ -42,6 +54,25 @@ function distrustAuth(id) {
 
 function entrustAuth(id) {
     self.port.emit("entrustAuth", id);
+}
+
+function showAuths() {
+	$("#authTitle").text("AUTHORITIES");
+    $("#infoText").text("The search bar filters items by the authority name, geographic focus, and owner.");
+    $("#detail_table").toggle();
+    $("#certsSearch").toggle();
+    $("#authsSearch").toggle();
+    $("#main_table").toggle();
+	$("#viewButton").hide();
+	$("#exportButton").hide();
+    $("#authName").hide();
+    $("#back_button").hide();
+    $("#delete").hide();
+    $("#editTrustButton").hide();
+    $("#footer").attr("id", "footer_plain");
+	if(historySave === true){
+		history.pushState({to: "index.html"}, "index", "index.html");
+	}
 }
 
 //Updates the cert_table element by wiping all of the previous rows and then readding them using listCerts
@@ -382,6 +413,9 @@ function entrust(num) {
  * handles clicking the show details button
  */
 function showDetails(num) {
+	if(historySave === true){
+		history.pushState({to: 'index.html?showDetails', id: num}, "showDetails", "index.html?showDetails");
+    }
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
         table.removeChild(table.firstChild);
@@ -412,8 +446,11 @@ function showDetails(num) {
 /*
  * displays all certificates no matter the authority
  */
-self.port.on("showAllCerts", function showAllCerts() {
-    var table = document.getElementById("cert_table");
+function viewAllCerts() {
+	if(historySave === true){
+		history.pushState({to: 'index.html?showAll'}, "showAll", "index.html?showAll");
+    }
+	var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
         table.removeChild(table.firstChild);
     }
@@ -447,7 +484,7 @@ self.port.on("showAllCerts", function showAllCerts() {
     $("#footer_plain").attr("id", "footer");
     $("#viewButton").addClass("disabled");
     $("#delete").addClass("disabled");
-});
+}
 
 /*
  * refreshes the detail table on an import if the detail table is currently shown

@@ -1,6 +1,9 @@
-# Rose-Hulman CertManager SeniorProject
+# Rose-Hulman Certificate Manager Senior Project
 
-Rose-Hulman Senior Project with Mozilla. Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright.
+Rose-Hulman Senior Project for Mozilla. <br>
+Created by Dax Earl, Mason Schneider, Melissa Thai, and Josh Wright. <br>
+Maintained by Payden Beyer, Trevor Burch, Nathan Cheung, and Charles Horton <br>
+Advised by Stephen Chenoweth and Delvin Defoe
 
 ## Description
 
@@ -15,9 +18,18 @@ This certificate manager provides a nicer UI and more intuitive experience for t
 
 ### Manual
 
-Drag and drop the addon XPI onto firefox and accept the installation
+* Navigate to about:config in Firefox
+* Click to continue when prompted with a warning
+* Search for
+
+         xpinstall.signatures.required
+* Set this value to "false"
+* Drag the xpi file on top of the Firefox window to install the XPI
 
 ## Running
 
 1. Open the Firefox browser.
 2. Click the addon icon in the tools area in the top right corner.
+
+## Project Information
+For more information on the project you may visit the project's [Wiki](https://github.com/sidstamm/FirefoxCertificateManager/wiki)

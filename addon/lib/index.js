@@ -42,7 +42,7 @@ exports.onUnload = function(reason){
     Ran when the extension page is loaded sets up everything else on the page
 */
 function onReady(tab) {
-
+	
     var worker = tab.attach({
         contentScriptFile: [self.data.url("../node_modules/jquery/dist/jquery.min.js"), self.data.url("./scripts/inject.js")]
     });
@@ -131,10 +131,6 @@ function onReady(tab) {
 	worker.port.on("viewCert", function(auth, certId) {
 		CertManager.viewCert(authMap[auth].certs[certId]);
 	});
-
-    worker.port.on("viewAllCerts", function() {
-        worker.port.emit("showAllCerts");
-    });
 
     worker.port.on("importCert", function(){
 		var reload = CertManager.importCert();
