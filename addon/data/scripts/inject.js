@@ -33,7 +33,6 @@ document.getElementById('exportButton').onclick = function() {
     export_certs();
 };
 document.getElementById('viewAllButton').onclick = function() {
-    console.log("view all clicked");
     viewAllCerts();
 };
 
