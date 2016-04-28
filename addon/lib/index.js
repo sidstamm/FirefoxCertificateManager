@@ -42,7 +42,7 @@ exports.onUnload = function(reason){
     Ran when the extension page is loaded sets up everything else on the page
 */
 function onReady(tab) {
-	
+
     var worker = tab.attach({
         contentScriptFile: [self.data.url("../node_modules/jquery/dist/jquery.min.js"), self.data.url("./scripts/inject.js")]
     });
@@ -139,7 +139,7 @@ function onReady(tab) {
 			var newRows = newAuthMap;
 			var changedIndex = -1;
 			if(newRows.length != rows.length){
-				worker.port.emit("reset_table");
+				worker.port.emit("resetAuthTable");
 				for (var i = 0; i < newRows.length; i++) {
 					worker.port.emit("insert_row", i, newRows[i].source,
 						newRows[i].name, newRows[i].trust, newRows[i].last,
@@ -168,7 +168,7 @@ function onReady(tab) {
 	});
 
     worker.port.on("refreshDetailTable", function() {
-        worker.port.emit("showAllCerts");
+        worker.port.emit("resetCertTable");
     });
 
     // update auth table and expand the newly imported cert authority's row

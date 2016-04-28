@@ -33,6 +33,7 @@ document.getElementById('exportButton').onclick = function() {
     export_certs();
 };
 document.getElementById('viewAllButton').onclick = function() {
+    console.log("view all clicked");
     viewAllCerts();
 };
 
@@ -85,8 +86,12 @@ self.port.on("update_certs", function update_certs(changedIndex){
 	self.port.emit("listCerts", changedIndex);
 });
 
-self.port.on("reset_table", function reset_table(){
+self.port.on("resetAuthTable", function resetAuthTable(){
 	$("#auth_table tr").remove();
+});
+
+self.port.on("resetCertTable", function resetCertTable(){
+    $("#viewAllButton").click();
 });
 
 /*
