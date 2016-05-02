@@ -51,6 +51,18 @@ Updated: 4/24/2016
 ## Development
 * You may modify the addon files using your preferred text editing application such as “Sublime” or “Emacs” or an IDE such as “Eclipse” or “Intellij”
 
+## Generator Script
+
+The generator script is used for updating builtin certificates' information for display by the addon. This generator should be ran whenever a new XPI is packaged. Given a file describing the CA certificates in Mozilla's CA program, the generator generates a JSON file for use by the extension.
+
+#### Running The Generator Script:
+* Install [Python 2.7](https://www.python.org/downloads/release/python-2711/)
+* Save the new [included CA certificate report](https://mozillacaprogram.secure.force.com/CA/IncludedCACertificateReportCSVFormat) as `BuiltInCAs.csv` in this folder
+* On Windows, navigate to this folder and run `generate.sh` by double clicking 
+     + On other platforms, use a terminal to navigate to this folder and run `python generator.py`
+* Copy the resulting `SalesForceData.js` file generated in this folder into the `../addon/lib` folder (overwritting the old one)
+* The next time that the XPI is created it will have the newest certificate data
+
 ## Running Your Addon
 * In the command prompt, navigate to the location of the addon’s “package.json” file
 * If you set the JPM_FIREFOX_BINARY environment variable run the command
