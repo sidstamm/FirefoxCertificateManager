@@ -32,7 +32,7 @@ document.getElementById('import').onclick = function() {
 document.getElementById('exportButton').onclick = function() {
     export_certs();
 };
-document.getElementById('viewAllButton').onclick = function() {
+document.getElementById('listAllButton').onclick = function() {
     viewAllCerts();
 };
 
@@ -63,7 +63,7 @@ function showAuths() {
     $("#certsSearch").toggle();
     $("#authsSearch").toggle();
     $("#main_table").toggle();
-	$("#viewButton").hide();
+	$("#showCertButton").hide();
 	$("#exportButton").hide();
     $("#authName").hide();
     $("#back_button").hide();
@@ -90,7 +90,7 @@ self.port.on("resetAuthTable", function resetAuthTable(){
 });
 
 self.port.on("resetCertTable", function resetCertTable(){
-    $("#viewAllButton").click();
+    $("#listAllButton").click();
 });
 
 /*
@@ -467,13 +467,13 @@ function showDetails(num) {
     image.title = "Go back to Authority list";
     $("#back_button").empty();
     document.getElementById("back_button").appendChild(image);
-    $("#viewButton").show();
+    $("#showCertButton").show();
     $("#exportButton").show();
     $("#authName").show();
     $("#back_button").show();
     $("#delete").show();
     $("#footer_plain").attr("id", "footer");
-    $("#viewButton").addClass("disabled");
+    $("#showCertButton").addClass("disabled");
     $("#delete").addClass("disabled");
 }
 
@@ -508,7 +508,7 @@ function viewAllCerts() {
     image.title = "Go back to Authority list";
     $("#back_button").empty();
     document.getElementById("back_button").appendChild(image);
-    $("#viewButton").show();
+    $("#showCertButton").show();
     $("#exportButton").show();
     if ($("#authName").css('display') !== 'none') {
         $("#authName").toggle();
@@ -516,7 +516,7 @@ function viewAllCerts() {
     $("#back_button").show();
     $("#delete").show();
     $("#footer_plain").attr("id", "footer");
-    $("#viewButton").addClass("disabled");
+    $("#showCertButton").addClass("disabled");
     $("#delete").addClass("disabled");
 }
 
@@ -649,9 +649,9 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
     var table = document.getElementById("cert_table");
     table.appendChild(parent);
 
-    // functionality of view button at bottom of page.
+    // functionality of show cert button at bottom of page.
     // opens up cert in the old cert manager
-	document.getElementById('viewButton').onclick = function() {
+	document.getElementById('showCertButton').onclick = function() {
         // the id attribute contains the id and num for each cert so pass that back to viewCert
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
         var idAndNum = selectedRowIdAndNum.split("-");
@@ -712,10 +712,10 @@ self.port.on("insert_cert", function insert_cert(id, num, name, builtin, web, em
 	var rowOnClick = function(){
 		$(this).addClass("selected").siblings().removeClass("selected");
 		$("#delete").removeClass("disabled");
-		$("#viewButton").removeClass("disabled");
+		$("#showCertButton").removeClass("disabled");
 	};
 
-  // handels double click. calls the viewcert function to open in old manager
+  // handles double click. calls the viewcert function to open in old manager
 	var rowOnDblClick = function(){
         // the id attribute contains the id and num for each cert so pass that back to viewCert
         var selectedRowIdAndNum = $("#cert_table tr.selected").attr('id');
