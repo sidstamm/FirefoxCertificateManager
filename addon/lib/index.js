@@ -62,7 +62,7 @@ function onReady(tab) {
         for (var i = 0; i < certs.length; i++) {
             var cert = certs[i];
             // if no common name, then display the friendly name
-            var name = cert.commonName.length > 0 ? cert.commonName : cert.nickname.split(":")[1];
+            var name = cert.commonName.length > 0 ? cert.commonName : (cert.nickname.indexOf(":") > 0 ? cert.nickname.split(":")[1] : cert.nickname);
             var builtIn = CertManager.isCertBuiltIn(cert) ? "builtIn" : "customCert";
             var sslTrust = CertManager.isSSLTrust(cert) ? "checked" : "";
             var emailTrust = CertManager.isEmailTrust(cert) ? "checked" : "";
@@ -94,8 +94,8 @@ function onReady(tab) {
             for (var j = 0; j < certs.length; j++) {
                 var cert1 = certs[i];
                 var cert2 = certs[j];
-                var name1 = cert1.commonName.length > 0 ? cert1.commonName : cert1.nickname.split(":")[1];
-                var name2 = cert2.commonName.length > 0 ? cert2.commonName : cert2.nickname.split(":")[1];
+                var name1 = cert1.commonName.length > 0 ? cert1.commonName : (cert1.nickname.indexOf(":") > 0 ? cert1.nickname.split(":")[1] : cert1.nickname);
+                var name2 = cert2.commonName.length > 0 ? cert2.commonName : (cert2.nickname.indexOf(":") > 0 ? cert2.nickname.split(":")[1] : cert2.nickname);
                 if (name1.toLowerCase() >= name2.toLowerCase()) {
                     continue;
                 }
