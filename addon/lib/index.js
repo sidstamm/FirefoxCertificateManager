@@ -37,12 +37,12 @@ exports.main = function(options,callback){
 exports.onUnload = function(reason){
 	CertManager.onUnload(reason);
 };
+
 /*
     First thing that is run
     Ran when the extension page is loaded sets up everything else on the page
 */
 function onReady(tab) {
-
     var worker = tab.attach({
         contentScriptFile: [self.data.url("../node_modules/jquery/dist/jquery.min.js"), self.data.url("./scripts/inject.js")]
     });
@@ -194,4 +194,5 @@ function onReady(tab) {
         authMap[id].trusted = true;
         CertManager.entrustAuth(authMap[id]);
     });
+	worker.port.emit("reload_page", "page");
 }

@@ -2,17 +2,17 @@
     js from backend to front end
 */
 
-history.replaceState({to: "index.html"}, "index", "index.html");
+history.replaceState({to: "index.html" + window.location.search}, "index", "index.html" + window.location.search);
 var historySave = true;
 
 window.onpopstate = function(event) {
 	var prev = window.history.state.to;
 	historySave = false;
-	if(prev == "index.html?showAll"){
+	if(prev == "index.html?page=showAll"){
 		viewAllCerts();
 	} else if(prev == "index.html"){
 		showAuths();
-	} else if(prev == "index.html?showDetails"){
+	} else if(prev.indexOf("index.html?page=showDetails&id=") > -1){
 		showDetails(window.history.state.id);
 	}
 	historySave = true;
@@ -55,6 +55,23 @@ function distrustAuth(id) {
 function entrustAuth(id) {
     self.port.emit("entrustAuth", id);
 }
+
+/*
+	Gets the value of the url parameter with the given name and returns italics
+*/
+self.port.on("reload_page", function getURLParameter(name) {
+	var reloadPage = decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+	if(reloadPage != null){
+		historySave = false;
+		if(reloadPage == "showAll"){
+			viewAllCerts();
+		} else if(reloadPage == "showDetails"){
+			var authId = decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+			showDetails(authId);
+		}
+		historySave = true;
+	}
+});
 
 function showAuths() {
 	$("#authTitle").text("AUTHORITIES");
@@ -448,7 +465,7 @@ function entrust(num) {
  */
 function showDetails(num) {
 	if(historySave === true){
-		history.pushState({to: 'index.html?showDetails', id: num}, "showDetails", "index.html?showDetails");
+		history.pushState({to: 'index.html?page=showDetails&id=' + num, id: num}, "showDetails", "index.html?page=showDetails&id=" + num);
     }
     var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
@@ -482,7 +499,7 @@ function showDetails(num) {
  */
 function viewAllCerts() {
 	if(historySave === true){
-		history.pushState({to: 'index.html?showAll'}, "showAll", "index.html?showAll");
+		history.pushState({to: 'index.html?page=showAll'}, "showAll", "index.html?page=showAll");
     }
 	var table = document.getElementById("cert_table");
     while (table.hasChildNodes()) {
