@@ -474,10 +474,18 @@ function showDetails(num) {
     window.listCerts(num);
     $("#authTitle").text("CERTIFICATES");
     $("#infoText").text("The search bar filters items by certificate names");
-    $("#main_table").toggle();
-    $("#detail_table").toggle();
-    $("#certsSearch").toggle();
-    $("#authsSearch").toggle();
+	if ($("#main_table").css('display') !== 'none') {
+        $("#main_table").toggle();
+    }
+    if ($("#detail_table").css('display') == 'none') {
+        $("#detail_table").toggle();
+    }
+    if ($("#certsSearch").css('display') == 'none') {
+        $("#certsSearch").toggle();
+    }
+    if ($("#authsSearch").css('display') !== 'none') {
+        $("#authsSearch").toggle();
+    }
     $("#authName").text($("#name" + num).text());
     var image = document.createElement('i');
     image.setAttribute("class", "fa fa-chevron-left fa-2x");
@@ -487,6 +495,9 @@ function showDetails(num) {
     $("#showCertButton").show();
     $("#exportButton").show();
     $("#authName").show();
+	if ($("#authName").css('display') == 'none') {
+        $("#authName").toggle();
+    }
     $("#back_button").show();
     $("#delete").show();
     $("#footer_plain").attr("id", "footer");
