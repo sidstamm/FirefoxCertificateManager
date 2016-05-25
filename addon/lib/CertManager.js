@@ -422,9 +422,6 @@ function getCM() {
 
     for (var index = 0; index < length; index++) {
       mod3 = index % 3;
-      if (index > 0 && (index * 4 / 3) % 76 === 0) {
-        result += "\r\n";
-      }
       uint24 |= bytes[index] << (16 >>> mod3 & 24);
       if (mod3 === 2 || length - index === 1) {
         result += String.fromCharCode(_uint6ToB64(uint24 >>> 18 & 63),
