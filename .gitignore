@@ -1,3 +1,4 @@
 SalesForce\ Generator/output*
 *.xpi
-*/node_modules
+node_modules
+*.swp

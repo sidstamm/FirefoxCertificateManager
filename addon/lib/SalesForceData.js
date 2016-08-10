@@ -1,4 +1,10 @@
 var certManagerJsonText = {
+  "Wells Fargo WellsSecure": {
+    "auditDate": "2015.12.21", 
+    "geographicFocus": "USA, Global", 
+    "owner": "Wells Fargo Bank N.A.", 
+    "trustBits": "Websites"
+  }, 
   "Certificate Issuer Organization": {
     "auditDate": "Standard Audit Statement Dt", 
     "geographicFocus": "Geographic Focus", 
@@ -12,27 +18,27 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "CNNIC": {
-    "auditDate": "2014.08.01", 
+    "auditDate": "2016.04.05", 
     "geographicFocus": "China", 
     "owner": "China Internet Network Information Center (CNNIC)", 
     "trustBits": "Websites"
   }, 
   "Hellenic Academic and Research Institutions Cert. Authority": {
-    "auditDate": "2015.06.05", 
+    "auditDate": "2016.07.08", 
     "geographicFocus": "Greece, Greek Academic and Research Institutions", 
     "owner": "HARICA", 
-    "trustBits": "Websites;Email;Code"
+    "trustBits": "Code; Email; Websites"
   }, 
   "GlobalSign nv-sa": {
-    "auditDate": "2015.06.15", 
+    "auditDate": "2016.06.10", 
     "geographicFocus": "USA, Global", 
     "owner": "GlobalSign", 
     "trustBits": "Websites;Email;Code"
   }, 
   "TeliaSonera": {
-    "auditDate": "2015.06.30", 
+    "auditDate": "2016.06.30", 
     "geographicFocus": "Finland, Europe, Sweden", 
-    "owner": "TeliaSonera", 
+    "owner": "Telia Company (formerly TeliaSonera)", 
     "trustBits": "Websites;Email"
   }, 
   "GoDaddy.com, Inc.": {
@@ -42,7 +48,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Code"
   }, 
   "DigiCert Inc": {
-    "auditDate": "2016.04.07", 
+    "auditDate": "2016.06.27", 
     "geographicFocus": "USA, Global", 
     "owner": "DigiCert", 
     "trustBits": "Code; Email; Websites"
@@ -54,9 +60,9 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "Unizeto Technologies S.A.": {
-    "auditDate": "2015.06.26", 
+    "auditDate": "2016.06.10", 
     "geographicFocus": "Poland", 
-    "owner": "Asseco Data Systems S.A.", 
+    "owner": "Asseco Data Systems S.A. (previously Unizeto Certum)", 
     "trustBits": "Code; Email; Websites"
   }, 
   "Equifax Secure Inc.": {
@@ -66,19 +72,19 @@ var certManagerJsonText = {
     "trustBits": "Email"
   }, 
   "Entrust, Inc.": {
-    "auditDate": "2015.05.01", 
+    "auditDate": "2016.05.18", 
     "geographicFocus": "Canada, Global", 
     "owner": "Entrust", 
     "trustBits": "Code; Email; Websites"
   }, 
   "GlobalSign": {
-    "auditDate": "2015.06.15", 
+    "auditDate": "2016.06.10", 
     "geographicFocus": "USA, Global", 
     "owner": "GlobalSign", 
     "trustBits": "Code; Email; Websites"
   }, 
   "IZENPE S.A.": {
-    "auditDate": "2015.07.28", 
+    "auditDate": "2016.07.22", 
     "geographicFocus": "Basque Country, Spain", 
     "owner": "Izenpe S.A.", 
     "trustBits": "Websites;Code"
@@ -126,13 +132,13 @@ var certManagerJsonText = {
     "trustBits": "Websites"
   }, 
   "TC TrustCenter GmbH": {
-    "auditDate": "2015.05.28", 
+    "auditDate": "2016.05.31", 
     "geographicFocus": "Germany", 
     "owner": "Deutscher Sparkassen Verlag GmbH (S-TRUST, DSV-Gruppe)", 
     "trustBits": "Email"
   }, 
   "thawte, Inc.": {
-    "auditDate": "2015.05.05", 
+    "auditDate": "2016.05.13", 
     "geographicFocus": "USA, Global", 
     "owner": "Symantec / Thawte", 
     "trustBits": "Code; Websites"
@@ -150,13 +156,13 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "SwissSign AG": {
-    "auditDate": "2015.04.02", 
+    "auditDate": "2016.03.18", 
     "geographicFocus": "Switzerland", 
     "owner": "SwissSign AG", 
     "trustBits": "Code; Email; Websites"
   }, 
   "Entrust.net": {
-    "auditDate": "2015.05.01", 
+    "auditDate": "2016.05.18", 
     "geographicFocus": "Canada, Global", 
     "owner": "Entrust", 
     "trustBits": "Websites;Email;Code"
@@ -174,7 +180,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Code"
   }, 
   "Japanese Government": {
-    "auditDate": "2014.12.25", 
+    "auditDate": "2015.12.18", 
     "geographicFocus": "Japan", 
     "owner": "Government of Japan, Ministry of Internal Affairs and Communications", 
     "trustBits": "Websites;Code"
@@ -183,19 +189,19 @@ var certManagerJsonText = {
     "auditDate": "2015.04.09", 
     "geographicFocus": "France, EMEA", 
     "owner": "DocuSign (OpenTrust/Keynectis)", 
-    "trustBits": "Websites;Email"
+    "trustBits": "Email; Websites"
   }, 
   "WISeKey": {
-    "auditDate": "2015.06.08", 
+    "auditDate": "2016.07.04", 
     "geographicFocus": "Switzerland, Global", 
     "owner": "WISeKey", 
     "trustBits": "Code; Email; Websites"
   }, 
-  "Wells Fargo WellsSecure": {
-    "auditDate": "2015.12.21", 
-    "geographicFocus": "USA, Global", 
-    "owner": "Wells Fargo Bank N.A.", 
-    "trustBits": "Websites"
+  "OpenTrust": {
+    "auditDate": "2015.04.09", 
+    "geographicFocus": "France, EMEA", 
+    "owner": "DocuSign (OpenTrust/Keynectis)", 
+    "trustBits": "Email; Websites"
   }, 
   "EDICOM": {
     "auditDate": "2015.11.03", 
@@ -204,13 +210,13 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "Agencia Catalana de Certificacio (NIF Q-0801176-I)": {
-    "auditDate": "2015.01.26", 
+    "auditDate": "2016.05.30", 
     "geographicFocus": "Catalunya in Spain", 
     "owner": "Consorci Administraci\u00f3 Oberta de Catalunya (Consorci AOC, CATCert)", 
     "trustBits": "Websites"
   }, 
   "China Internet Network Information Center": {
-    "auditDate": "2014.08.01", 
+    "auditDate": "2016.04.05", 
     "geographicFocus": "China", 
     "owner": "China Internet Network Information Center (CNNIC)", 
     "trustBits": "Websites"
@@ -246,9 +252,9 @@ var certManagerJsonText = {
     "trustBits": "Websites;Code"
   }, 
   "Unizeto Sp. z o.o.": {
-    "auditDate": "2015.06.26", 
+    "auditDate": "2016.06.10", 
     "geographicFocus": "Poland", 
-    "owner": "Asseco Data Systems S.A.", 
+    "owner": "Asseco Data Systems S.A. (previously Unizeto Certum)", 
     "trustBits": "Websites;Email;Code"
   }, 
   "NetLock Kft.": {
@@ -258,7 +264,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "VeriSign, Inc.": {
-    "auditDate": "2015.05.05", 
+    "auditDate": "2016.05.13", 
     "geographicFocus": "USA, Global", 
     "owner": "Symantec / VeriSign", 
     "trustBits": "Code; Email; Websites"
@@ -270,7 +276,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "Comodo CA Limited": {
-    "auditDate": "2015.07.29", 
+    "auditDate": "2016.06.03", 
     "geographicFocus": "USA, UK, Global", 
     "owner": "Comodo", 
     "trustBits": "Code; Email; Websites"
@@ -294,7 +300,7 @@ var certManagerJsonText = {
     "trustBits": "Websites"
   }, 
   "Autoridad de Certificacion Firmaprofesional": {
-    "auditDate": "2015.03.11", 
+    "auditDate": "2016.04.11", 
     "geographicFocus": "Spain", 
     "owner": "Autoridad de Certificacion Firmaprofesional", 
     "trustBits": "Websites;Email;Code"
@@ -306,7 +312,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "T-Systems Enterprise Services GmbH": {
-    "auditDate": "2015.06.17", 
+    "auditDate": "2016.06.17", 
     "geographicFocus": "Germany", 
     "owner": "T-Systems International GmbH (Deutsche Telekom)", 
     "trustBits": "Email; Websites"
@@ -342,19 +348,19 @@ var certManagerJsonText = {
     "trustBits": "Websites"
   }, 
   "Sonera": {
-    "auditDate": "2015.06.30", 
+    "auditDate": "2016.06.30", 
     "geographicFocus": "Finland, Europe, Sweden", 
-    "owner": "TeliaSonera", 
-    "trustBits": "Email; Websites"
+    "owner": "Telia Company (formerly TeliaSonera)", 
+    "trustBits": "Websites;Email"
   }, 
   "COMODO CA Limited": {
-    "auditDate": "2015.07.29", 
+    "auditDate": "2016.06.03", 
     "geographicFocus": "USA, UK, Global", 
     "owner": "Comodo", 
     "trustBits": "Code; Email; Websites"
   }, 
   "AC Camerfirma S.A.": {
-    "auditDate": "2015.06.17", 
+    "auditDate": "2016.07.17", 
     "geographicFocus": "Spain", 
     "owner": "Camerfirma", 
     "trustBits": "Code; Email; Websites"
@@ -380,7 +386,7 @@ var certManagerJsonText = {
   "Staat der Nederlanden": {
     "auditDate": "2016.03.02", 
     "geographicFocus": "Netherlands", 
-    "owner": "Government of The Netherlands, PKIoverheid", 
+    "owner": "Government of The Netherlands, PKIoverheid (Logius)", 
     "trustBits": "Code; Email; Websites"
   }, 
   "Generalitat Valenciana": {
@@ -396,7 +402,7 @@ var certManagerJsonText = {
     "trustBits": "Email; Websites"
   }, 
   "Swisscom": {
-    "auditDate": "2015.05.11", 
+    "auditDate": "2016.08.05", 
     "geographicFocus": "Switzerland", 
     "owner": "Swisscom (Switzerland) Ltd", 
     "trustBits": "Code; Email; Websites"
@@ -426,19 +432,19 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email"
   }, 
   "The USERTRUST Network": {
-    "auditDate": "2015.07.29", 
+    "auditDate": "2016.06.03", 
     "geographicFocus": "USA, UK, Global", 
     "owner": "Comodo", 
     "trustBits": "Code; Email; Websites"
   }, 
   "ComSign": {
-    "auditDate": "2015.04.25", 
+    "auditDate": "2016.04.26", 
     "geographicFocus": "Israel", 
     "owner": "ComSign", 
     "trustBits": "Code; Email"
   }, 
   "Deutscher Sparkassen Verlag GmbH": {
-    "auditDate": "2015.05.28", 
+    "auditDate": "2016.05.31", 
     "geographicFocus": "Germany", 
     "owner": "Deutscher Sparkassen Verlag GmbH (S-TRUST, DSV-Gruppe)", 
     "trustBits": "Email"
@@ -462,19 +468,19 @@ var certManagerJsonText = {
     "trustBits": "Email;Code"
   }, 
   "GeoTrust Inc.": {
-    "auditDate": "2015.05.05", 
+    "auditDate": "2016.05.13", 
     "geographicFocus": "USA, Global", 
     "owner": "Symantec / GeoTrust", 
     "trustBits": "Code; Email; Websites"
   }, 
   "AC Camerfirma SA CIF A82743287": {
-    "auditDate": "2015.06.17", 
+    "auditDate": "2016.06.17", 
     "geographicFocus": "Spain", 
     "owner": "Camerfirma", 
     "trustBits": "Code; Email; Websites"
   }, 
   "Deutsche Telekom AG": {
-    "auditDate": "2015.06.17", 
+    "auditDate": "2016.06.17", 
     "geographicFocus": "Germany", 
     "owner": "T-Systems International GmbH (Deutsche Telekom)", 
     "trustBits": "Websites;Email;Code"
@@ -498,7 +504,7 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "Baltimore": {
-    "auditDate": "2016.01.06", 
+    "auditDate": "2016.06.27", 
     "geographicFocus": "USA, Global", 
     "owner": "DigiCert", 
     "trustBits": "Websites;Email"
@@ -510,15 +516,15 @@ var certManagerJsonText = {
     "trustBits": "Websites;Email;Code"
   }, 
   "AddTrust AB": {
-    "auditDate": "2015.07.29", 
+    "auditDate": "2016.06.03", 
     "geographicFocus": "USA, UK, Global", 
     "owner": "Comodo", 
     "trustBits": "Code; Email; Websites"
   }, 
   "AffirmTrust": {
-    "auditDate": "2015.06.30", 
-    "geographicFocus": "USA", 
-    "owner": "Trend Micro", 
+    "auditDate": "2016.06.30", 
+    "geographicFocus": "Canada, Global", 
+    "owner": "Entrust", 
     "trustBits": "Websites"
   }, 
   "T\u00fcrkiye Bilimsel ve Teknolojik Ara\u015ft\u0131rma Kurumu - T\u00dcB\u0130TAK": {
